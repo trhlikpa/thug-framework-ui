@@ -22,13 +22,7 @@ export default new Router({
   routes: [{
       path: '/jobs',
       name: 'Jobs',
-      component: JobList,
-      meta: {
-        perPage: 3,
-        page: 1,
-        sort: 'finish_time',
-        dir: 'desc'
-      }
+      component: JobList
     },
     {
       path: '/schedules',

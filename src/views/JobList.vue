@@ -3,7 +3,7 @@
     <h1 class="page-header">Jobs Overview</h1>
     <a class="anchor" id="section1"></a>
     <h2 class="sub-header">Job list: </h2>
-    <datatable :collums="columns" url="http://localhost:5000/api/v1.0/jobs/" :page=page :perPage=perPage :sortOrder="[{field: sort, sortField: sort, direction: direction}]" :search-fields="['url', 'name', 'finish_time', '_state', 'classification']">
+    <datatable :collums="columns" url="http://localhost:5000/api/v1.0/jobs/" :pageProp=page :perPageProp=perPage :sortOrder="[{field: sort, sortField: sort, direction: direction}]" :search-fields="['url', 'name', 'finish_time', '_state', 'classification']">
     </datatable>
     <a class="anchor" id="dataset"></a>
     <h2 class="sub-header">Dataset</h2>
@@ -40,10 +40,10 @@
   export default {
     data() {
       return {
-        perPage: parseInt(this.$route.meta['perPage']) || 20,
-        page: parseInt(this.$route.meta['page']) || 1,
-        sort: this.$route.meta['sort'] || 'name',
-        direction: this.$route.meta['direction'] || 'desc',
+        perPage: parseInt(this.$route.query['per_page']) || 20,
+        page: parseInt(this.$route.query['page']) || 1,
+        sort: this.$route.query['sort'] || 'finish_time',
+        direction: this.$route.query['dir'] || 'desc',
         columns: [{
           name: 'type',
           title: 'Type',
@@ -54,14 +54,16 @@
           sortField: 'name'
         }, {
           name: 'submitter_id',
-          title: 'Submitter'
+          title: 'Submitter',
+          sortField: 'submitter_id'
         }, {
           name: 'url',
           title: 'URL',
           sortField: 'url'
         }, {
           name: 'schedule_id',
-          title: 'Schedule'
+          title: 'Schedule',
+          sortField: 'schedule_id'
         }, {
           name: 'end_time',
           title: 'Finish Time',
