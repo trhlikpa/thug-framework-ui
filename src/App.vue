@@ -34,14 +34,13 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li><a href="#">Reports</a></li>
+            <router-link tag="li" :to="{ path:'#joblist', query: $route.query}"><a>Joblist</a></router-link>
             <li>
               <a href="#dataset">
-                <span> Thug Framework</span>
+                <span>Dataset</span>
                 <i class="glyphicon glyphicon-plus"></i>
               </a>
             </li>
-            <router-link tag="li" to="#section1"><a>Statistics</a></router-link>
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -242,6 +241,10 @@
   
   .pagination {
     margin: 0px !important;
+  }
+  
+  .row {
+    margin: 0px 0px;
   }
 
 </style>

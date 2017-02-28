@@ -11,16 +11,17 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
 
 <template>
   <div>
-    <div>
-      <filtertable></filtertable>
-      <vuetable ref="vuetable" :api-url="url" :perPage=perPage :css="css" :fields="collums" pagination-path="" :per-page=perPage
-        :sort-order="sortOrder" :appendParams="moreParams" @vuetable:load-success="onTableLoad" @vuetable:pagination-data="onPaginationData"
+    <filtertable></filtertable>
+    <div class="table-responsive">
+      <vuetable ref="vuetable" :api-url="url" :detail-row-id="rowId" :perPage=perPage :css="css" :fields="collums" pagination-path=""
+        :per-page=perPage :sort-order="sortOrder" :appendParams="moreParams" @vuetable:load-success="onTableLoad" @vuetable:pagination-data="onPaginationData"
         @vuetable:cell-clicked="onCellClicked"></vuetable>
-      <div class="vuetable-pagination">
-        <vuetable-pagination-info ref="paginationInfo"></vuetable-pagination-info>
-        <vuetable-pagination ref="pagination" :css="cssPagination" :icons="icons" @vuetable-pagination:change-page="onChangePage"></vuetable-pagination>
-      </div>
     </div>
+    <div class="vuetable-pagination">
+      <vuetable-pagination-info ref="paginationInfo"></vuetable-pagination-info>
+      <vuetable-pagination ref="pagination" :css="cssPagination" :icons="icons" @vuetable-pagination:change-page="onChangePage"></vuetable-pagination>
+    </div>
+
   </div>
 </template>
 
@@ -43,6 +44,7 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
     },
     data() {
       return {
+        rowId: '_id.$oid',
         perPageTmp: 0,
         firstLoad: true,
         css: {
@@ -56,8 +58,8 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
           wrapperClass: 'pagination pull-right',
           activeClass: 'btn-primary',
           disabledClass: 'disabled',
-          pageClass: 'btn btn-border',
-          linkClass: 'btn btn-border',
+          pageClass: 'btn btn-default',
+          linkClass: 'btn btn-default',
         },
         icons: {
           first: '',
@@ -65,7 +67,6 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
           next: '',
           last: '',
         },
-        searchFor: '',
         moreParams: {}
       }
     },
@@ -85,10 +86,6 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
       },
       url: {
         type: String,
-        required: true
-      },
-      searchFields: {
-        type: Array,
         required: true
       },
       sortOrder: {
@@ -117,7 +114,6 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
       },
       onCellClicked(data, field, event) {
         console.log('cellClicked: ', field.name)
-        this.$refs.vuetable.toggleDetailRow(data.id)
       },
       onTableLoad(response) {
         var page = this.$refs.vuetable.currentPage
@@ -125,7 +121,14 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
         var sort = this.$refs.vuetable.sortOrder[0].field
         var dir = this.$refs.vuetable.sortOrder[0].direction
 
-        this.$router.push({ query: { page: page, per_page: perPage, sort: sort, dir: dir }})
+        this.$router.push({
+          query: {
+            page: page,
+            per_page: perPage,
+            sort: sort,
+            dir: dir
+          }
+        })
       }
     },
     events: {
