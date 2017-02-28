@@ -1,5 +1,5 @@
 <template>
-  <div id="wrapper">
+  <div id="app">
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div id="header" class="container-fluid">
         <div class="navbar-header col-sm-3 col-md-2">
@@ -10,10 +10,10 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">
-              <i class="glyphicon glyphicon-eye-open"></i>
-              <span> Thug Framework</span>
-            </a>
+          <a class="navbar-brand" href="#">
+            <i class="glyphicon glyphicon-eye-open"></i>
+            <span> Thug Framework</span>
+          </a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -61,8 +61,7 @@
         user: null
       }
     },
-    methods: {
-    }
+    methods: {}
   }
 
 </script>
@@ -72,9 +71,9 @@
  * Base structure
  */
   
-  body {
+  #app {
     font-family: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
-    background-color: #f6f6f6;
+    background-color: #fff;
     display: block;
     color: #34495e;
     font-size: 15px;
@@ -105,23 +104,18 @@
     white-space: nowrap;
   }
   
-  #navbar > ul > li > a {
+  .navbar-nav>li>a {
     padding: 15px 25px;
-    color: #fff;
+    color: #fff !important;
     display: inline-block;
   }
   
-  .navbar-nav > .router-link-active > a,
-  .navbar-nav > .active > a,
-  .navbar-nav > .active > a:hover,
-  .navbar-nav > .active > a:focus {
+  .navbar-nav>.router-link-active>a,
+  .navbar-nav>.active>a,
+  .navbar-nav>.active>a:hover,
+  .navbar-nav>.active>a:focus {
     color: #34495e !important;
-    background-color: #f6f6f6 !important;
-  }
-  
-  #navbar > ul > li > a:hover {
-    color: #00779C;
-    background-color: #dedede;
+    background-color: #fff !important;
   }
   /*
  * Sidebar
@@ -137,25 +131,30 @@
     margin-left: -20px;
   }
   
-  .nav-sidebar > li > a {
+  .nav-sidebar>li>a {
     padding-right: 20px;
     padding-left: 20px;
     color: #34495e;
   }
   
-  .nav-sidebar > li > a > i {
+  .nav-sidebar>li>a>i {
     float: right;
     margin-right: 10px;
     top: 5px;
     font-size: 0.8em;
   }
   
-  .nav-sidebar > .router-link-active > a,
-  .nav-sidebar > .active > a,
-  .nav-sidebar > .active > a:hover,
-  .nav-sidebar > .active > a:focus {
-    color: #fff;
-    background-color: #00779C;
+  .nav-sidebar>.router-link-active>a,
+  .nav-sidebar>.active>a,
+  .nav-sidebar>.active>a:hover,
+  .nav-sidebar>.active>a:focus {
+    color: #fff !important;
+    background-color: #337ab7 !important;
+  }
+  
+  .nav-sidebar>li>a:hover {
+    color: inherit;
+    background-color: inherit;
   }
   
   .sidebar {
@@ -240,4 +239,9 @@
     top: -60px;
     visibility: hidden;
   }
+  
+  .pagination {
+    margin: 0px !important;
+  }
+
 </style>
