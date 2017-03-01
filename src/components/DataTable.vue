@@ -11,7 +11,30 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
 
 <template>
   <div>
-    <filtertable></filtertable>
+    <div class="row">
+      <div class="form-inline form-group page-form">
+        <label class="control-label">Show</label>
+        <select v-model.number="perPageTmp" class="form-control">
+          <option value=5>5</option>
+					<option value=10>10</option>
+					<option value=25>25</option>
+					<option value=50>50</option>
+					<option value=100>100</option>
+				</select>
+        <label class="control-label">Entries</label>
+      </div>
+      <div class="form-inline form-group pull-right">
+        <label v-if="!isAdvanced" class="control-label">Search:</label>
+        <input v-if="!isAdvanced" class="form-control" type="text" v-model="simpleFilterText" @keyup.enter="doSimpleFilter">
+        <button v-if="!isAdvanced" class="btn btn-default" @click="doSimpleFilter">Go</button>
+        <button @click="activateAdvancedSearch" v-if="!isAdvanced" class="btn btn-default">
+        <span  class="glyphicon glyphicon-cog"></span> Advanced Search
+      </button>
+        <button @click="deactivateAdvancedSearch" v-if="isAdvanced" class="btn btn-default">
+        <span class="glyphicon glyphicon-cog"></span> Simple Search
+      </button>
+      </div>
+    </div>
     <div class="table-responsive">
       <vuetable ref="vuetable" :api-url="url" :detail-row-id="rowId" :perPage=perPage :css="css" :fields="collums" pagination-path=""
         :per-page=perPage :sort-order="sortOrder" :appendParams="moreParams" @vuetable:load-success="onTableLoad" @vuetable:pagination-data="onPaginationData"
@@ -21,7 +44,6 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
       <vuetable-pagination-info ref="paginationInfo"></vuetable-pagination-info>
       <vuetable-pagination ref="pagination" :css="cssPagination" :icons="icons" @vuetable-pagination:change-page="onChangePage"></vuetable-pagination>
     </div>
-
   </div>
 </template>
 
@@ -29,12 +51,10 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
   import Vuetable from 'vuetable-2/src/components/Vuetable.vue'
   import VuetablePagination from 'vuetable-2/src/components/VuetablePagination.vue'
   import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo.vue'
-  import FilterTable from './FilterTable.vue'
   import VueEvents from 'vue-events'
   import Vue from 'vue'
 
   Vue.use(VueEvents)
-  Vue.component('filtertable', FilterTable)
 
   export default {
     components: {
@@ -46,7 +66,10 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
       return {
         rowId: '_id.$oid',
         perPageTmp: 0,
+        collumsTmp: null,
         firstLoad: true,
+        isAdvanced: false,
+        simpleFilterText: '',
         css: {
           tableClass: 'table table-striped table-bordered',
           loadingClass: 'loading',
@@ -71,16 +94,31 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
       }
     },
     computed: {
-      perPage: function () {
-        if (this.perPageTmp != 0) {
+      perPage: {
+        get: function () {
+          if (this.perPageTmp == 0) {
+            this.perPageTmp = this.perPageProp
+          }
           return this.perPageTmp
+        },
+        set: function (value) {
+          this.perPageTmp = value
         }
-
-        return this.perPageProp
+      },
+      collums: {
+        get: function () {
+          if (this.collumsTmp == null) {
+            this.collumsTmp = this.collumsProp.slice()
+          }
+          return this.collumsTmp
+        },
+        set: function (value) {
+          this.collumsTmp = value
+        }
       }
     },
     props: {
-      collums: {
+      collumsProp: {
         type: Array,
         required: true
       },
@@ -100,6 +138,19 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
       }
     },
     methods: {
+      doSimpleFilter() {
+        this.moreParams = {
+          'filter': this.simpleFilterText
+        }
+        Vue.nextTick(() => this.$refs.vuetable.refresh())
+      },
+      activateAdvancedSearch() {
+        this.isAdvanced = true
+      },
+
+      deactivateAdvancedSearch() {
+        this.isAdvanced = false
+      },
       onPaginationData(paginationData) {
         this.$refs.pagination.setPaginationData(paginationData)
         this.$refs.paginationInfo.setPaginationData(paginationData)
@@ -131,16 +182,8 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
         })
       }
     },
-    events: {
-      'filter-set' (filterText) {
-        this.moreParams = {
-          'filter': filterText
-        }
-        Vue.nextTick(() => this.$refs.vuetable.refresh())
-      },
-      'filter-reset' () {
-        this.moreParams = {}
-        this.$refs.vuetable.refresh()
+    watch: {
+      'perPage': function (val, oldVal) {
         Vue.nextTick(() => this.$refs.vuetable.refresh())
       }
     }
@@ -158,6 +201,23 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
   
   .vuetable-pagination-info {
     margin-top: 8px !important;
+  }
+  
+  .row {
+    justify-content: space-between;
+    display: flex;
+  }
+  
+  .page-form {
+    width: 20%;
+    float: left;
+    margin-right: auto;
+  }
+  
+  .control-label {
+    font-weight: normal;
+    text-align: left;
+    white-space: nowrap;
   }
 
 </style>

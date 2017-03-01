@@ -103,6 +103,10 @@
     white-space: nowrap;
   }
   
+  .navbar-brand>i {
+    top: 3px !important;
+  }
+  
   .navbar-nav>li>a {
     padding: 15px 25px;
     color: #fff !important;
@@ -160,7 +164,7 @@
     display: none;
   }
   
-  @media (min-width: 986px) {
+  @media (min-width: 768px) {
     .sidebar {
       position: fixed;
       top: 50px;
@@ -172,7 +176,7 @@
       overflow-x: hidden;
       overflow-y: auto;
       /* Scrollable contents if viewport is shorter than content. */
-      background-color: #dedede;
+      background-color: #E8E8E8;
     }
   }
   /*
@@ -221,15 +225,16 @@
     text-align: center;
     display: block;
     font-size: 2.4em;
+    border-bottom-style: none !important;
   }
   
   .sub-header {
     margin-bottom: 20px;
-    border-bottom: 1px solid #dedede;
+    border-bottom: 1px solid #E8E8E8;
   }
   
   .glyphicon {
-    top: 3px;
+    top: 2px;
   }
   
   .anchor {

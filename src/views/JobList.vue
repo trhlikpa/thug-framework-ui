@@ -3,7 +3,7 @@
     <h1 class="page-header">Jobs Overview</h1>
     <a class="anchor" id="joblist"></a>
     <h2 class="sub-header">Job list</h2>
-    <datatable :collums="columns" url="http://localhost:5000/api/v1.0/jobs/" :pageProp=page :perPageProp=perPage :sortOrder="[{field: sort, sortField: sort, direction: direction}]">
+    <datatable :collumsProp="columns" url="http://localhost:5000/api/v1.0/jobs/" :pageProp=page :perPageProp=perPage :sortOrder="[{field: sort, sortField: sort, direction: direction}]">
     </datatable>
     <a class="anchor" id="dataset"></a>
     <h2 class="sub-header">Dataset</h2>
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import QueryStrings from '../mixins/QueryStrings.vue'
+  import QueryStrings from '../mixins/QueryStrings.vue'
   export default {
     mixins: [QueryStrings],
     data() {
@@ -45,19 +45,30 @@ import QueryStrings from '../mixins/QueryStrings.vue'
         columns: [{
           name: 'type',
           title: 'Type',
-          sortField: 'type'
+          sortField: 'type',
+          searchType: 'select',
+          selections: ['singleurl', 'extensive']
         }, {
           name: 'name',
           title: 'Name',
-          sortField: 'name'
+          sortField: 'name',
+          searchType: 'string'
         }, {
           name: 'submitter_id',
           title: 'Submitter',
-          sortField: 'submitter_id'
+          sortField: 'submitter_id',
+          searchType: 'foreign_id',
+          reference: 'user'
         }, {
           name: 'url',
           title: 'URL',
-          sortField: 'url'
+          sortField: 'url',
+          searchType: 'string'
+        }, {
+          name: 'useragent',
+          title: 'User Agent',
+          sortField: 'useragent',
+          searchType: 'string'
         }, {
           name: 'schedule_id',
           title: 'Schedule',
@@ -65,15 +76,20 @@ import QueryStrings from '../mixins/QueryStrings.vue'
         }, {
           name: 'end_time',
           title: 'Finish Time',
-          sortField: 'end_time'
+          sortField: 'end_time',
+          searchType: 'date'
         }, {
           name: '_state',
           title: 'Status',
-          sortField: '_state'
+          sortField: '_state',
+          searchType: 'select',
+          selections: ['PENDING', 'STARTED', 'SUCCESSFUL', 'FAILURE']
         }, {
           name: 'classification',
           title: 'Classification',
-          sortField: 'classification'
+          sortField: 'classification',
+          searchType: 'select',
+          selections: ['CLEAR', 'SUSPICIOUS', 'MALICIOUS']
         }]
       }
     }

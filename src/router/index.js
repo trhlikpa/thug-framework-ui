@@ -22,7 +22,8 @@ export default new Router({
   routes: [{
       path: '/jobs',
       name: 'Jobs',
-      component: JobList
+      component: JobList,
+      canReuse: false,
     },
     {
       path: '/schedules',
