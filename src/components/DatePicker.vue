@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input type="text" class="form-control" v-bind:id="id">
+    <input type="text" class="form-control" @blur="updateDate" v-bind:id="id">
   </div>
 </template>
 
@@ -13,17 +13,24 @@ export default {
       id: {
         type: String,
         required: true
+      },
+      value: {
+        type: String
       }
   },
   methods: {
-    getDate() {
-      return $('#' + this.id).data("DateTimePicker").date()
+    updateDate() {
+      this.$emit('input', $('#' + this.id).data("DateTimePicker").date().toISOString())
     }
   },
   mounted() {
     $('#' + this.id).datetimepicker({
       format: 'LLL'
     })
+
+    if (this.value) {
+      $('#' + this.id).data("DateTimePicker").defaultDate(moment(this.value))
+    }
   }
 }
 

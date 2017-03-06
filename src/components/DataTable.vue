@@ -24,8 +24,8 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
       </div>
       <div class="form-inline form-group pull-right">
         <label v-if="!isAdvancedSearch" class="control-label">Search:</label>
-        <input v-if="!isAdvancedSearch" class="form-control" type="text" v-model="simpleFilterText" @keyup.enter="doSimpleFilter">
-        <button v-if="!isAdvancedSearch" class="btn btn-default" @click="doSimpleFilter">Go</button>
+        <input v-if="!isAdvancedSearch" class="form-control" type="text" v-model="filterText" @keyup.enter="doFilter">
+        <button v-if="!isAdvancedSearch" class="btn btn-default" @click="doFilter">Go</button>
         <button @click="activateAdvancedSearch" v-if="!isAdvancedSearch && advancedSearchEnabled" class="btn btn-default">
         <span  class="glyphicon glyphicon-cog"></span> Advanced Search
       </button>
@@ -39,10 +39,10 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
         <div v-if="item.searchType" class="form-group">
           <label class="control-label col-md-offset-1 col-sm-2" v-bind:for="item.name">{{ item.title }}: </label>
           <div v-if="item.searchType == 'string'" class="col-sm-6">
-            <input type="text" class="form-control" v-bind:for="item.name">
+            <input type="text" class="form-control" v-model="item.value" v-bind:for="item.name">
           </div>
           <div v-else-if="item.searchType == 'select'" class="col-sm-6">
-            <select class="form-control">
+            <select class="form-control" v-model="item.value">
               <option v-for="selection in item.selections" v-bind:value="selection">
                 {{ selection }}
               </option>
@@ -51,7 +51,7 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
           <div v-else-if="item.searchType == 'date'">
             <template v-for="datepicker in item.datepickers">
               <div class="col-sm-3">
-                  <datepicker  ref="datepicker" v-bind:id="datepicker"></datepicker>
+                  <datepicker v-model="datepicker.value" ref="datepicker" v-bind:id="datepicker.id"></datepicker>
               </div>
             </template>
           </div>
@@ -97,7 +97,7 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
         collumsTmp: null,
         firstLoad: true,
         isAdvancedSearch: false,
-        simpleFilterText: '',
+        filterTextTmp: null,
         css: {
           tableClass: 'table table-striped',
           loadingClass: 'loading',
@@ -122,6 +122,23 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
       }
     },
     computed: {
+      filterText: {
+        get: function () {
+          if (this.filterTextTmp == null) {
+            this.filterTextTmp = this.filterTextProp
+            this.moreParams = {
+              'filter': this.filterTextTmp
+            }
+          }
+          return this.filterTextTmp
+        },
+        set: function (value) {
+          this.filterTextTmp = value
+          this.moreParams = {
+              'filter': this.filterTextTmp
+          }
+        }
+      }, 
       perPage: {
         get: function () {
           if (this.perPageTmp == 0) {
@@ -150,12 +167,12 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
         type: Boolean,
         required: true
       },
-      collumsProp: {
-        type: Array,
-        required: true
-      },
       url: {
         type: String,
+        required: true
+      },
+      collumsProp: {
+        type: Array,
         required: true
       },
       sortOrder: {
@@ -167,23 +184,42 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
       },
       perPageProp: {
         type: Number
+      },
+      filterTextProp: {
+        type: String
       }
     },
     methods: {
-      doSimpleFilter() {
-        this.moreParams = {
-          'filter': this.simpleFilterText
-        }
+      doFilter() {
         Vue.nextTick(() => this.$refs.vuetable.refresh())
       },
       doAdvancedFilter() {
-        console.log(this.$refs.datepicker[0].getDate())
+        var filterString = '';
+
+        for (var i = 0; i < this.collumsProp.length; i++) {
+          if (this.collumsProp[i].value != null) {
+            var entryFilter = this.collumsProp[i].name + '|' + this.collumsProp[i].value + '||'
+            filterString += entryFilter
+          } else if (this.collumsProp[i].datepickers) {
+            var entryFilter = this.collumsProp[i].name + '|'
+            for (var j = 0; j < this.collumsProp[i].datepickers.length; j++) {
+              entryFilter += this.collumsProp[i].datepickers[j].value + '|'
+            }
+            entryFilter.slice(0, -1)
+            filterString += entryFilter
+          }
+        }
+
+        this.filterText = filterString.slice(0, -2)
+        this.doFilter()        
       },
       activateAdvancedSearch() {
         this.isAdvancedSearch = true
       },
       deactivateAdvancedSearch() {
         this.isAdvancedSearch = false
+        this.filterText = ''
+        this.doFilter()
       },
       onPaginationData(paginationData) {
         this.$refs.pagination.setPaginationData(paginationData)
@@ -205,14 +241,28 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
         var perPage = this.$refs.vuetable.perPage
         var sort = this.$refs.vuetable.sortOrder[0].field
         var dir = this.$refs.vuetable.sortOrder[0].direction
+        var filter = this.moreParams['filter']
+        
+        var query = {
+          per_page: perPage
+        }
 
+        if (page && page != 1) {
+          query['page'] = page
+        }
+
+        if (sort && sort != 'end_time' || dir && dir != 'desc') {
+          query['sort'] = sort
+          query['dir'] = dir
+        }
+
+        if (filter) {
+          query['filter'] = filter
+        }
+
+        
         this.$router.push({
-          query: {
-            page: page,
-            per_page: perPage,
-            sort: sort,
-            dir: dir
-          }
+          query: query
         })
       }
     },

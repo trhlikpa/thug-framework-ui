@@ -3,7 +3,7 @@
     <h1 class="page-header">Jobs Overview</h1>
     <a class="anchor" id="joblist"></a>
     <h2 class="sub-header">Job list</h2>
-    <datatable :collumsProp="columns" url="http://localhost:5000/api/v1.0/jobs/" :advancedSearchEnabled=true :pageProp=page :perPageProp=perPage :sortOrder="[{field: sort, sortField: sort, direction: direction}]">
+    <datatable :collumsProp="columns" url="http://localhost:5000/api/v1.0/jobs/" :advancedSearchEnabled=true :pageProp=page :perPageProp=perPage :filterTextProp=filter :sortOrder="[{field: sort, sortField: sort, direction: direction}]">
     </datatable>
     <a class="anchor" id="dataset"></a>
     <h2 class="sub-header">Dataset</h2>
@@ -77,7 +77,7 @@
           title: 'Finish Time',
           sortField: 'end_time',
           searchType: 'date',
-          datepickers: ['end_time_1', 'end_time_2']
+          datepickers: [{id: 'end_time_1'}, {id: 'end_time_2'}]
         }, {
           name: '_state',
           title: 'Status',
