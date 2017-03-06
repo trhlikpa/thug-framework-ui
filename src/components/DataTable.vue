@@ -8,7 +8,6 @@ BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, // FITNESS FOR A PARTICULA
 SHALL THE // AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER // LIABILITY, WHETHER IN AN ACTION OF
 CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE. // // Modified 2017 Pavel Trhlík
-
 <template>
   <div>
     <div class="row">
@@ -24,17 +23,46 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
         <label class="control-label">Entries</label>
       </div>
       <div class="form-inline form-group pull-right">
-        <label v-if="!isAdvanced" class="control-label">Search:</label>
-        <input v-if="!isAdvanced" class="form-control" type="text" v-model="simpleFilterText" @keyup.enter="doSimpleFilter">
-        <button v-if="!isAdvanced" class="btn btn-default" @click="doSimpleFilter">Go</button>
-        <button @click="activateAdvancedSearch" v-if="!isAdvanced" class="btn btn-default">
+        <label v-if="!isAdvancedSearch" class="control-label">Search:</label>
+        <input v-if="!isAdvancedSearch" class="form-control" type="text" v-model="simpleFilterText" @keyup.enter="doSimpleFilter">
+        <button v-if="!isAdvancedSearch" class="btn btn-default" @click="doSimpleFilter">Go</button>
+        <button @click="activateAdvancedSearch" v-if="!isAdvancedSearch && advancedSearchEnabled" class="btn btn-default">
         <span  class="glyphicon glyphicon-cog"></span> Advanced Search
       </button>
-        <button @click="deactivateAdvancedSearch" v-if="isAdvanced" class="btn btn-default">
+        <button @click="deactivateAdvancedSearch" v-if="isAdvancedSearch" class="btn btn-default">
         <span class="glyphicon glyphicon-cog"></span> Simple Search
       </button>
       </div>
     </div>
+    <form v-if="isAdvancedSearch" class="form-horizontal">
+      <template v-for="item in collumsProp">
+        <div v-if="item.searchType" class="form-group">
+          <label class="control-label col-md-offset-1 col-sm-2" v-bind:for="item.name">{{ item.title }}: </label>
+          <div v-if="item.searchType == 'string'" class="col-sm-6">
+            <input type="text" class="form-control" v-bind:for="item.name">
+          </div>
+          <div v-else-if="item.searchType == 'select'" class="col-sm-6">
+            <select class="form-control">
+              <option v-for="selection in item.selections" v-bind:value="selection">
+                {{ selection }}
+              </option>
+            </select>
+          </div>
+          <div v-else-if="item.searchType == 'date'">
+            <template v-for="datepicker in item.datepickers">
+              <div class="col-sm-3">
+                  <datepicker  ref="datepicker" v-bind:id="datepicker"></datepicker>
+              </div>
+            </template>
+          </div>
+        </div>
+      </template>
+      <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-4">
+          <button @click.prevent="doAdvancedFilter" class="btn btn-default">Search</button>
+        </div>
+      </div>
+    </form>
     <div class="table-responsive">
       <vuetable ref="vuetable" :api-url="url" :detail-row-id="rowId" :perPage=perPage :css="css" :fields="collums" pagination-path=""
         :per-page=perPage :sort-order="sortOrder" :appendParams="moreParams" @vuetable:load-success="onTableLoad" @vuetable:pagination-data="onPaginationData"
@@ -68,10 +96,10 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
         perPageTmp: 0,
         collumsTmp: null,
         firstLoad: true,
-        isAdvanced: false,
+        isAdvancedSearch: false,
         simpleFilterText: '',
         css: {
-          tableClass: 'table table-striped table-bordered',
+          tableClass: 'table table-striped',
           loadingClass: 'loading',
           ascendingIcon: 'glyphicon glyphicon-chevron-up',
           descendingIcon: 'glyphicon glyphicon-chevron-down',
@@ -118,6 +146,10 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
       }
     },
     props: {
+      advancedSearchEnabled: {
+        type: Boolean,
+        required: true
+      },
       collumsProp: {
         type: Array,
         required: true
@@ -144,12 +176,14 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
         }
         Vue.nextTick(() => this.$refs.vuetable.refresh())
       },
-      activateAdvancedSearch() {
-        this.isAdvanced = true
+      doAdvancedFilter() {
+        console.log(this.$refs.datepicker[0].getDate())
       },
-
+      activateAdvancedSearch() {
+        this.isAdvancedSearch = true
+      },
       deactivateAdvancedSearch() {
-        this.isAdvanced = false
+        this.isAdvancedSearch = false
       },
       onPaginationData(paginationData) {
         this.$refs.pagination.setPaginationData(paginationData)
@@ -189,6 +223,7 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
     }
   }
 
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -218,6 +253,16 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
     font-weight: normal;
     text-align: left;
     white-space: nowrap;
+  }
+  
+  .form-horizontal {
+    background-color: #F9F9F9;
+    padding-top: 15px;
+    border: 1px solid #ddd;
+  }
+  
+  .form-horizontal .control-label {
+    text-align: right !important;
   }
 
 </style>

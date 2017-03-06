@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import VueResource from 'vue-resource'
 import DataTable from './components/DataTable.vue'
+import DatePicker from './components/DatePicker.vue'
 import Vuetable from 'vuetable-2/src/components/Vuetable.vue'
 import VuetablePagination from 'vuetable-2/src/components/VuetablePagination.vue'
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo.vue'
@@ -13,6 +14,7 @@ Vue.use(VueResource)
 
 Vue.component('vuetable', Vuetable)
 Vue.component('datatable', DataTable)
+Vue.component('datepicker', DatePicker)
 
 /* eslint-disable no-new */
 new Vue({
