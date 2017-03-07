@@ -24,8 +24,8 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
       </div>
       <div class="form-inline form-group pull-right">
         <label v-if="!isAdvancedSearch" class="control-label">Search:</label>
-        <input v-if="!isAdvancedSearch" class="form-control" type="text" v-model="filterText" @keyup.enter="doFilter">
-        <button v-if="!isAdvancedSearch" class="btn btn-default" @click="doFilter">Go</button>
+        <input v-if="!isAdvancedSearch" class="form-control" type="text" v-model="simpleFilterText" @keyup.enter="doSimpleFilter">
+        <button v-if="!isAdvancedSearch" class="btn btn-default" @click="doSimpleFilter">Go</button>
         <button @click="activateAdvancedSearch" v-if="!isAdvancedSearch && advancedSearchEnabled" class="btn btn-default">
         <span  class="glyphicon glyphicon-cog"></span> Advanced Search
       </button>
@@ -97,7 +97,8 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
         collumsTmp: null,
         firstLoad: true,
         isAdvancedSearch: false,
-        filterTextTmp: null,
+        advancedFilterTextTmp: null,
+        simpleFilterText: '',
         css: {
           tableClass: 'table table-striped',
           loadingClass: 'loading',
@@ -122,21 +123,15 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
       }
     },
     computed: {
-      filterText: {
+      advancedFilterText: {
         get: function () {
-          if (this.filterTextTmp == null) {
-            this.filterTextTmp = this.filterTextProp
-            this.moreParams = {
-              'filter': this.filterTextTmp
-            }
+          if (this.advancedFilterTextTmp == null) {
+            this.advancedFilterTextTmp = this.filterTextProp
           }
-          return this.filterTextTmp
+          return this.advancedFilterTextTmp
         },
         set: function (value) {
-          this.filterTextTmp = value
-          this.moreParams = {
-              'filter': this.filterTextTmp
-          }
+          this.advancedFilterTextTmp = value
         }
       }, 
       perPage: {
@@ -190,7 +185,11 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
       }
     },
     methods: {
-      doFilter() {
+      doSimpleFilter() {
+        this.moreParams = {
+          'filter': 'all|' + this.simpleFilterText
+        }
+
         Vue.nextTick(() => this.$refs.vuetable.refresh())
       },
       doAdvancedFilter() {
@@ -202,24 +201,35 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
             filterString += entryFilter
           } else if (this.collumsProp[i].datepickers) {
             var entryFilter = this.collumsProp[i].name + '|'
+            var empty = true
             for (var j = 0; j < this.collumsProp[i].datepickers.length; j++) {
-              entryFilter += this.collumsProp[i].datepickers[j].value + '|'
+              if (this.collumsProp[i].datepickers[j].value) {
+                entryFilter += this.collumsProp[i].datepickers[j].value + '|'
+                empty = false
+              }
             }
-            entryFilter.slice(0, -1)
-            filterString += entryFilter
+            if (!empty) {
+              entryFilter.slice(0, -1)
+              filterString += entryFilter
+            }
           }
         }
 
-        this.filterText = filterString.slice(0, -2)
-        this.doFilter()        
+        this.advancedFilterText = filterString.slice(0, -2)
+
+        this.moreParams = {
+          'filter': this.advancedFilterText
+        }
+
+        Vue.nextTick(() => this.$refs.vuetable.refresh())       
       },
       activateAdvancedSearch() {
         this.isAdvancedSearch = true
       },
       deactivateAdvancedSearch() {
         this.isAdvancedSearch = false
-        this.filterText = ''
-        this.doFilter()
+        this.simpleFilterText = ''
+        this.doSimpleFilter()
       },
       onPaginationData(paginationData) {
         this.$refs.pagination.setPaginationData(paginationData)
