@@ -233,8 +233,19 @@
   }
   
   .sub-header {
+    color: #34495e;
     margin-bottom: 20px;
     border-bottom: 1px solid #E8E8E8;
+  }
+
+  .a {
+    color: #34495e;
+    text-decoration: none;
+  }
+
+  a:hover, a:focus, a:visited {
+    color: #34495e;
+    text-decoration: none;
   }
   
   .glyphicon {

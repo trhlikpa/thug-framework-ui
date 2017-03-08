@@ -1,10 +1,13 @@
 <template>
   <div>
+    <h2 slot="header" class="sub-header">Schedule List</h2>
     <h1 class="page-header">Schedule Overview</h1>
-    <a class="anchor" id="scheduleList"></a>
-    <h2 class="sub-header">Schedule list</h2>
-    <datatable :colunmsProp="columns" :url="scheduleListUrl">
-    </datatable>
+    <pagesection id="schedulelist" :renderImmediately="true">
+      <div slot="body">
+        <datatable :colunmsProp="columns" :url="scheduleListUrl">
+        </datatable>
+     </div> 
+    </pagesection>
   </div>
 </template>
 

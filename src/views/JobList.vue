@@ -2,8 +2,8 @@
   <div>
     <h1 class="page-header">Jobs Overview</h1>
     <a class="anchor" id="joblist"></a>
-    <h2 class="sub-header">Job list <button data-toggle="collapse" data-target="#demo">Collapsible</button></h2>
-    <div id="demo" class="collapse">
+    <h2 class="sub-header">Job list</h2>
+    <div>
       <datatable :colunmsProp="columns" :url="jobListUrl" :advancedSearchEnabled=true :pageProp=page :perPageProp=perPage :filterTextProp=filter :sortOrder="[{field: sort, sortField: sort, direction: direction}]">
       </datatable>
     </div>
