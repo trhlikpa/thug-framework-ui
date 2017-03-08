@@ -70,6 +70,10 @@
  * Base structure
  */
   
+  html {
+    overflow-y: scroll;
+  }
+
   #app {
     font-family: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
     background-color: #fff;

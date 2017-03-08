@@ -35,7 +35,7 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
       </div>
     </div>
     <form v-if="isAdvancedSearch" class="form-horizontal">
-      <template v-for="item in collumsProp">
+      <template v-for="item in colunmsProp">
         <div v-if="item.searchType" class="form-group">
           <label class="control-label col-md-offset-1 col-sm-2" v-bind:for="item.name">{{ item.title }}: </label>
           <div v-if="item.searchType == 'string'" class="col-sm-6">
@@ -148,7 +148,7 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
       collums: {
         get: function () {
           if (this.collumsTmp == null) {
-            this.collumsTmp = this.collumsProp.slice()
+            this.collumsTmp = this.colunmsProp.slice()
           }
           return this.collumsTmp
         },
@@ -160,19 +160,18 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
     props: {
       advancedSearchEnabled: {
         type: Boolean,
-        required: true
+        default: false
       },
       url: {
         type: String,
         required: true
       },
-      collumsProp: {
+      colunmsProp: {
         type: Array,
         required: true
       },
       sortOrder: {
-        type: Array,
-        required: true
+        type: Array
       },
       pageProp: {
         type: Number
@@ -187,7 +186,7 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
     methods: {
       doSimpleFilter() {
         this.moreParams = {
-          'filter': 'all|' + this.simpleFilterText
+          'filter': 'all|' + this.simpleFilterText.replace(/\|\|/g,'')
         }
 
         Vue.nextTick(() => this.$refs.vuetable.refresh())
@@ -195,16 +194,18 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
       doAdvancedFilter() {
         var filterString = '';
 
-        for (var i = 0; i < this.collumsProp.length; i++) {
-          if (this.collumsProp[i].value != null) {
-            var entryFilter = this.collumsProp[i].name + '|' + this.collumsProp[i].value + '||'
+        for (var i = 0; i < this.colunmsProp.length; i++) {
+          if (this.colunmsProp[i].value) {
+            var value = this.colunmsProp[i].value.replace(/\|\|/g,'')
+            var entryFilter = this.colunmsProp[i].name + '|' + value + '||'
             filterString += entryFilter
-          } else if (this.collumsProp[i].datepickers) {
-            var entryFilter = this.collumsProp[i].name + '|'
+          } else if (this.colunmsProp[i].datepickers) {
+            var entryFilter = this.colunmsProp[i].name + '|'
             var empty = true
-            for (var j = 0; j < this.collumsProp[i].datepickers.length; j++) {
-              if (this.collumsProp[i].datepickers[j].value) {
-                entryFilter += this.collumsProp[i].datepickers[j].value + '|'
+            for (var j = 0; j < this.colunmsProp[i].datepickers.length; j++) {
+              if (this.colunmsProp[i].datepickers[j].value) {
+                var value = this.colunmsProp[i].datepickers[j].value.replace(/\|\|/g,'')
+                entryFilter += value + '|'
                 empty = false
               }
             }
@@ -249,12 +250,17 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
       onTableLoad(response) {
         var page = this.$refs.vuetable.currentPage
         var perPage = this.$refs.vuetable.perPage
-        var sort = this.$refs.vuetable.sortOrder[0].field
-        var dir = this.$refs.vuetable.sortOrder[0].direction
         var filter = this.moreParams['filter']
+        var sort = null
+        var dir = null
         
         var query = {
           per_page: perPage
+        }
+        
+        if (this.$refs.vuetable.sortOrder[0]) {
+          var sort = this.$refs.vuetable.sortOrder[0].field
+          var dir = this.$refs.vuetable.sortOrder[0].direction
         }
 
         if (page && page != 1) {
@@ -269,8 +275,7 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE S
         if (filter) {
           query['filter'] = filter
         }
-
-        
+      
         this.$router.push({
           query: query
         })
