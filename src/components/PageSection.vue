@@ -38,7 +38,7 @@ export default {
       get: function () {
         if (this.collapsed == null) {
           if (this.renderImmediately) {
-            // load data
+            this.$emit('fetchdata')
             this.collapsed = false
             return true
           } else {
@@ -47,22 +47,15 @@ export default {
         }
 
         return !this.collapsed
-      },
-      set: function (value) {
-        if (this.collapsed == null) { 
-          if (value) {
-            // load data
-            this.collapsed = false
-          }
-        } else {
-          this.collapsed = !value
-        }
       }
     }
   },
   methods: {
     switchState() {
-      if (this.collapsed == null || this.collapsed) {
+      if (this.collapsed == null) {
+        this.$emit('fetchdata')
+        this.collapsed = false
+      } else if (this.collapsed) {
         this.collapsed = false
       } else {
         this.collapsed = true

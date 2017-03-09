@@ -1,11 +1,19 @@
 <template>
   <div>
-    <h2 slot="header" class="sub-header">Schedule List</h2>
     <h1 class="page-header">Schedule Overview</h1>
+
     <pagesection id="schedulelist" :renderImmediately="true">
+      <h2 slot="header" class="sub-header">Schedule List</h2>
       <div slot="body">
         <datatable :colunmsProp="columns" :url="scheduleListUrl">
         </datatable>
+     </div> 
+    </pagesection>
+
+    <pagesection id="schedule" :renderImmediately="true" v-on:fetchdata="loadSchedule">
+      <h2 slot="header" class="sub-header">Schedule</h2>
+      <div slot="body">
+        <p></p>
      </div> 
     </pagesection>
   </div>
@@ -52,6 +60,11 @@
           titleClass: 'text-center',
           dataClass: 'text-center',
         }]
+      }
+    },
+    methods: {
+      loadSchedule() {
+        console.log('loading schedule')
       }
     }
   }
