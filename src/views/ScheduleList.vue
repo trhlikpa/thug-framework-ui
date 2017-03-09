@@ -3,7 +3,7 @@
     <h1 class="page-header">Schedule Overview</h1>
 
     <pagesection id="schedulelist" :renderImmediately="true">
-      <h2 slot="header" class="sub-header">Schedule List</h2>
+      <span slot="title">Schedule List</span>
       <div slot="body">
         <datatable :colunmsProp="columns" :url="scheduleListUrl">
         </datatable>
@@ -11,9 +11,9 @@
     </pagesection>
 
     <pagesection id="schedule" :renderImmediately="true" v-on:fetchdata="loadSchedule">
-      <h2 slot="header" class="sub-header">Schedule</h2>
+      <span slot="title">Schedule</span>
       <div slot="body">
-        <p></p>
+        <p>test</p>
      </div> 
     </pagesection>
   </div>
@@ -41,13 +41,12 @@
           name: 'crontab',
           title: 'Cron',
           titleClass: 'text-center',
-          dataClass: 'text-center',
-          callback: 'cronCallback'
+          dataClass: 'text-center'
         }, {
           name: 'last_run_at',
           title: 'Last run',
           titleClass: 'text-center',
-          dataClass: 'text-center',
+          dataClass: 'text-center'
         }, {
           name: 'previous_runs.length',
           title: 'Total runs',
@@ -58,7 +57,7 @@
           title: 'Enabled',
           sortField: 'enabled',
           titleClass: 'text-center',
-          dataClass: 'text-center',
+          dataClass: 'text-center'
         }]
       }
     },

@@ -2,9 +2,12 @@
   <div>
     <header>
       <a href="javascript:void(0)" @click="switchState">
-        <slot name="header">
-          <h2 class="sub-header">{{ id }}</h2>
-        </slot>
+        <h2 class="sub-header">
+          <i v-if="enabled" class="glyphicon glyphicon-chevron-down"></i>
+          <i v-else class="glyphicon glyphicon-chevron-right"></i>
+          <slot name="title">
+          </slot>
+        </h2>
       </a>
     </header>
     <a class="anchor" v-bind:id="id"></a>
@@ -68,14 +71,10 @@ export default {
 
 <style scoped>
 
-.a {
-  display: flex;
-  justify-content: space-between;
+.sub-header > i {
+  font-size: 20px;
+  top: -1px;  
+  margin-right: 5px;
 }
-
-.i {
-  margin-right: auto;  
-}
-
 
 </style>
