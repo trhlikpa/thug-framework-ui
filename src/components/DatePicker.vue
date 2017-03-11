@@ -1,6 +1,9 @@
 <template>
-  <div>
-    <input type="text" class="form-control" @blur="updateDate" v-bind:id="id">
+  <div class='input-group date' v-bind:id="id">
+    <input type="text" class="form-control" @blur="updateDate">
+    <span class="input-group-addon">
+      <span class="glyphicon glyphicon-calendar"></span>
+    </span>
   </div>
 </template>
 

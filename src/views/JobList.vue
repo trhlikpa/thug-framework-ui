@@ -1,46 +1,55 @@
 <template>
   <div>
     <h1 class="page-header">Jobs Overview</h1>
-    <a class="anchor" id="joblist"></a>
-    <h2 class="sub-header">Job list</h2>
-    <div>
-      <datatable :colunmsProp="columns" :url="jobListUrl" :advancedSearchEnabled=true :pageProp=page :perPageProp=perPage :filterTextProp=filter :sortOrder="[{field: sort, sortField: sort, direction: direction}]">
-      </datatable>
-    </div>
-    <a class="anchor" id="dataset"></a>
-    <h2 class="sub-header">Dataset</h2>
-    <div class="row placeholders">
-      <div class="col-xs-6 <col>-sm-3 placeholder">
-        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive"
-          alt="Generic placeholder thumbnail">
-        <h4>Label</h4>
-        <span class="text-muted">Something else</span>
+
+    <pagesection id="joblist" :renderImmediately="true">
+      <span slot="title">Job List</span>
+      <div slot="body">
+        <datatable :colunmsProp="columns" :url="jobListUrl" :advancedSearchEnabled=true :pageProp=page :perPageProp=perPage :filterTextProp=filter
+          :sortOrder="[{field: sort, sortField: sort, direction: direction}]">
+        </datatable>
       </div>
-      <div class="col-xs-6 col-sm-3 placeholder">
-        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive"
-          alt="Generic placeholder thumbnail">
-        <h4>Label</h4>
-        <span class="text-muted">Something else</span>
+    </pagesection>
+
+    <pagesection id="dataset" :renderImmediately="true">
+      <span slot="title">Dataset</span>
+      <div slot="body">
+        <div class="row placeholders">
+          <div class="col-xs-6 <col>-sm-3 placeholder">
+            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive"
+              alt="Generic placeholder thumbnail">
+            <h4>Label</h4>
+            <span class="text-muted">Something else</span>
+          </div>
+          <div class="col-xs-6 col-sm-3 placeholder">
+            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive"
+              alt="Generic placeholder thumbnail">
+            <h4>Label</h4>
+            <span class="text-muted">Something else</span>
+          </div>
+          <div class="col-xs-6 col-sm-3 placeholder">
+            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive"
+              alt="Generic placeholder thumbnail">
+            <h4>Label</h4>
+            <span class="text-muted">Something else</span>
+          </div>
+          <div class="col-xs-6 col-sm-3 placeholder">
+            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive"
+              alt="Generic placeholder thumbnail">
+            <h4>Label</h4>
+            <span class="text-muted">Something else</span>
+          </div>
+        </div>
       </div>
-      <div class="col-xs-6 col-sm-3 placeholder">
-        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive"
-          alt="Generic placeholder thumbnail">
-        <h4>Label</h4>
-        <span class="text-muted">Something else</span>
-      </div>
-      <div class="col-xs-6 col-sm-3 placeholder">
-        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive"
-          alt="Generic placeholder thumbnail">
-        <h4>Label</h4>
-        <span class="text-muted">Something else</span>
-      </div>
-    </div>
+    </pagesection>
+
   </div>
 </template>
 
+
 <script>
   import QueryStrings from '../mixins/QueryStrings.vue'
-  import Api from '../mixins/Api.vue'  
+  import Api from '../mixins/Api.vue'
   export default {
     mixins: [QueryStrings, Api],
     data() {
@@ -94,7 +103,11 @@
           titleClass: 'text-center',
           dataClass: 'text-center',
           searchType: 'date',
-          datepickers: [{id: 'end_time_1'}, {id: 'end_time_2'}]
+          datepickers: [{
+            id: 'end_time_1'
+          }, {
+            id: 'end_time_2'
+          }]
         }, {
           name: '_state',
           title: 'Status',
@@ -115,11 +128,9 @@
       }
     }
   }
-
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 
 </style>

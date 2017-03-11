@@ -3,18 +3,14 @@
     <h1 class="page-header">Schedule Overview</h1>
 
     <pagesection id="schedulelist" :renderImmediately="true">
-      <span slot="title">Schedule List</span>
       <div slot="body">
         <datatable :colunmsProp="columns" :url="scheduleListUrl">
         </datatable>
-     </div> 
+     </div>
     </pagesection>
 
     <pagesection id="schedule" :renderImmediately="true" v-on:fetchdata="loadSchedule">
       <span slot="title">Schedule</span>
-      <div slot="body">
-        <p>test</p>
-     </div> 
     </pagesection>
   </div>
 </template>
