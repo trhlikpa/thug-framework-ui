@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import JobList from 'views/JobList'
 import ScheduleList from 'views/ScheduleList'
+import JobDetails from 'views/JobDetails'
 
 Vue.use(Router)
 
@@ -23,6 +24,11 @@ export default new Router({
       path: '/jobs',
       name: 'Jobs',
       component: JobList
+    },
+    {
+      path: '/jobs/:id',
+      name: 'JobDetails',
+      component: JobDetails
     },
     {
       path: '/schedules',

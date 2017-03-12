@@ -12,7 +12,7 @@
     </h2>
   </header>
   <a class="anchor" v-bind:id="id"></a>
-  <main v-if="enabled" v-bind:id="id + '.body'">
+  <main class="content" v-if="enabled" v-bind:id="id + '.body'">
     <slot name="body">
       <p>No relevant data</p>
     </slot>
@@ -75,5 +75,11 @@ export default {
   top: -1px;
   margin-right: 5px;
   color: #34495e;
+}
+
+.content {
+  position: relative;
+  opacity: 1;
+  min-height: 70px;
 }
 </style>

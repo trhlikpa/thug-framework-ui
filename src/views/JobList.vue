@@ -5,7 +5,7 @@
   <pagesection id="joblist" :renderImmediately="true">
     <span slot="title">Job List</span>
     <div slot="body">
-      <datatable :colunmsProp="columns" :url="jobsUrl" :advancedSearchEnabled=true :pageProp=page :perPageProp=perPage :filterTextProp=filter :sortOrder="[{field: sort, sortField: sort, direction: direction}]">
+      <datatable :colunmsProp="columns" detailsRoute="JobDetails" :url="jobsUrl" :advancedSearchEnabled=true :pageProp=page :perPageProp=perPage :filterTextProp=filter :sortOrder="[{field: sort, sortField: sort, direction: direction}]">
       </datatable>
     </div>
   </pagesection>

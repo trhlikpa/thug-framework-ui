@@ -260,6 +260,10 @@ a:visited {
   margin: 0px 0px;
 }
 
+.vuetable>tbody>tr:hover {
+  cursor: pointer;
+}
+
 .loader,
 .loader:before,
 .loader:after {
@@ -324,5 +328,38 @@ a:visited {
     box-shadow: 0 -2em;
     height: 5em;
   }
+}
+
+.table>tbody {
+  border: None !important;
+}
+
+.table>thead>tr>th,
+.table>tbody>tr>th,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>tbody>tr>td,
+.table>tfoot>tr>td {
+  border-bottom: 0.5px solid #E8E8E8;
+}
+
+td.name,
+td.value {
+  white-space: -moz-pre-wrap;
+  white-space: -hp-pre-wrap;
+  white-space: -o-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: pre-wrap;
+  white-space: pre-line;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+td.name {
+  width: 20%;
+}
+
+.progress {
+  margin: 8px 3px 0px 8px;
 }
 </style>
