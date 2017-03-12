@@ -1,10 +1,10 @@
 <template>
-  <div class='input-group date' v-bind:id="id">
-    <input type="text" class="form-control" @blur="updateDate">
-    <span class="input-group-addon">
+<div class='input-group date' v-bind:id="id">
+  <input type="text" class="form-control" @blur="updateDate">
+  <span class="input-group-addon">
       <span class="glyphicon glyphicon-calendar"></span>
-    </span>
-  </div>
+  </span>
+</div>
 </template>
 
 <script>
@@ -13,13 +13,13 @@ export default {
     return {}
   },
   props: {
-      id: {
-        type: String,
-        required: true
-      },
-      value: {
-        type: String
-      }
+    id: {
+      type: String,
+      required: true
+    },
+    value: {
+      type: String
+    }
   },
   methods: {
     updateDate() {
@@ -36,5 +36,4 @@ export default {
     }
   }
 }
-
 </script>

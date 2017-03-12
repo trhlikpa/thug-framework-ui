@@ -1,15 +1,15 @@
 <template>
 <div>
   <header>
-    <a href="javascript:void(0)" @click="switchState">
-      <h2 class="sub-header">
-          <i v-if="enabled" class="glyphicon glyphicon-chevron-down"></i>
-          <i v-else class="glyphicon glyphicon-chevron-right"></i>
-          <slot name="title">
-            {{id}}
-          </slot>
-        </h2>
-    </a>
+    <h2 class="sub-header">
+      <a href="javascript:void(0)" @click="switchState">
+        <i v-if="enabled" class="glyphicon glyphicon-chevron-down"></i>
+        <i v-else class="glyphicon glyphicon-chevron-right"></i>
+      </a>
+      <slot name="title">
+        {{id}}
+      </slot>
+    </h2>
   </header>
   <a class="anchor" v-bind:id="id"></a>
   <main v-if="enabled" v-bind:id="id + '.body'">
@@ -70,9 +70,10 @@ export default {
 </script>
 
 <style scoped>
-.sub-header>i {
+.sub-header>a>i {
   font-size: 20px;
   top: -1px;
   margin-right: 5px;
+  color: #34495e;
 }
 </style>
