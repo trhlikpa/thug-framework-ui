@@ -122,6 +122,9 @@ export default {
     }
   },
   computed: {
+    data() {
+      return this.$refs.vuetable.tableData
+    },
     advancedFilterText: {
       get: function() {
         if (this.advancedFilterTextTmp == null) {

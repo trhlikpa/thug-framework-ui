@@ -55,7 +55,8 @@
             <tr v-if="job._state && job._state=='STARTED'" class="entry">
               <td class="name">Progress:</td>
               <div class="progress">
-                <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%">
+                <div class="progress-bar" role="progressbar" v-bind:aria-valuenow="successfulTasksCount + failedTasksCount" aria-valuemin="0" v-bind:aria-valuemax="totalTasks" v-bind:style="'width:' + jobProgress + '%'">
+                  {{jobProgress + '% Complete'}}
                 </div>
               </div>
             </tr>
@@ -250,7 +251,7 @@
   <pagesection id="tasklist" :renderImmediately="true">
     <span slot="title">Task List</span>
     <div slot="body">
-      <datatable :colunmsProp="taskcolumns" detailsRoute="taskDetails" :url="this.jobsUrl + this.$route.params.id + '/tasks'">
+      <datatable ref="datatable" :colunmsProp="taskcolumns" detailsRoute="taskDetails" :url="this.jobsUrl + this.$route.params.id + '/tasks'">
       </datatable>
     </div>
   </pagesection>
@@ -267,6 +268,7 @@ export default {
     return {
       job: null,
       schedule: null,
+      tasks: null,
       fetching: true,
       taskcolumns: [{
         name: 'url',
@@ -289,13 +291,58 @@ export default {
       }]
     }
   },
+  computed: {
+    selectedTasks() {
+      return this.$refs.datatable.data
+    },
+    jobProgress() {
+      return Math.ceil((this.successfulTasksCount + this.failedTasksCount) / this.totalTasks * 100)
+    },
+    totalTasks() {
+      return this.job.tasks.length
+    },
+    successfulTasksCount() {
+      return this.count('SUCCESSFUL', '_state')
+    },
+    failedTasksCount() {
+      return this.count('FAILURE', '_state')
+    },
+    pendingTasksCount() {
+      return this.count('PENDING', '_state')
+    },
+    startedTasksCount() {
+      return this.count('STARTED', '_state')
+    },
+    maliciousTasksCount() {
+      return this.count('MALICIOUS', 'classification')
+    },
+    suspiciousTasksCount() {
+      return this.count('SUSPICIOUS', 'classification')
+    },
+    clearTasksCount() {
+      return this.count('CLEAR', 'classification')
+    }
+  },
   methods: {
+    count: function(value, field) {
+      var count = 0
+      for (var key in this.tasks) {
+        if (this.tasks[key][field] == value) {
+          count++
+        }
+      }
+      return count
+    },
     fetchJob() {
       this.$http.get(this.jobsUrl + this.$route.params.id).then((response) => {
         this.job = response.body.job
 
         if (this.job.schedule_id) {
           this.fetchSchedule(this.job.schedule_id.$oid)
+        }
+
+        if (this.job.tasks != null && this.job.tasks.length > 0) {
+          this.getTasks()
         }
 
         this.fetching = false
@@ -309,6 +356,14 @@ export default {
         this.schedule = response.body.schedule
       }, (response) => {
         console.log('error loading schedule: ', response.status)
+      })
+    },
+    getTasks() {
+      var pagesize = this.job.tasks.length + 1;
+      this.$http.get(this.jobsUrl + this.$route.params.id + '/tasks/?per_page=' + pagesize).then((response) => {
+        this.tasks = response.body.data
+      }, (response) => {
+        console.log('error loading tasks: ', response.status)
       })
     }
   },
