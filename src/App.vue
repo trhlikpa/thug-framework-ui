@@ -355,8 +355,13 @@ td.value {
   word-break: break-all;
 }
 
+td.glyphicon {
+  top: 0px !important;
+  display: table-cell;
+}
+
 td.name {
-  width: 20%;
+  width: 25%;
 }
 
 .progress {

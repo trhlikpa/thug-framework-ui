@@ -87,7 +87,15 @@ export default {
   white-space: nowrap;
 }
 
-.cell:hover {
+.statuscell {
+  max-width: 100px;
+}
+
+.classificationcell {
+  max-width: 100px;
+}
+
+.hoverable:hover {
   white-space: normal;
   position: absolute;
   max-width: none;

@@ -78,7 +78,7 @@ export default {
         title: 'URL',
         sortField: 'url',
         titleClass: 'text-center',
-        dataClass: 'urlcell cell',
+        dataClass: 'urlcell hoverable',
         searchType: 'string'
       }, {
         name: 'useragent',
@@ -112,7 +112,7 @@ export default {
         title: 'Status',
         sortField: '_state',
         titleClass: 'text-center',
-        dataClass: 'text-center',
+        dataClass: 'text-center statuscell',
         callback: 'statusFormat',
         searchType: 'select',
         selections: ['PENDING', 'STARTED', 'SUCCESSFUL', 'FAILURE']
@@ -121,7 +121,7 @@ export default {
         title: 'Classification',
         sortField: 'classification',
         titleClass: 'text-center',
-        dataClass: 'text-center',
+        dataClass: 'text-center classificationcell',
         callback: 'classificationFormat',
         searchType: 'select',
         selections: ['CLEAR', 'SUSPICIOUS', 'MALICIOUS']
