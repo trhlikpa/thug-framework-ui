@@ -8,6 +8,7 @@
     <span slot="title">Job Details</span>
     <div slot="body">
       <div class="col-md-12">
+        <a class="anchor" title="General Details" id="generaldetails"></a>
         <h3>General Details</h3>
         <table class="table details-table">
           <tbody>
@@ -32,17 +33,17 @@
               <td class="value">{{job.type}}</td>
             </tr>
             <tr class="entry">
-              <td class="name">Submit Time:</td>
+              <td class="name">Submit time:</td>
               <td class="value" v-if="job.submit_time">{{dateFormat(job.submit_time)}}</td>
               <td class="value" v-else>TBD</td>
             </tr>
             <tr class="entry">
-              <td class="name">Start Time:</td>
+              <td class="name">Start time:</td>
               <td class="value" v-if="job.start_time">{{dateFormat(job.start_time)}}</td>
               <td class="value" v-else>TBD</td>
             </tr>
             <tr class="entry">
-              <td class="name">Finish Time:</td>
+              <td class="name">Finish time:</td>
               <td class="value" v-if="job.end_time">{{dateFormat(job.end_time)}}</td>
               <td class="value" v-else>TBD</td>
             </tr>
@@ -73,6 +74,7 @@
             </tr>
           </tbody>
         </table>
+        <a class="anchor" title="Thug Details" id="thugdetails"></a>
         <h3>Thug Details</h3>
         <table class="table details-table">
           <tbody>
@@ -151,6 +153,7 @@
             </tr>
           </tbody>
         </table>
+        <a v-if="job.type == 'extensive'" class="anchor" title="Crawl Details" id="crawldetails"></a>
         <h3 v-if="job.type == 'extensive'">Crawl Details</h3>
         <table v-if="job.type == 'extensive'" class="table details-table">
           <tbody>
@@ -205,11 +208,47 @@
             </tr>
           </tbody>
         </table>
+        <a v-if="schedule" class="anchor" title="Schedule Details" id="scheduledetails"></a>
+        <h3 v-if="schedule">Schedule Details</h3>
+        <table v-if="schedule" class="table details-table">
+          <tbody>
+            <tr class="entry">
+              <td class="name">Schedule ID:</td>
+              <td class="value">{{schedule._id.$oid}}</td>
+            </tr>
+            <tr class="entry">
+              <td class="name">Schedule Name:</td>
+              <td class="value" v-if="schedule.name">{{schedule.name}}</td>
+              <td class="glyphicon glyphicon-remove text-danger" v-else></td>
+            </tr>
+            <tr class="entry">
+              <td class="name">Enabled:</td>
+              <td class="glyphicon glyphicon-ok text-success" v-if="schedule.enabled"></td>
+              <td class="glyphicon glyphicon-remove text-danger" v-else></td>
+            </tr>
+            <tr class="entry">
+              <td class="name">Sequence:</td>
+              <td class="value" v-if="schedule.previous_runs">{{ sequenceFormat(entry._id.$oid, schedule) }}</td>
+              <td class="glyphicon glyphicon-remove text-danger" v-else></td>
+            </tr>
+            <tr class="entry">
+              <td class="name">Max run count:</td>
+              <td class="value" v-if="schedule.max_run_count">{{schedule.max_run_count}}</td>
+              <td class="glyphicon glyphicon-remove text-danger" v-else></td>
+            </tr>
+            <tr class="entry">
+              <td class="name">Next run:</td>
+              <td class="value" v-if="schedule.cron || schedule.interval">{{nextRunFormat(schedule)}}</td>
+              <td class="glyphicon glyphicon-remove text-danger" v-else></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </pagesection>
 
   <pagesection id="tasklist" :renderImmediately="true">
+    <span slot="title">Task List</span>
     <div slot="body">
       <datatable :colunmsProp="taskcolumns" detailsRoute="taskDetails" :url="this.jobsUrl + this.$route.params.id + '/tasks'">
       </datatable>
@@ -220,13 +259,14 @@
 
 <script>
 import QueryStrings from '../mixins/QueryStrings.vue'
-import FieldsFormat from '../mixins/FieldsFormat.vue'
+import DataFormating from '../mixins/DataFormating.vue'
 import Api from '../mixins/Api.vue'
 export default {
-  mixins: [QueryStrings, FieldsFormat, Api],
+  mixins: [QueryStrings, DataFormating, Api],
   data() {
     return {
       job: null,
+      schedule: null,
       fetching: true,
       taskcolumns: [{
         name: 'url',
@@ -253,10 +293,22 @@ export default {
     fetchJob() {
       this.$http.get(this.jobsUrl + this.$route.params.id).then((response) => {
         this.job = response.body.job
+
+        if (this.job.schedule_id) {
+          this.fetchSchedule(this.job.schedule_id.$oid)
+        }
+
         this.fetching = false
       }, (response) => {
         this.fetching = false
         console.log('error loading job: ', response.status)
+      })
+    },
+    getSchedule(scheduleId) {
+      this.$http.get(this.schedulestUrl + scheduleId).then((response) => {
+        this.schedule = response.body.schedule
+      }, (response) => {
+        console.log('error loading schedule: ', response.status)
       })
     }
   },
@@ -266,8 +318,6 @@ export default {
 }
 </script>
 
-<style scoped>
-.urlfixedcell {
-  max-width: 300px !important;
-}
+<style>
+
 </style>

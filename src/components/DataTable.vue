@@ -81,10 +81,10 @@ import Vue from 'vue'
 import Vuetable from 'vuetable-2/src/components/Vuetable.vue'
 import VuetablePagination from 'vuetable-2/src/components/VuetablePagination.vue'
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo.vue'
-import FieldsFormat from '../mixins/FieldsFormat.vue'
+import DataFormating from '../mixins/DataFormating.vue'
 
 export default {
-  mixins: [FieldsFormat],
+  mixins: [DataFormating],
   components: {
     Vuetable,
     VuetablePagination,

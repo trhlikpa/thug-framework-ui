@@ -42,6 +42,20 @@ export default {
         return '<span class="glyphicon glyphicon-remove text-danger"></span>'
       }
       return moment.utc(value).local().format('LLL')
+    },
+    sequenceFormat: function(value, schedule) {
+      var schedule = schedule.previous_runs
+      var sequence = 0
+      for (var key in schedule) {
+        sequence++
+        if (schedule[key].$oid == value) {
+          return sequence
+        }
+      }
+      return 0
+    },
+    nextRunFormat: function() {
+      return 0
     }
   }
 }

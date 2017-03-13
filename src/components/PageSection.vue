@@ -12,7 +12,7 @@
     </h2>
   </header>
   <a class="anchor" v-bind:id="id"></a>
-  <main class="content" v-if="enabled" v-bind:id="id + '.body'">
+  <main class="content" v-if="enabled">
     <slot name="body">
       <p>No relevant data</p>
     </slot>

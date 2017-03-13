@@ -44,10 +44,10 @@
 
 <script>
 import QueryStrings from '../mixins/QueryStrings.vue'
-import FieldsFormat from '../mixins/FieldsFormat.vue'
+import DataFormating from '../mixins/DataFormating.vue'
 import Api from '../mixins/Api.vue'
 export default {
-  mixins: [QueryStrings, FieldsFormat, Api],
+  mixins: [QueryStrings, DataFormating, Api],
   data() {
     return {
       columns: [{
@@ -133,4 +133,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+
 </style>
