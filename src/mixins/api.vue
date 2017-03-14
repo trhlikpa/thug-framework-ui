@@ -11,6 +11,9 @@ export default {
     },
     schedulestUrl() {
       return this.baseUrl + '/api/v1.0/schedules/'
+    },
+    tasksUrl() {
+      return this.baseUrl + '/api/v1.0/tasks/'
     }
   }
 }

@@ -47,6 +47,11 @@
               <td class="value" v-if="job.end_time">{{dateFormat(job.end_time)}}</td>
               <td class="value" v-else>TBD</td>
             </tr>
+            <tr class="entry">
+              <td class="name">Total urls:</td>
+              <td class="value" v-if="tasks">{{tasks.length}}</td>
+              <td class="value" v-else>0</td>
+            </tr>
             <tr class="entry font-bold">
               <td class="name">State:</td>
               <td class="value" v-if="job._state" v-html="statusFormat(job._state)"></td>
@@ -68,16 +73,6 @@
               <td class="name">Error:</td>
               <td class="value">{{job._error}}</td>
             </tr>
-            <tr class="entry">
-              <td class="name">Total urls:</td>
-              <td class="value" v-if="tasks">{{tasks.length}}</td>
-              <td class="value" v-else>0</td>
-            </tr>
-            <tr class="entry text-success">
-              <td class="name">Successful urls:</td>
-              <td class="value" v-if="tasks">{{ successfulTasksCount }}</td>
-              <td class="value" v-else>0</td>
-            </tr>
             <tr class="entry text-info">
               <td class="name">Pending urls:</td>
               <td class="value" v-if="tasks">{{ pendingTasksCount }}</td>
@@ -87,6 +82,21 @@
               <td class="name">Running urls:</td>
               <td class="value" v-if="tasks">{{ startedTasksCount }}</td>
               <td class="value" v-else>0</td>
+            </tr>
+            <tr class="entry text-danger">
+              <td class="name">Failed urls:</td>
+              <td class="value" v-if="tasks">{{ failedTasksCount }}</td>
+              <td class="value" v-else>0</td>
+            </tr>
+            <tr class="entry text-success">
+              <td class="name">Successful urls:</td>
+              <td class="value" v-if="tasks">{{ successfulTasksCount }}</td>
+              <td class="value" v-else>0</td>
+            </tr>
+            <tr class="entry font-bold">
+              <td class="name">Classification:</td>
+              <td class="value" v-if="job.classification" v-html="classificationFormat(job.classification)"></td>
+              <td class="value" v-else>TBD</td>
             </tr>
             <tr class="entry text-warning">
               <td class="name">Suspicious urls:</td>
@@ -102,11 +112,6 @@
               <td class="name">Clear urls:</td>
               <td class="value" v-if="tasks">{{ clearTasksCount }}</td>
               <td class="value" v-else>0</td>
-            </tr>
-            <tr class="entry font-bold">
-              <td class="name">Classification:</td>
-              <td class="value" v-if="job.classification" v-html="classificationFormat(job.classification)"></td>
-              <td class="value" v-else>TBD</td>
             </tr>
           </tbody>
         </table>
@@ -286,7 +291,7 @@
   <pagesection id="tasklist" :renderImmediately="true">
     <span slot="title">Task List</span>
     <div slot="body">
-      <datatable ref="datatable" :colunmsProp="taskcolumns" detailsRoute="taskDetails" :pageProp=page :perPageProp=perPage :filterTextProp=filter :sortOrder="[{field: sort, sortField: sort, direction: direction}]" :url="this.jobsUrl + this.$route.params.id + '/tasks'">
+      <datatable ref="datatable" :colunmsProp="taskcolumns" detailsRoute="TaskDetails" :pageProp=page :perPageProp=perPage :filterTextProp=filter :sortOrder="[{field: sort, sortField: sort, direction: direction}]" :url="this.jobsUrl + this.$route.params.id + '/tasks'">
       </datatable>
     </div>
   </pagesection>
@@ -334,7 +339,7 @@ export default {
       if (!this.totalTasks) {
         return 0
       }
-      
+
       return Math.ceil((this.successfulTasksCount + this.failedTasksCount) / this.totalTasks * 100)
     },
     totalTasks() {
@@ -381,7 +386,7 @@ export default {
         }
 
         if (this.job.tasks != null && this.job.tasks.length > 0) {
-          this.getTasks()
+          this.fetchTasks()
         }
 
         this.fetching = false
@@ -390,14 +395,14 @@ export default {
         console.log('error loading job: ', response.status)
       })
     },
-    getSchedule(scheduleId) {
+    fetchSchedule(scheduleId) {
       this.$http.get(this.schedulestUrl + scheduleId).then((response) => {
         this.schedule = response.body.schedule
       }, (response) => {
         console.log('error loading schedule: ', response.status)
       })
     },
-    getTasks() {
+    fetchTasks() {
       var pagesize = this.job.tasks.length + 1;
       this.$http.get(this.jobsUrl + this.$route.params.id + '/tasks/?per_page=' + pagesize).then((response) => {
         this.tasks = response.body.data

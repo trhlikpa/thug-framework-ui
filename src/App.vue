@@ -267,7 +267,7 @@ a:visited {
 .loader,
 .loader:before,
 .loader:after {
-  background: #000;
+  background: #505F66;
   -webkit-animation: load1 1s infinite ease-in-out;
   animation: load1 1s infinite ease-in-out;
   width: 1em;
@@ -275,7 +275,7 @@ a:visited {
 }
 
 .loader {
-  color: #000;
+  color: #505F66;
   text-indent: -9999em;
   margin: 88px auto;
   position: relative;
