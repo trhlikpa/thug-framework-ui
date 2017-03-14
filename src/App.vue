@@ -367,4 +367,8 @@ td.name {
 .progress {
   margin: 8px 3px 0px 8px;
 }
+
+.font-bold {
+  font-weight: bold;
+}
 </style>

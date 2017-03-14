@@ -80,6 +80,6 @@ export default {
 .content {
   position: relative;
   opacity: 1;
-  min-height: 70px;
+  min-height: 200px;
 }
 </style>

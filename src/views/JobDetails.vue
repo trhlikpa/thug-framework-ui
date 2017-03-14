@@ -47,7 +47,7 @@
               <td class="value" v-if="job.end_time">{{dateFormat(job.end_time)}}</td>
               <td class="value" v-else>TBD</td>
             </tr>
-            <tr class="entry">
+            <tr class="entry font-bold">
               <td class="name">State:</td>
               <td class="value" v-if="job._state" v-html="statusFormat(job._state)"></td>
               <td class="value" v-else>TBD</td>
@@ -69,6 +69,41 @@
               <td class="value">{{job._error}}</td>
             </tr>
             <tr class="entry">
+              <td class="name">Total urls:</td>
+              <td class="value" v-if="tasks">{{tasks.length}}</td>
+              <td class="value" v-else>0</td>
+            </tr>
+            <tr class="entry text-success">
+              <td class="name">Successful urls:</td>
+              <td class="value" v-if="tasks">{{ successfulTasksCount }}</td>
+              <td class="value" v-else>0</td>
+            </tr>
+            <tr class="entry text-info">
+              <td class="name">Pending urls:</td>
+              <td class="value" v-if="tasks">{{ pendingTasksCount }}</td>
+              <td class="value" v-else>0</td>
+            </tr>
+            <tr class="entry text-info">
+              <td class="name">Running urls:</td>
+              <td class="value" v-if="tasks">{{ startedTasksCount }}</td>
+              <td class="value" v-else>0</td>
+            </tr>
+            <tr class="entry text-warning">
+              <td class="name">Suspicious urls:</td>
+              <td class="value" v-if="tasks">{{ suspiciousTasksCount }}</td>
+              <td class="value" v-else>0</td>
+            </tr>
+            <tr class="entry text-danger">
+              <td class="name">Malicious urls:</td>
+              <td class="value" v-if="tasks">{{ maliciousTasksCount }}</td>
+              <td class="value" v-else>0</td>
+            </tr>
+            <tr class="entry text-success">
+              <td class="name">Clear urls:</td>
+              <td class="value" v-if="tasks">{{ clearTasksCount }}</td>
+              <td class="value" v-else>0</td>
+            </tr>
+            <tr class="entry font-bold">
               <td class="name">Classification:</td>
               <td class="value" v-if="job.classification" v-html="classificationFormat(job.classification)"></td>
               <td class="value" v-else>TBD</td>
@@ -251,7 +286,7 @@
   <pagesection id="tasklist" :renderImmediately="true">
     <span slot="title">Task List</span>
     <div slot="body">
-      <datatable ref="datatable" :colunmsProp="taskcolumns" detailsRoute="taskDetails" :url="this.jobsUrl + this.$route.params.id + '/tasks'">
+      <datatable ref="datatable" :colunmsProp="taskcolumns" detailsRoute="taskDetails" :pageProp=page :perPageProp=perPage :filterTextProp=filter :sortOrder="[{field: sort, sortField: sort, direction: direction}]" :url="this.jobsUrl + this.$route.params.id + '/tasks'">
       </datatable>
     </div>
   </pagesection>
@@ -296,6 +331,10 @@ export default {
       return this.$refs.datatable.data
     },
     jobProgress() {
+      if (!this.totalTasks) {
+        return 0
+      }
+      
       return Math.ceil((this.successfulTasksCount + this.failedTasksCount) / this.totalTasks * 100)
     },
     totalTasks() {
