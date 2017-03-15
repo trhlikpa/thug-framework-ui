@@ -495,6 +495,93 @@
       </div>
     </div>
   </pagesection>
+
+  <pagesection id="honeyagent" :renderImmediately="false" v-on:fetchdata="fetchHoneyagent">
+    <span slot="title">Honeyagent</span>
+    <div slot="body" class="loader" v-if="!subresourcesLoaded.honeyagent">
+    </div>
+    <div slot="body" v-else>
+      <div class="col-md-12">
+        <div v-if="!subresources.honeyagent || subresources.honeyagent.length < 1">
+          <p>No relevant data</p>
+        </div>
+        <div v-else v-for="(item, index) in subresources.honeyagent">
+          <a class="anchor" v-bind:title="'Honeyagent ' + (index + 1)" v-bind:id="'honeyagent'+ (index + 1)"></a>
+          <h3>{{'Honeyagent ' + (index + 1)}}</h3>
+          <table class="table details-table">
+            <tbody>
+              <tr class="entry">
+                <td class="name">Sample ID:</td>
+                <td class="value" v-if="item.sample_id">{{item.sample_id.$oid}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">Report:</td>
+                <td class="value">{{item.report}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </pagesection>
+
+  <pagesection id="androguard" :renderImmediately="false" v-on:fetchdata="fetchAndroguard">
+    <span slot="title">Androguard</span>
+    <div slot="body" class="loader" v-if="!subresourcesLoaded.androguard">
+    </div>
+    <div slot="body" v-else>
+      <div class="col-md-12">
+        <div v-if="!subresources.androguard || subresources.androguard.length < 1">
+          <p>No relevant data</p>
+        </div>
+        <div v-else v-for="(item, index) in subresources.androguard">
+          <a class="anchor" v-bind:title="'Androguard ' + (index + 1)" v-bind:id="'androguard'+ (index + 1)"></a>
+          <h3>{{'Androguard ' + (index + 1)}}</h3>
+          <table class="table details-table">
+            <tbody>
+              <tr class="entry">
+                <td class="name">Sample ID:</td>
+                <td class="value" v-if="item.sample_id">{{item.sample_id.$oid}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">Report:</td>
+                <td class="value">{{item.report}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </pagesection>
+
+  <pagesection id="peepdf" :renderImmediately="false" v-on:fetchdata="fetchPeepdf">
+    <span slot="title">Peepdf</span>
+    <div slot="body" class="loader" v-if="!subresourcesLoaded.peepdf">
+    </div>
+    <div slot="body" v-else>
+      <div class="col-md-12">
+        <div v-if="!subresources.peepdf || subresources.peepdf.length < 1">
+          <p>No relevant data</p>
+        </div>
+        <div v-else v-for="(item, index) in subresources.peepdf">
+          <a class="anchor" v-bind:title="'Peepdf ' + (index + 1)" v-bind:id="'peepdf'+ (index + 1)"></a>
+          <h3>{{'Peepdf ' + (index + 1)}}</h3>
+          <table class="table details-table">
+            <tbody>
+              <tr class="entry">
+                <td class="name">Sample ID:</td>
+                <td class="value" v-if="item.sample_id">{{item.sample_id.$oid}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">Report:</td>
+                <td class="value">{{item.report}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </pagesection>
 </div>
 </template>
 
@@ -552,7 +639,16 @@ export default {
       this.fetchSubresource('codes')
     },
     fetchVirusTotal() {
-      this.fetchSubresource('virustotal')      
+      this.fetchSubresource('virustotal')
+    },
+    fetchHoneyagent() {
+      this.fetchSubresource('honeyagent')
+    },
+    fetchAndroguard() {
+      this.fetchSubresource('androguard')
+    },
+    fetchPeepdf() {
+      this.fetchSubresource('peepdf')
     },
     fetchSubresource(subresource) {
       Vue.set(this.subresourcesLoaded, subresource, false)
