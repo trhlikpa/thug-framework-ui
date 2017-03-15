@@ -112,17 +112,87 @@
     </div>
   </pagesection>
 
-  <pagesection id="exploits" :renderImmediately="true" v-on:fetchdata="fetchExploits">
+  <pagesection id="exploits" :renderImmediately="false" v-on:fetchdata="fetchExploits">
     <span slot="title">Exploits</span>
-    <div slot="body">
-      {{subresources.exploits}}
+    <div slot="body" class="loader" v-if="!subresourcesLoaded.exploits">
+    </div>
+    <div slot="body" v-else>
+      <div class="col-md-12">
+        <div v-if="!subresources.exploits || subresources.exploits.length < 1">
+          <p>No relevant data</p>
+        </div>
+        <div v-else v-for="(item, index) in subresources.exploits">
+          <a class="anchor" v-bind:title="'Exploit ' + (index + 1)" v-bind:id="'exploit'+ (index + 1)"></a>
+          <h3>{{'Exploit ' + (index + 1)}}</h3>
+          <table class="table details-table">
+            <tbody>
+              <tr class="entry">
+                <td class="name">URL:</td>
+                <td class="value">{{item.url}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">Module:</td>
+                <td class="value">{{item.module}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">Description:</td>
+                <td class="value">{{item.description}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">CVE:</td>
+                <td class="value" v-if="item.cve">{{item.cve}}</td>
+                <td class="glyphicon glyphicon-remove text-danger" v-else></td>
+              </tr>
+              <tr class="entry">
+                <td class="name">Data url:</td>
+                <td class="value">{{item.data.url}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">Data method:</td>
+                <td >{{item.data.method}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">Data async:</td>
+                <td class="glyphicon glyphicon-ok text-success" v-if="item.data.async"></td>
+                <td class="glyphicon glyphicon-remove text-danger" v-else></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </pagesection>
 
-  <pagesection id="classifiers" :renderImmediately="true" v-on:fetchdata="fetchClassifiers">
+  <pagesection id="classifiers" :renderImmediately="false" v-on:fetchdata="fetchClassifiers">
     <span slot="title">Classifiers</span>
-    <div slot="body">
-      {{subresources.classifiers}}
+    <div slot="body" class="loader" v-if="!subresourcesLoaded.classifiers">
+    </div>
+    <div slot="body" v-else>
+      <div class="col-md-12">
+        <div v-if="!subresources.classifiers || subresources.classifiers.length < 1">
+          <p>No relevant data</p>
+        </div>
+        <div v-else v-for="(item, index) in subresources.classifiers">
+          <a class="anchor" v-bind:title="'Classifier ' + (index + 1)" v-bind:id="'classifier'+ (index + 1)"></a>
+          <h3>{{'Classifier ' + (index + 1)}}</h3>
+          <table class="table details-table">
+            <tbody>
+              <tr class="entry">
+                <td class="name">Classifier:</td>
+                <td class="value">{{item.classifier}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">Rule:</td>
+                <td class="value">{{item.rule}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">Tags:</td>
+                <td class="value">{{item.tags}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </pagesection>
 </div>
@@ -138,6 +208,7 @@ export default {
     return {
       fetching: true,
       task: null,
+      subresourcesLoaded: {},
       subresources: {}
     }
   },
@@ -160,11 +231,13 @@ export default {
       this.fetchSubresource('classifiers')
     },
     fetchSubresource(subresource) {
+      Vue.set(this.subresourcesLoaded, subresource, false)
       this.$http.get(this.tasksUrl + this.$route.params.id + '/' + subresource).then((response) => {
         Vue.set(this.subresources, subresource, response.body[subresource])
       }, (response) => {
         console.log('error loading task ' + subresource + ': ', response.status)
       })
+      Vue.set(this.subresourcesLoaded, subresource, true)
     },
   },
   mounted() {
