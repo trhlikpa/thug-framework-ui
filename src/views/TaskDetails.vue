@@ -163,6 +163,149 @@
     </div>
   </pagesection>
 
+  <pagesection id="locations" :renderImmediately="false" v-on:fetchdata="fetchLocations">
+    <span slot="title">Locations</span>
+    <div slot="body" class="loader" v-if="!subresourcesLoaded.locations">
+    </div>
+    <div slot="body" v-else>
+      <div class="col-md-12">
+        <div v-if="!subresources.locations || subresources.locations.length < 1">
+          <p>No relevant data</p>
+        </div>
+        <div v-else v-for="(item, index) in subresources.locations">
+          <a class="anchor" v-bind:title="'Location ' + (index + 1)" v-bind:id="'location'+ (index + 1)"></a>
+          <h3>{{'Location ' + (index + 1)}}</h3>
+          <table class="table details-table">
+            <tbody>
+              <tr class="entry">
+                <td class="name">URL:</td>
+                <td class="value">{{item.url}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">HTTP status code:</td>
+                <td class="value">{{item.status}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">Content type:</td>
+                <td class="value">{{item['content-type']}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">Mime type:</td>
+                <td class="value">{{item['mime-type']}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">Data size:</td>
+                <td class="value">{{item.size}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">MD5 checksum:</td>
+                <td class="value">{{item.md5}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">Sha-256 checksum:</td>
+                <td class="value">{{item.sha256}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">Flags:</td>
+                <td class="value">{{item.flags}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">Content ID:</td>
+                <td class="value" v-if="item.content_id">{{item.content_id.$oid}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </pagesection>
+
+  <pagesection id="connections" :renderImmediately="false" v-on:fetchdata="fetchConnections">
+    <span slot="title">Connections</span>
+    <div slot="body" class="loader" v-if="!subresourcesLoaded.connections">
+    </div>
+    <div slot="body" v-else>
+      <div class="col-md-12">
+        <div v-if="!subresources.connections || subresources.connections.length < 1">
+          <p>No relevant data</p>
+        </div>
+        <div v-else v-for="(item, index) in subresources.connections">
+          <a class="anchor" v-bind:title="'Connection ' + (index + 1)" v-bind:id="'connection'+ (index + 1)"></a>
+          <h3>{{'Connection ' + (index + 1)}}</h3>
+          <table class="table details-table">
+            <tbody>
+              <tr class="entry">
+                <td class="name">Source URL:</td>
+                <td class="value">{{item.source_url}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">Destination URL:</td>
+                <td class="value">{{item.destination_url}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">Chain ID:</td>
+                <td class="value">{{item.chain_id}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">Method:</td>
+                <td class="value">{{item.method}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">Flags:</td>
+                <td class="value">{{item.flags}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </pagesection>
+
+  <pagesection id="samples" :renderImmediately="false" v-on:fetchdata="fetchSamples">
+    <span slot="title">Samples</span>
+    <div slot="body" class="loader" v-if="!subresourcesLoaded.samples">
+    </div>
+    <div slot="body" v-else>
+      <div class="col-md-12">
+        <div v-if="!subresources.samples || subresources.samples.length < 1">
+          <p>No relevant data</p>
+        </div>
+        <div v-else v-for="(item, index) in subresources.samples">
+          <a class="anchor" v-bind:title="'Sample ' + (index + 1)" v-bind:id="'sample'+ (index + 1)"></a>
+          <h3>{{'Sample ' + (index + 1)}}</h3>
+          <table class="table details-table">
+            <tbody>
+              <tr class="entry">
+                <td class="name">URL:</td>
+                <td class="value">{{item.url}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">Type:</td>
+                <td class="value">{{item.type}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">MD5 checksum:</td>
+                <td class="value">{{item.md5}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">SHA-1 checksum:</td>
+                <td class="value">{{item.sha1}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">Imphash:</td>
+                <td class="value">{{item.imphash}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">Sample ID:</td>
+                <td class="value">{{item.sample_id}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </pagesection>
+
   <pagesection id="classifiers" :renderImmediately="false" v-on:fetchdata="fetchClassifiers">
     <span slot="title">Classifiers</span>
     <div slot="body" class="loader" v-if="!subresourcesLoaded.classifiers">
@@ -188,6 +331,163 @@
               <tr class="entry">
                 <td class="name">Tags:</td>
                 <td class="value">{{item.tags}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </pagesection>
+
+  <pagesection id="behaviors" :renderImmediately="false" v-on:fetchdata="fetchBehaviors">
+    <span slot="title">Behaviors</span>
+    <div slot="body" class="loader" v-if="!subresourcesLoaded.behaviors">
+    </div>
+    <div slot="body" v-else>
+      <div class="col-md-12">
+        <div v-if="!subresources.behaviors || subresources.behaviors.length < 1">
+          <p>No relevant data</p>
+        </div>
+        <div v-else v-for="(item, index) in subresources.behaviors">
+          <a class="anchor" v-bind:title="'Behavior ' + (index + 1)" v-bind:id="'behavior'+ (index + 1)"></a>
+          <h3>{{'Behavior ' + (index + 1)}}</h3>
+          <table class="table details-table">
+            <tbody>
+              <tr class="entry">
+                <td class="name">CVE:</td>
+                <td class="value">{{item.cve}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">Method:</td>
+                <td class="value">{{item.method}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">Description:</td>
+                <td class="value">{{item.description}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">Timestamp:</td>
+                <td class="value">{{formatDate(item.timestamp)}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </pagesection>
+
+  <pagesection id="certificates" :renderImmediately="false" v-on:fetchdata="fetchCertificates">
+    <span slot="title">Certificates</span>
+    <div slot="body" class="loader" v-if="!subresourcesLoaded.certificates">
+    </div>
+    <div slot="body" v-else>
+      <div class="col-md-12">
+        <div v-if="!subresources.certificates || subresources.certificates.length < 1">
+          <p>No relevant data</p>
+        </div>
+        <div v-else v-for="(item, index) in subresources.certificates">
+          <a class="anchor" v-bind:title="'Certificate ' + (index + 1)" v-bind:id="'certificate'+ (index + 1)"></a>
+          <h3>{{'Certificate ' + (index + 1)}}</h3>
+          <table class="table details-table">
+            <tbody>
+              <tr class="entry">
+                <td class="name">URL:</td>
+                <td class="value">{{item.url}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">Certificate:</td>
+                <td class="value">{{item.certificate}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </pagesection>
+
+  <pagesection id="graphs" :renderImmediately="false" v-on:fetchdata="fetchGraphs">
+    <span slot="title">Graphs</span>
+    <div slot="body" class="loader" v-if="!subresourcesLoaded.graphs">
+    </div>
+    <div slot="body" v-else>
+      <div class="col-md-12">
+        <div v-if="!subresources.graphs || subresources.graphs.length < 1">
+          <p>No relevant data</p>
+        </div>
+        <div v-else v-for="(item, index) in subresources.graphs">
+          <a class="anchor" v-bind:title="'Graph ' + (index + 1)" v-bind:id="'graph'+ (index + 1)"></a>
+          <h3>{{'Graph ' + (index + 1)}}</h3>
+          <table class="table details-table">
+            <tbody>
+              <tr class="entry">
+                <td class="name">Graph:</td>
+                <td class="value">{{item.graph}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </pagesection>
+
+  <pagesection id="codes" :renderImmediately="false" v-on:fetchdata="fetchCodes">
+    <span slot="title">Codes</span>
+    <div slot="body" class="loader" v-if="!subresourcesLoaded.codes">
+    </div>
+    <div slot="body" v-else>
+      <div class="col-md-12">
+        <div v-if="!subresources.codes || subresources.codes.length < 1">
+          <p>No relevant data</p>
+        </div>
+        <div v-else v-for="(item, index) in subresources.codes">
+          <a class="anchor" v-bind:title="'Code ' + (index + 1)" v-bind:id="'code'+ (index + 1)"></a>
+          <h3>{{'Code ' + (index + 1)}}</h3>
+          <table class="table details-table">
+            <tbody>
+              <tr class="entry">
+                <td class="name">Language:</td>
+                <td class="value">{{item.language}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">Method:</td>
+                <td class="value">{{item.method}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">Relationship:</td>
+                <td class="value">{{item.relationship}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">Snippet:</td>
+                <td class="value">{{item.snippet}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </pagesection>
+
+  <pagesection id="virustotal" :renderImmediately="false" v-on:fetchdata="fetchVirusTotal">
+    <span slot="title">Virus Total</span>
+    <div slot="body" class="loader" v-if="!subresourcesLoaded.virustotal">
+    </div>
+    <div slot="body" v-else>
+      <div class="col-md-12">
+        <div v-if="!subresources.virustotal || subresources.virustotal.length < 1">
+          <p>No relevant data</p>
+        </div>
+        <div v-else v-for="(item, index) in subresources.virustotal">
+          <a class="anchor" v-bind:title="'Virustotal ' + (index + 1)" v-bind:id="'virustotal'+ (index + 1)"></a>
+          <h3>{{'Virustotal ' + (index + 1)}}</h3>
+          <table class="table details-table">
+            <tbody>
+              <tr class="entry">
+                <td class="name">Sample ID:</td>
+                <td class="value" v-if="item.sample_id">{{item.sample_id.$oid}}</td>
+              </tr>
+              <tr class="entry">
+                <td class="name">Report:</td>
+                <td class="value">{{item.report}}</td>
               </tr>
             </tbody>
           </table>
@@ -230,15 +530,40 @@ export default {
     fetchClassifiers() {
       this.fetchSubresource('classifiers')
     },
+    fetchConnections() {
+      this.fetchSubresource('connections')
+    },
+    fetchLocations() {
+      this.fetchSubresource('locations')
+    },
+    fetchSamples() {
+      this.fetchSubresource('samples')
+    },
+    fetchBehaviors() {
+      this.fetchSubresource('behaviors')
+    },
+    fetchCertificates() {
+      this.fetchSubresource('certificates')
+    },
+    fetchGraphs() {
+      this.fetchSubresource('graphs')
+    },
+    fetchCodes() {
+      this.fetchSubresource('codes')
+    },
+    fetchVirusTotal() {
+      this.fetchSubresource('virustotal')      
+    },
     fetchSubresource(subresource) {
       Vue.set(this.subresourcesLoaded, subresource, false)
       this.$http.get(this.tasksUrl + this.$route.params.id + '/' + subresource).then((response) => {
         Vue.set(this.subresources, subresource, response.body[subresource])
+        Vue.set(this.subresourcesLoaded, subresource, true)
       }, (response) => {
         console.log('error loading task ' + subresource + ': ', response.status)
+        Vue.set(this.subresourcesLoaded, subresource, true)
       })
-      Vue.set(this.subresourcesLoaded, subresource, true)
-    },
+    }
   },
   mounted() {
     this.fetchTask()
