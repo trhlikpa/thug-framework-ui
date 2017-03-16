@@ -1,4 +1,5 @@
 <script>
+import beautify from 'js-beautify'
 export default {
   data() {
     return {}
@@ -56,6 +57,26 @@ export default {
     },
     nextRunFormat: function() {
       return 0
+    },
+    escapeHtmlChars(val) {
+      var mapping = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      }
+      return val.replace(/[&<>"']/g, function(v) {
+        return mapping[v]
+      })
+    },
+    codeFormat: function(value) {
+      return '<pre class="prettyprint">' + prettyPrintOne(this.escapeHtmlChars(beautify(value, {
+        indent_size: 2
+      }), true)) + '</pre>'
+    },
+    graphFormat: function() {
+      console.log('graph')
     }
   }
 }

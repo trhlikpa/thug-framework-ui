@@ -163,6 +163,30 @@
     </div>
   </pagesection>
 
+  <pagesection id="graphs" :renderImmediately="true" v-on:fetchdata="fetchGraphs">
+    <span slot="title">Graphs</span>
+    <div slot="body" class="loader" v-if="!subresourcesLoaded.graphs">
+    </div>
+    <div slot="body" v-else>
+      <div class="col-md-12">
+        <div v-if="!subresources.graphs || subresources.graphs.length < 1">
+          <p>No relevant data</p>
+        </div>
+        <div v-else v-for="(item, index) in subresources.graphs">
+          <a class="anchor" v-bind:title="'Graph ' + (index + 1)" v-bind:id="'graph'+ (index + 1)"></a>
+          <h3>{{'Graph ' + (index + 1)}}</h3>
+          <table class="table details-table">
+            <tbody>
+              <tr class="entry">
+                <td colspan="2"><graph :valuesProp="item.graph"></graph></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </pagesection>
+
   <pagesection id="locations" :renderImmediately="false" v-on:fetchdata="fetchLocations">
     <span slot="title">Locations</span>
     <div slot="body" class="loader" v-if="!subresourcesLoaded.locations">
@@ -367,7 +391,7 @@
               </tr>
               <tr class="entry">
                 <td class="name">Timestamp:</td>
-                <td class="value">{{formatDate(item.timestamp)}}</td>
+                <td class="value">{{dateFormat(item.timestamp)}}</td>
               </tr>
             </tbody>
           </table>
@@ -405,31 +429,6 @@
     </div>
   </pagesection>
 
-  <pagesection id="graphs" :renderImmediately="false" v-on:fetchdata="fetchGraphs">
-    <span slot="title">Graphs</span>
-    <div slot="body" class="loader" v-if="!subresourcesLoaded.graphs">
-    </div>
-    <div slot="body" v-else>
-      <div class="col-md-12">
-        <div v-if="!subresources.graphs || subresources.graphs.length < 1">
-          <p>No relevant data</p>
-        </div>
-        <div v-else v-for="(item, index) in subresources.graphs">
-          <a class="anchor" v-bind:title="'Graph ' + (index + 1)" v-bind:id="'graph'+ (index + 1)"></a>
-          <h3>{{'Graph ' + (index + 1)}}</h3>
-          <table class="table details-table">
-            <tbody>
-              <tr class="entry">
-                <td class="name">Graph:</td>
-                <td class="value">{{item.graph}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </pagesection>
-
   <pagesection id="codes" :renderImmediately="false" v-on:fetchdata="fetchCodes">
     <span slot="title">Codes</span>
     <div slot="body" class="loader" v-if="!subresourcesLoaded.codes">
@@ -457,8 +456,7 @@
                 <td class="value">{{item.relationship}}</td>
               </tr>
               <tr class="entry">
-                <td class="name">Snippet:</td>
-                <td class="value">{{item.snippet}}</td>
+                <td colspan="2" v-html="codeFormat(item.snippet)"></td>
               </tr>
             </tbody>
           </table>

@@ -371,4 +371,10 @@ td.name {
 .font-bold {
   font-weight: bold;
 }
+
+pre {
+  white-space: pre-wrap;
+  background-color: #E8E8E8;
+  border: 1px solid #34495e !important;
+}
 </style>
