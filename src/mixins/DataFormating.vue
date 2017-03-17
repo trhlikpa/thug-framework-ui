@@ -75,8 +75,10 @@ export default {
         indent_size: 2
       }), true)) + '</pre>'
     },
-    graphFormat: function() {
-      console.log('graph')
+    boolFormat: function(value) {
+      return !value ?
+        '<span class="glyphicon glyphicon-remove text-danger"></span>' :
+        '<span class="glyphicon glyphicon-ok text-success"></span>'
     }
   }
 }

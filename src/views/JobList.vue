@@ -9,35 +9,6 @@
       </datatable>
     </div>
   </pagesection>
-
-  <pagesection id="dataset" :renderImmediately="true">
-    <span slot="title">Dataset</span>
-    <div slot="body">
-      <div class="row placeholders">
-        <div class="col-xs-6 <col>-sm-3 placeholder">
-          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-          <h4>Label</h4>
-          <span class="text-muted">Something else</span>
-        </div>
-        <div class="col-xs-6 col-sm-3 placeholder">
-          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-          <h4>Label</h4>
-          <span class="text-muted">Something else</span>
-        </div>
-        <div class="col-xs-6 col-sm-3 placeholder">
-          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-          <h4>Label</h4>
-          <span class="text-muted">Something else</span>
-        </div>
-        <div class="col-xs-6 col-sm-3 placeholder">
-          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-          <h4>Label</h4>
-          <span class="text-muted">Something else</span>
-        </div>
-      </div>
-    </div>
-  </pagesection>
-
 </div>
 </template>
 
@@ -71,8 +42,7 @@ export default {
         title: 'Submitter',
         sortField: 'submitter_id',
         titleClass: 'text-center',
-        dataClass: 'text-center submittercell',
-        searchType: 'string'
+        dataClass: 'text-center submittercell'
       }, {
         name: 'url',
         title: 'URL',

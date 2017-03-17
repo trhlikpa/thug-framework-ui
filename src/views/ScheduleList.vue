@@ -4,13 +4,9 @@
 
   <pagesection id="schedulelist" :renderImmediately="true">
     <div slot="body">
-      <datatable :colunmsProp="columns" :url="schedulestUrl">
+      <datatable :colunmsProp="columns" detailsRoute="scheduleDetails" :pageProp=page :perPageProp=perPage :filterTextProp=filter :url="schedulestUrl">
       </datatable>
     </div>
-  </pagesection>
-
-  <pagesection id="schedule" :renderImmediately="true" v-on:fetchdata="loadSchedule">
-    <span slot="title">Schedule</span>
   </pagesection>
 </div>
 </template>
@@ -34,13 +30,13 @@ export default {
         titleClass: 'text-center',
         dataClass: 'text-center'
       }, {
-        name: 'crontab',
-        title: 'Cron',
+        name: 'last_run_at',
+        title: 'Last run',
         titleClass: 'text-center',
         dataClass: 'text-center'
       }, {
-        name: 'last_run_at',
-        title: 'Last run',
+        name: 'crontab',
+        title: 'Next run',
         titleClass: 'text-center',
         dataClass: 'text-center'
       }, {
@@ -53,7 +49,8 @@ export default {
         title: 'Enabled',
         sortField: 'enabled',
         titleClass: 'text-center',
-        dataClass: 'text-center'
+        dataClass: 'text-center',
+        callback: 'boolFormat'
       }]
     }
   },
