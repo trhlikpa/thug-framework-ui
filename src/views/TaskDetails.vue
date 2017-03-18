@@ -177,8 +177,8 @@
           <h3>{{'Graph ' + (index + 1)}}</h3>
           <table class="table details-table">
             <tbody>
-              <tr class="entry">
-                <td colspan="2"><graph :valuesProp="item.graph"></graph></td>
+              <tr class="entry" v-if="subresources.options">
+                <td colspan="2"><graph :valuesProp="item.graph" :baseUrl="task.url" :referer="subresources.options[0].thug.options.referer"></graph></td>
               </tr>
             </tbody>
           </table>

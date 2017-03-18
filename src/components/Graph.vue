@@ -17,6 +17,12 @@ export default {
     valuesProp: {
       type: String,
       required: true
+    },
+    referer: {
+      type: String
+    },
+    baseUrl: {
+      type: String
     }
   },
   mounted() {
@@ -27,29 +33,51 @@ export default {
     var width = parseInt(svg.style("width"), 10)
     var height = parseInt(svg.style("height"), 10)
 
-    var color = d3.scaleOrdinal(d3.schemeCategory20)
+    svg.append("rect")
+      .attr("width", width)
+      .attr("height", height)
+      .style("fill", "none")
+      .style("pointer-events", "all")
+      .call(d3.zoom()
+        .scaleExtent([1 / 4, 2])
+        .on("zoom", zoomed));
+
+    function zoomed() {
+      g.attr("transform", d3.event.transform);
+    }
+
+    var collision = d3.forceCollide(20).strength(0.2).iterations(100);
 
     var simulation = d3.forceSimulation()
       .force("link", d3.forceLink().id(function(d) {
         return d.id
-      }).distance(200).strength(1))
+      }).distance(200).strength(0.1))
+      .force("center", d3.forceCenter(width / 2, height / 2))
       .force("charge", d3.forceManyBody())
-      .force("center", d3.forceCenter(width / 2, height / 2));
+      .force("collisionForce", collision);
 
     var graph = this.values
+    var referer = this.referer
+    var baseUrl = this.baseUrl
 
-    var link = svg.append("g")
+    var g = svg.append("g");
+
+    var link = g.append("g")
       .attr("class", "links")
       .selectAll("line")
       .data(graph.links)
-      .enter().append("line");
+      .enter().append("line")
+      .attr('marker-end', 'url(#arrowhead)')
 
-    var node = svg.append("g")
+
+    var node = g.append("g")
       .attr("class", "nodes")
       .selectAll("circle")
       .data(graph.nodes)
       .enter().append("circle")
-      .attr("r", 7)
+      .attr("r", 12)
+      .attr("fill", colorNodes)
+      .on("click", click)
       .call(d3.drag()
         .on("start", dragstarted)
         .on("drag", dragged)
@@ -60,7 +88,7 @@ export default {
         return d.url;
       });
 
-    var label = svg.append("g")
+    var label = g.append("g")
       .attr("class", "labels")
       .selectAll("text")
       .data(graph.nodes)
@@ -68,7 +96,10 @@ export default {
       .attr("class", "label")
       .text(function(d) {
         return d.url;
-      });
+      }).call(d3.drag()
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended));
 
     simulation.nodes(graph.nodes)
       .on("tick", ticked);
@@ -76,8 +107,50 @@ export default {
     simulation.force("link")
       .links(graph.links);
 
+    function colorNodes(d) {
+      if (referer && d.url == referer) {
+        return '#e3b5b5'
+      } else if (baseUrl && d.url == baseUrl) {
+        return '#7293cb'
+      } else if (~d.url.indexOf('.xml') || ~d.url.indexOf('.json')) {
+        return '#90679d'
+      } else if (~d.url.indexOf('.css')) {
+        return '#e1974c'
+      } else if (~d.url.indexOf('.js')) {
+        return '#84ba5b'
+      } else if (~d.url.indexOf('.png')) {
+        return 'pink'
+      } else if (~d.url.indexOf('.php')) {
+        return '#ccc210'
+      }
+      return '#808585'
+    }
+
+    var highlightedNode = null
+
+    function click(d) {
+      if (highlightedNode) {
+        node.classed("highlighted", false);
+        label.classed("highlighted", false);
+        link.classed("highlighted", false);
+        if (highlightedNode == d) {
+          highlightedNode = null
+          return
+        }
+      }
+      d3.select(this).classed("highlighted", true);
+      label.classed("highlighted", function(o) {
+        return d.index == o.index
+      })
+
+      link.classed("highlighted", function(o) {
+        return d.index == o.source.index
+      })
+      highlightedNode = d
+    }
+
     function dragstarted(d) {
-      if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+      simulation.alphaTarget(0.3).restart();
       d.fx = d.x;
       d.fy = d.y;
     }
@@ -89,11 +162,21 @@ export default {
 
     function dragended(d) {
       if (!d3.event.active) simulation.alphaTarget(0);
-      d.fx = null;
-      d.fy = null;
+      // d.fx = null;
+      // d.fy = null;
     }
+    var build = false
 
     function ticked() {
+      if (!build) {
+        var kx = .2 * simulation.alpha(),
+          ky = 1.4 * simulation.alpha();
+        link.each(function(d, i) {
+          d.target.y += (d.source.y - d.target.y) * kx;
+          d.target.x += (d.source.x + 80 - d.target.x) * ky;
+        });
+        build = true
+      }
       link
         .attr("x1", function(d) {
           return d.source.x;
@@ -118,10 +201,10 @@ export default {
 
       label
         .attr("x", function(d) {
-          return d.x + 8;
+          return d.x + 17;
         })
         .attr("y", function(d) {
-          return d.y + 3;
+          return d.y + 2;
         });
     }
   }
@@ -133,23 +216,43 @@ export default {
   width: 100%;
   height: 600px;
   white-space: pre-wrap;
-  background-color: #E8E8E8;
-  border: 1px solid #34495e !important;
+  background-color: #FAFAFA;
+  border: 1px solid #E8E8E8 !important;
+}
+
+rect {
+  cursor: grab;
 }
 
 .links line {
+  fill: none;
   stroke: #aaa;
+  stroke-width: 1px;
 }
 
 .nodes circle {
   pointer-events: all;
-  stroke: none;
-  stroke-width: 40px;
+  cursor: move;
+}
+
+line.highlighted {
+  stroke: red;
+  stroke-dasharray: 2;
+}
+
+circle.highlighted {
+  stroke: red;
+  stroke-width: 2;
+}
+
+text.highlighted {
+  opacity: 1 !important;
+  font-weight: bold !important;
 }
 
 .labels text {
-  fill: #333;
-  font-size: 10px;
-  font-family: Arial, sans-serif;
+  opacity: 0.3;
+  font-size: 6px;
+  pointer-events: none;
 }
 </style>
