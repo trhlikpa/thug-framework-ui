@@ -40,7 +40,7 @@ export default {
     },
     dateFormat: function(value) {
       if (value == null) {
-        return '<span class="glyphicon glyphicon-remove text-danger"></span>'
+        return ''
       }
       return moment.utc(value).local().format('LLL')
     },

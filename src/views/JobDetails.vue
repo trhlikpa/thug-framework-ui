@@ -3,10 +3,30 @@
 </div>
 <div v-else>
   <h1 class="page-header" v-if="job">{{'Job: ' + job.name}}</h1>
-
+  <div class="row" v-if="job">
+    <a class="btn btn-info" href="/jobs/">Back to list</a>
+    <a class="btn btn-info pull-right" @click="nextRun" v-if="schedule && schedule.previous_runs.length > 1 && sequenceFormat(job._id.$oid, schedule) < schedule.previous_runs.length">Next run</a>
+    <a class="btn btn-info pull-right" @click="previousRun" v-if="schedule && schedule.previous_runs.length > 1 && sequenceFormat(job._id.$oid, schedule) > 1">Previous run</a>
+  </div>
   <pagesection id="jobdetails" v-if="job" :renderImmediately="true">
     <span slot="title">Job Details</span>
     <div slot="body">
+      <div class="row control-row">
+        <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h2><i class="glyphicon glyphicon-trash"></i> Delete Job?</h2>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-danger btn-ok" data-dismiss="modal" @click="deleteJob">Delete</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-danger btn-lg control-btn" data-toggle="modal" data-target="#confirm-delete"><i class="glyphicon glyphicon-trash"></i>Remove job</button>
+      </div>
       <div class="col-md-12">
         <a class="anchor" title="General Details" id="generaldetails"></a>
         <h3>General Details</h3>
@@ -124,7 +144,7 @@
               <td class="value">{{job.thug_time_limit + 's'}}</td>
             </tr>
             <tr class="entry">
-              <td class="name">User Agent:</td>
+              <td class="name">User agent:</td>
               <td class="value">{{job.useragent}}</td>
             </tr>
             <tr class="entry">
@@ -255,7 +275,7 @@
           <tbody>
             <tr class="entry">
               <td class="name">Schedule ID:</td>
-              <td class="value">{{schedule._id.$oid}}</td>
+              <td class="value"><a v-bind:href="'/schedules/' + schedule._id.$oid">{{schedule._id.$oid}}</a></td>
             </tr>
             <tr class="entry">
               <td class="name">Schedule Name:</td>
@@ -269,7 +289,7 @@
             </tr>
             <tr class="entry">
               <td class="name">Sequence:</td>
-              <td class="value" v-if="schedule.previous_runs">{{ sequenceFormat(entry._id.$oid, schedule) }}</td>
+              <td class="value" v-if="schedule.previous_runs">{{ sequenceFormat(job._id.$oid, schedule) }}</td>
               <td class="glyphicon glyphicon-remove text-danger" v-else></td>
             </tr>
             <tr class="entry">
@@ -325,6 +345,7 @@ export default {
       }, {
         name: 'classification',
         title: 'Classification',
+        sortField: 'classification',
         titleClass: 'text-center',
         dataClass: 'text-center',
         callback: 'classificationFormat'
@@ -368,7 +389,39 @@ export default {
     }
   },
   methods: {
-    count: function(value, field) {
+    deleteJob() {
+      this.$http.delete(this.jobsUrl + this.$route.params.id + '/').then(response => {
+        if (response.body.job) {
+          console.log('Job deleted: ', response.status)
+          this.$router.push({
+            name: 'Jobs'
+          })
+        }
+      }, response => {
+        console.log('error deleting job: ', response.status)
+      });
+    },
+    nextRun() {
+      var id = this.schedule.previous_runs[this.sequenceFormat(this.job._id.$oid, this.schedule)].$oid
+      this.$router.push({
+        name: 'JobDetails',
+        params: {
+          id: id
+        }
+      })
+      location.reload()
+    },
+    previousRun() {
+      var id = this.schedule.previous_runs[this.sequenceFormat(this.job._id.$oid, this.schedule) - 2].$oid
+      this.$router.push({
+        name: 'JobDetails',
+        params: {
+          id: id
+        }
+      })
+      location.reload()
+    },
+    count(value, field) {
       var count = 0
       for (var key in this.tasks) {
         if (this.tasks[key][field] == value) {

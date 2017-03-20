@@ -3,7 +3,9 @@
 </div>
 <div v-else>
   <h1 class="page-header" v-if="task">{{'Task: ' + task._id.$oid}}</h1>
-
+  <div class="row" v-if="task">
+    <a class="btn btn-info" v-bind:href="/jobs/ + task.job_id.$oid">Back to list</a>
+  </div>
   <pagesection id="taskdetails" v-if="task" :renderImmediately="true">
     <span slot="title">Task Details</span>
     <div slot="body">
@@ -649,6 +651,10 @@ export default {
       this.fetchSubresource('peepdf')
     },
     fetchSubresource(subresource) {
+      if (this.task._state != 'SUCCESSFUL') {
+        Vue.set(this.subresourcesLoaded, subresource, true)
+        return
+      }
       Vue.set(this.subresourcesLoaded, subresource, false)
       this.$http.get(this.tasksUrl + this.$route.params.id + '/' + subresource).then((response) => {
         Vue.set(this.subresources, subresource, response.body[subresource])

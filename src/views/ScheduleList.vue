@@ -3,8 +3,9 @@
   <h1 class="page-header">Schedule Overview</h1>
 
   <pagesection id="schedulelist" :renderImmediately="true">
+    <span slot="title">Schedule List</span>
     <div slot="body">
-      <datatable :colunmsProp="columns" detailsRoute="scheduleDetails" :pageProp=page :perPageProp=perPage :filterTextProp=filter :url="schedulestUrl">
+      <datatable :colunmsProp="columns" detailsRoute="ScheduleDetails" :pageProp=page :perPageProp=perPage :filterTextProp=filter :url="schedulestUrl">
       </datatable>
     </div>
   </pagesection>
@@ -33,10 +34,16 @@ export default {
         name: 'last_run_at',
         title: 'Last run',
         titleClass: 'text-center',
+        dataClass: 'text-center',
+        callback: 'dateFormat'
+      }, {
+        name: 'cron',
+        title: 'Cron',
+        titleClass: 'text-center',
         dataClass: 'text-center'
       }, {
-        name: 'crontab',
-        title: 'Next run',
+        name: 'interval',
+        title: 'Interval',
         titleClass: 'text-center',
         dataClass: 'text-center'
       }, {

@@ -226,7 +226,7 @@ html {
   color: #34495e;
   margin-bottom: 20px;
   margin-top: 30px;
-  border-bottom: 1px solid #E8E8E8;
+  border-bottom: 2px solid #E8E8E8;
 }
 
 .a {
@@ -376,5 +376,25 @@ pre {
   white-space: pre-wrap;
   background-color: #FAFAFA;
   border: 1px solid #E8E8E8 !important;
+}
+
+.btn-info {
+  color: #fff !important;
+  margin: 0px 5px;
+}
+
+.btn-danger {
+  color: #fff !important;
+}
+.btn > i {
+  margin-right: 5px;
+}
+.control-row {
+  border-bottom: 1px solid #E8E8E8;
+  margin-bottom: 10px;
+}
+
+.control-btn {
+  margin: 0px 15px 20px 15px;
 }
 </style>

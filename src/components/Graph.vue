@@ -62,13 +62,24 @@ export default {
 
     var g = svg.append("g");
 
+    g.append("defs").selectAll("marker")
+      .enter().append("marker")
+      .attr("id", "triangle")
+      .attr("viewBox", "0 -5 10 10")
+      .attr("refX", 15)
+      .attr("refY", -1.5)
+      .attr("markerWidth", 6)
+      .attr("markerHeight", 6)
+      .attr("orient", "auto")
+      .append("path")
+      .attr("d", "M0,-5L10,0L0,5");
+
     var link = g.append("g")
       .attr("class", "links")
       .selectAll("line")
       .data(graph.links)
       .enter().append("line")
-      .attr('marker-end', 'url(#arrowhead)')
-
+      .attr('marker-end', 'url(#triangle)')
 
     var node = g.append("g")
       .attr("class", "nodes")
@@ -109,7 +120,7 @@ export default {
 
     function colorNodes(d) {
       if (referer && d.url == referer) {
-        return '#e3b5b5'
+        return '#7293cb'
       } else if (baseUrl && d.url == baseUrl) {
         return '#7293cb'
       } else if (~d.url.indexOf('.xml') || ~d.url.indexOf('.json')) {
@@ -169,11 +180,11 @@ export default {
 
     function ticked() {
       if (!build) {
-        var kx = .2 * simulation.alpha(),
+        var kx = .6 * simulation.alpha(),
           ky = 1.4 * simulation.alpha();
         link.each(function(d, i) {
           d.target.y += (d.source.y - d.target.y) * kx;
-          d.target.x += (d.source.x + 80 - d.target.x) * ky;
+          d.target.x += (d.source.x + 200 - d.target.x) * ky;
         });
         build = true
       }
