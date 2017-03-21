@@ -9,6 +9,22 @@
   <pagesection id="taskdetails" v-if="task" :renderImmediately="true">
     <span slot="title">Task Details</span>
     <div slot="body">
+      <div class="row control-row">
+        <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h2><i class="glyphicon glyphicon-trash"></i> Delete task?</h2>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-danger btn-ok" data-dismiss="modal" @click="deleteTask">Delete</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-danger btn-lg control-btn" data-toggle="modal" data-target="#confirm-delete"><i class="glyphicon glyphicon-trash"></i>Delete task</button>
+      </div>
       <div class="col-md- 12">
         <a class="anchor" title="General Details" id="generaldetails"></a>
         <h3>General Details</h3>
@@ -600,6 +616,21 @@ export default {
     }
   },
   methods: {
+    deleteTask() {
+      this.$http.delete(this.tasksUrl + this.$route.params.id + '/').then(response => {
+        if (response.body.task) {
+          console.log('task deleted: ', response.status)
+          this.$router.push({
+            name: 'JobDetails',
+            params: {
+              id: this.task.job_id.$oid
+            }
+          })
+        }
+      }, response => {
+        console.log('error deleting task: ', response.status)
+      });
+    },
     fetchTask() {
       this.$http.get(this.tasksUrl + this.$route.params.id).then((response) => {
         this.task = response.body.task

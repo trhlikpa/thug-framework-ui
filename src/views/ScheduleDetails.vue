@@ -22,100 +22,101 @@
               </div>
             </div>
           </div>
-          <button class="btn btn-danger btn-lg control-btn" data-toggle="modal" data-target="#confirm-delete"><i class="glyphicon glyphicon-trash"></i>Remove schedule</button>
         </div>
-        <div class="col-md-12">
-          <a class="anchor" title="General Details" id="generaldetails"></a>
-          <h3>General Details</h3>
-          <table class="table details-table">
-            <tbody>
-              <tr class="entry">
-                <td class="name">ID:</td>
-                <td class="value">{{schedule._id.$oid}}</td>
-              </tr>
-              <tr class="entry">
-                <td class="name">Name:</td>
-                <td class="value">{{schedule.name}}</td>
-              </tr>
-              <tr class="entry">
-                <td class="name">Submitter:</td>
-                <td class="value">{{schedule.submitter}}</td>
-              </tr>
-              <tr class="entry">
-                <td class="name">Total runs:</td>
-                <td class="value">{{schedule.previous_runs.length}}</td>
-              </tr>
-              <tr class="entry">
-                <td class="name">Max runs:</td>
-                <td class="value">{{schedule.max_run_count}}</td>
-              </tr>
-              <tr class="entry">
-                <td class="name">Run after:</td>
-                <td class="value">{{dateFormat(schedule.run_after)}}</td>
-              </tr>
-              <tr class="entry" v-if="schedule.cron">
-                <td class="name">Cron:</td>
-                <td class="value">{{schedule.cron}}</td>
-              </tr>
-              <tr class="entry" v-if="!schedule.cron && schedule.interval">
-                <td class="name">Interval:</td>
-                <td class="value">{{schedule.interval}}</td>
-              </tr>
-              <tr class="entry">
-                <td class="name">Last run at:</td>
-                <td class="value">{{dateFormat(schedule.last_run_at)}}</td>
-              </tr>
-              <tr class="entry">
-                <td class="name">Enabled:</td>
-                <td class="value">{{schedule.enabled}}</td>
-              </tr>
-            </tbody>
-          </table>
-          <a class="anchor" title="Job Template" id="jobtemplate"></a>
-          <h3>Job template</h3>
-          <table class="table details-table">
-            <tbody>
-              <tr class="entry">
-                <td class="name">Url:</td>
-                <td class="value">{{schedule.args[0].url}}</td>
-              </tr>
-              <tr class="entry">
-                <td class="name">User agent:</td>
-                <td class="value">{{schedule.args[0].useragent}}</td>
-              </tr>
-              <tr class="entry">
-                <td class="name">Referer:</td>
-                <td class="value" v-if="schedule.args[0].args.referer">{{schedule.args[0].args.referer}}</td>
-                <td class="glyphicon glyphicon-remove text-danger" v-else></td>
-              </tr>
-              <tr class="entry">
-                <td class="name">Proxy:</td>
-                <td class="value" v-if="schedule.args[0].args.proxy">{{schedule.args[0].args.proxy}}</td>
-                <td class="glyphicon glyphicon-remove text-danger" v-else></td>
-              </tr>
-              <tr class="entry">
-                <td class="name">Type:</td>
-                <td class="value">{{schedule.args[0].type}}</td>
-              </tr>
-              <tr class="entry">
-                <td class="name">Depth limit:</td>
-                <td class="value" v-if="schedule.args[0].args.type != 'singleurl'">{{schedule.args[0].args.depth_limit}}</td>
-                <td class="glyphicon glyphicon-remove text-danger" v-else></td>
-              </tr>
-              <tr class="entry" v-if="schedule.args[0].args.type != 'singleurl'">
-                <td class="name">Domains:</td>
-                <td class="value" v-if="schedule.args[0].args.allowed_domains && schedule.args[0].args.allowed_domains.length > 0">{{schedule.args[0].args.allowed_domains}}</td>
-                <td class="glyphicon glyphicon-remove text-danger" v-else></td>
-              </tr>
-              <tr class="entry" v-if="schedule.args[0].args.type != 'singleurl' && (!schedule.args[0].args.allowed_domains || schedule.args[0].args.allowed_domains.length < 1)">
-                <td class="name">Only internal:</td>
-                <td class="glyphicon glyphicon-ok text-success" v-if="schedule.args[0].args.only_internal"></td>
-                <td class="glyphicon glyphicon-remove text-danger" v-else></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <button class="btn btn-danger btn-lg control-btn" data-toggle="modal" data-target="#confirm-delete"><i class="glyphicon glyphicon-trash"></i>Delete schedule</button>
       </div>
+      <div class="col-md-12">
+        <a class="anchor" title="General Details" id="generaldetails"></a>
+        <h3>General Details</h3>
+        <table class="table details-table">
+          <tbody>
+            <tr class="entry">
+              <td class="name">ID:</td>
+              <td class="value">{{schedule._id.$oid}}</td>
+            </tr>
+            <tr class="entry">
+              <td class="name">Name:</td>
+              <td class="value">{{schedule.name}}</td>
+            </tr>
+            <tr class="entry">
+              <td class="name">Submitter:</td>
+              <td class="value">{{schedule.submitter}}</td>
+            </tr>
+            <tr class="entry">
+              <td class="name">Total runs:</td>
+              <td class="value">{{schedule.previous_runs.length}}</td>
+            </tr>
+            <tr class="entry">
+              <td class="name">Max runs:</td>
+              <td class="value">{{schedule.max_run_count}}</td>
+            </tr>
+            <tr class="entry">
+              <td class="name">Run after:</td>
+              <td class="value">{{dateFormat(schedule.run_after)}}</td>
+            </tr>
+            <tr class="entry" v-if="schedule.cron">
+              <td class="name">Cron:</td>
+              <td class="value">{{schedule.cron}}</td>
+            </tr>
+            <tr class="entry" v-if="!schedule.cron && schedule.interval">
+              <td class="name">Interval:</td>
+              <td class="value">{{schedule.interval}}</td>
+            </tr>
+            <tr class="entry">
+              <td class="name">Last run at:</td>
+              <td class="value">{{dateFormat(schedule.last_run_at)}}</td>
+            </tr>
+            <tr class="entry">
+              <td class="name">Enabled:</td>
+              <td class="value">{{schedule.enabled}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <a class="anchor" title="Job Template" id="jobtemplate"></a>
+        <h3>Job template</h3>
+        <table class="table details-table">
+          <tbody>
+            <tr class="entry">
+              <td class="name">Url:</td>
+              <td class="value">{{schedule.args[0].url}}</td>
+            </tr>
+            <tr class="entry">
+              <td class="name">User agent:</td>
+              <td class="value">{{schedule.args[0].useragent}}</td>
+            </tr>
+            <tr class="entry">
+              <td class="name">Referer:</td>
+              <td class="value" v-if="schedule.args[0].args.referer">{{schedule.args[0].args.referer}}</td>
+              <td class="glyphicon glyphicon-remove text-danger" v-else></td>
+            </tr>
+            <tr class="entry">
+              <td class="name">Proxy:</td>
+              <td class="value" v-if="schedule.args[0].args.proxy">{{schedule.args[0].args.proxy}}</td>
+              <td class="glyphicon glyphicon-remove text-danger" v-else></td>
+            </tr>
+            <tr class="entry">
+              <td class="name">Type:</td>
+              <td class="value">{{schedule.args[0].type}}</td>
+            </tr>
+            <tr class="entry">
+              <td class="name">Depth limit:</td>
+              <td class="value" v-if="schedule.args[0].args.type != 'singleurl'">{{schedule.args[0].args.depth_limit}}</td>
+              <td class="glyphicon glyphicon-remove text-danger" v-else></td>
+            </tr>
+            <tr class="entry" v-if="schedule.args[0].args.type != 'singleurl'">
+              <td class="name">Domains:</td>
+              <td class="value" v-if="schedule.args[0].args.allowed_domains && schedule.args[0].args.allowed_domains.length > 0">{{schedule.args[0].args.allowed_domains}}</td>
+              <td class="glyphicon glyphicon-remove text-danger" v-else></td>
+            </tr>
+            <tr class="entry" v-if="schedule.args[0].args.type != 'singleurl' && (!schedule.args[0].args.allowed_domains || schedule.args[0].args.allowed_domains.length < 1)">
+              <td class="name">Only internal:</td>
+              <td class="glyphicon glyphicon-ok text-success" v-if="schedule.args[0].args.only_internal"></td>
+              <td class="glyphicon glyphicon-remove text-danger" v-else></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </pagesection>
 
   <pagesection id="joblist" :renderImmediately="true">
@@ -125,7 +126,7 @@
       </datatable>
     </div>
   </pagesection>
-  </div>
+</div>
 </template>
 
 <script>

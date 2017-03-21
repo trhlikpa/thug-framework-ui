@@ -25,7 +25,7 @@
             </div>
           </div>
         </div>
-        <button class="btn btn-danger btn-lg control-btn" data-toggle="modal" data-target="#confirm-delete"><i class="glyphicon glyphicon-trash"></i>Remove job</button>
+        <button class="btn btn-danger btn-lg control-btn" data-toggle="modal" data-target="#confirm-delete"><i class="glyphicon glyphicon-trash"></i>Delete job</button>
       </div>
       <div class="col-md-12">
         <a class="anchor" title="General Details" id="generaldetails"></a>

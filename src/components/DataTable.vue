@@ -46,15 +46,18 @@
             </template>
           </div>
         </div>
-      </template>
+    </template>
       <div class="form-group">
         <div class="col-sm-offset-3 col-sm-4">
           <button @click.prevent="doAdvancedFilter" class="btn btn-default">Search</button>
         </div>
       </div>
-    </form>
+  </form>
     <div class="table-responsive">
-      <vuetable ref="vuetable"
+      <div class="loader" v-show="fetching"></div>
+      <vuetable
+        v-show="!fetching"
+        ref="vuetable"
         :load-on-start="false"
         :api-url="url"
         :detail-row-id="rowId"
@@ -66,10 +69,12 @@
         :sort-order="sortOrder"
         :appendParams="moreParams"
         @vuetable:load-success="onTableLoad"
+        @vuetable:loading="onTableLoading"
+        @vuetable:loaded="onTableLoaded"
         @vuetable:pagination-data="onPaginationData"
         @vuetable:row-clicked="onRowClicked"></vuetable>
     </div>
-    <div class="vuetable-pagination">
+    <div v-show="!fetching" class="vuetable-pagination">
       <vuetable-pagination-info ref="paginationInfo"></vuetable-pagination-info>
       <vuetable-pagination ref="pagination" :css="cssPagination" :icons="icons" @vuetable-pagination:change-page="onChangePage"></vuetable-pagination>
     </div>
@@ -99,6 +104,7 @@ export default {
       isAdvancedSearch: false,
       advancedFilterTextTmp: null,
       simpleFilterText: '',
+      fetching: true,
       css: {
         tableClass: 'table table-striped',
         ascendingIcon: 'glyphicon glyphicon-chevron-up',
@@ -190,6 +196,12 @@ export default {
     }
   },
   methods: {
+    onTableLoading() {
+      this.fetching = true
+    },
+    onTableLoaded() {
+      this.fetching = false      
+    },
     doSimpleFilter() {
       this.moreParams = {
         'filter': 'all|' + this.simpleFilterText.replace(/\|\|/g, '')
