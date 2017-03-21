@@ -6,7 +6,7 @@
     <span slot="title">Job List</span>
     <div slot="body">
       <div class="row control-row">
-        <a class="btn btn-info btn-lg control-btn" href="/createjob"><i class="glyphicon glyphicon-plus"></i>Create new job</a>
+        <a class="btn btn-success btn-lg control-btn" href="/createjob"><i class="glyphicon glyphicon-plus"></i>Create new job</a>
       </div>
       <datatable :colunmsProp="columns" detailsRoute="JobDetails" :url="jobsUrl" :advancedSearchEnabled=true :pageProp=page :perPageProp=perPage :filterTextProp=filter :sortOrder="[{field: sort, sortField: sort, direction: direction}]">
       </datatable>

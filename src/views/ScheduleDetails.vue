@@ -24,6 +24,8 @@
           </div>
         </div>
         <button class="btn btn-danger btn-lg control-btn" data-toggle="modal" data-target="#confirm-delete"><i class="glyphicon glyphicon-trash"></i>Delete schedule</button>
+        <button v-if="schedule.enabled" @click="pauseSchedule" class="btn btn-warning btn-lg control-btn"><i class="glyphicon glyphicon-pause"></i>Pause schedule</button>
+        <button v-else @click="resumeSchedule" class="btn btn-success btn-lg control-btn"><i class="glyphicon glyphicon-play"></i>Resume schedule</button>
       </div>
       <div class="col-md-12">
         <a class="anchor" title="General Details" id="generaldetails"></a>
@@ -68,7 +70,8 @@
             </tr>
             <tr class="entry">
               <td class="name">Enabled:</td>
-              <td class="value">{{schedule.enabled}}</td>
+              <td class="glyphicon glyphicon-ok text-success" v-if="schedule.enabled"></td>
+              <td class="glyphicon glyphicon-remove text-danger" v-else></td>
             </tr>
           </tbody>
         </table>
@@ -175,6 +178,30 @@ export default {
     }
   },
   methods: {
+    pauseSchedule() {
+      this.$http.put(this.schedulestUrl + this.$route.params.id + '/', {
+        enabled: 'false'
+      }).then(response => {
+        if (response.body.schedule) {
+          this.schedule.enabled = false
+          console.log('schedule paused: ', response.status)
+        }
+      }, response => {
+        console.log('error pausing schedule: ', response.status)
+      });
+    },
+    resumeSchedule() {
+      this.$http.put(this.schedulestUrl + this.$route.params.id + '/', {
+        enabled: 'true'
+      }).then(response => {
+        if (response.body.schedule) {
+          this.schedule.enabled = true
+          console.log('schedule resumed: ', response.status)
+        }
+      }, response => {
+        console.log('error resuming schedule: ', response.status)
+      });
+    },
     deleteSchedule() {
       this.$http.delete(this.schedulestUrl + this.$route.params.id + '/').then(response => {
         if (response.body.schedule) {

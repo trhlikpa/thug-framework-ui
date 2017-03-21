@@ -383,9 +383,6 @@ pre {
   margin: 0px 5px;
 }
 
-.btn-danger {
-  color: #fff !important;
-}
 .btn > i {
   margin-right: 5px;
 }
@@ -396,5 +393,6 @@ pre {
 
 .control-btn {
   margin: 0px 15px 20px 15px;
+  color: #fff !important;
 }
 </style>
