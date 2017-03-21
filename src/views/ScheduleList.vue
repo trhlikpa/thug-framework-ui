@@ -2,7 +2,8 @@
 <div>
   <h1 class="page-header">Schedule Overview</h1>
 
-  <pagesection id="schedulelist" :renderImmediately="true">
+  <a class="anchor main-anchor" id="schedulelist" title="Schedule list"></a>
+  <pagesection :renderImmediately="true">
     <span slot="title">Schedule List</span>
     <div slot="body">
       <datatable :colunmsProp="columns" detailsRoute="ScheduleDetails" :pageProp=page :perPageProp=perPage :filterTextProp=filter :url="schedulestUrl">
@@ -14,9 +15,10 @@
 
 <script>
 import QueryStrings from '../mixins/QueryStrings.vue'
+import Anchors from '../mixins/Anchors.vue'
 import Api from '../mixins/Api.vue'
 export default {
-  mixins: [QueryStrings, Api],
+  mixins: [QueryStrings, Api, Anchors],
   data() {
     return {
       columns: [{
@@ -61,10 +63,8 @@ export default {
       }]
     }
   },
-  methods: {
-    loadSchedule() {
-      console.log('loading schedule')
-    }
+  mounted() {
+    this.parseAnchors()
   }
 }
 </script>

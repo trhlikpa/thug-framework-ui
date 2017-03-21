@@ -8,6 +8,7 @@ import Graph from './components/Graph.vue'
 import DataTable from './components/DataTable.vue'
 import DatePicker from './components/DatePicker.vue'
 import PageSection from './components/PageSection.vue'
+import Sidebar from './components/Sidebar.vue'
 import Vuetable from 'vuetable-2/src/components/Vuetable.vue'
 import VuetablePagination from 'vuetable-2/src/components/VuetablePagination.vue'
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo.vue'
@@ -18,6 +19,7 @@ Vue.component('vuetable', Vuetable)
 Vue.component('datatable', DataTable)
 Vue.component('datepicker', DatePicker)
 Vue.component('pagesection', PageSection)
+Vue.component('sidebar', Sidebar)
 Vue.component('graph', Graph)
 
 /* eslint-disable no-new */

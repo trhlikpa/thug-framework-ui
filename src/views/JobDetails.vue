@@ -8,7 +8,8 @@
     <a class="btn btn-info pull-right" @click="nextRun" v-if="schedule && schedule.previous_runs.length > 1 && sequenceFormat(job._id.$oid, schedule) < schedule.previous_runs.length">Next run</a>
     <a class="btn btn-info pull-right" @click="previousRun" v-if="schedule && schedule.previous_runs.length > 1 && sequenceFormat(job._id.$oid, schedule) > 1">Previous run</a>
   </div>
-  <pagesection id="jobdetails" v-if="job" :renderImmediately="true">
+  <a class="anchor main-anchor" id="jobdetails" title="Job details"></a>
+  <pagesection v-if="job" :renderImmediately="true">
     <span slot="title">Job Details</span>
     <div slot="body">
       <div class="row control-row">
@@ -278,7 +279,7 @@
               <td class="value"><a v-bind:href="'/schedules/' + schedule._id.$oid">{{schedule._id.$oid}}</a></td>
             </tr>
             <tr class="entry">
-              <td class="name">Schedule Name:</td>
+              <td class="name">Schedule name:</td>
               <td class="value" v-if="schedule.name">{{schedule.name}}</td>
               <td class="glyphicon glyphicon-remove text-danger" v-else></td>
             </tr>
@@ -308,7 +309,8 @@
     </div>
   </pagesection>
 
-  <pagesection id="tasklist" :renderImmediately="true">
+  <a class="anchor main-anchor" id="tasklist" title="Task list"></a>
+  <pagesection :renderImmediately="true">
     <span slot="title">Task List</span>
     <div slot="body">
       <datatable ref="datatable" :colunmsProp="taskcolumns" detailsRoute="TaskDetails" :pageProp=page :perPageProp=perPage :filterTextProp=filter :sortOrder="[{field: sort, sortField: sort, direction: direction}]" :url="this.jobsUrl + this.$route.params.id + '/tasks'">
@@ -321,9 +323,10 @@
 <script>
 import QueryStrings from '../mixins/QueryStrings.vue'
 import DataFormating from '../mixins/DataFormating.vue'
+import Anchors from '../mixins/Anchors.vue'
 import Api from '../mixins/Api.vue'
 export default {
-  mixins: [QueryStrings, DataFormating, Api],
+  mixins: [QueryStrings, DataFormating, Api, Anchors],
   data() {
     return {
       job: null,
@@ -443,6 +446,7 @@ export default {
         }
 
         this.fetching = false
+        this.parseAnchors()
       }, (response) => {
         this.fetching = false
         console.log('error loading job: ', response.status)
@@ -451,6 +455,7 @@ export default {
     fetchSchedule(scheduleId) {
       this.$http.get(this.schedulestUrl + scheduleId).then((response) => {
         this.schedule = response.body.schedule
+        this.parseAnchors()
       }, (response) => {
         console.log('error loading schedule: ', response.status)
       })

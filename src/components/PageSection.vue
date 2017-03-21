@@ -7,11 +7,9 @@
         <i v-else class="glyphicon glyphicon-chevron-right"></i>
       </a>
       <slot name="title">
-        {{id}}
       </slot>
     </h2>
   </header>
-  <a class="anchor" v-bind:id="id"></a>
   <main class="content" v-if="enabled">
     <slot name="body">
       <p>No relevant data</p>
@@ -28,10 +26,6 @@ export default {
     }
   },
   props: {
-    id: {
-      type: String,
-      required: true
-    },
     renderImmediately: {
       type: Boolean,
       required: true

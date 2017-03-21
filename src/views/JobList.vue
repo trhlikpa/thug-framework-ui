@@ -2,7 +2,8 @@
 <div>
   <h1 class="page-header">Jobs Overview</h1>
 
-  <pagesection id="joblist" :renderImmediately="true">
+  <a class="anchor main-anchor" id="joblist" title="Job list"></a>
+  <pagesection :renderImmediately="true">
     <span slot="title">Job List</span>
     <div slot="body">
       <div class="row control-row">
@@ -19,9 +20,10 @@
 <script>
 import QueryStrings from '../mixins/QueryStrings.vue'
 import DataFormating from '../mixins/DataFormating.vue'
+import Anchors from '../mixins/Anchors.vue'
 import Api from '../mixins/Api.vue'
 export default {
-  mixins: [QueryStrings, DataFormating, Api],
+  mixins: [QueryStrings, DataFormating, Api, Anchors],
   data() {
     return {
       columns: [{
@@ -100,6 +102,9 @@ export default {
         selections: ['CLEAR', 'SUSPICIOUS', 'MALICIOUS']
       }]
     }
+  },
+  mounted() {
+    this.parseAnchors()
   }
 }
 </script>

@@ -6,7 +6,8 @@
   <div class="row" v-if="schedule">
     <a class="btn btn-info" href="/schedules/">Back to list</a>
   </div>
-  <pagesection id="scheduledetails" v-if="schedule" :renderImmediately="true">
+  <a class="anchor main-anchor" id="scheduledetails" title="Schedule details"></a>
+  <pagesection v-if="schedule" :renderImmediately="true">
     <span slot="title">Schedule Details</span>
     <div slot="body">
       <div class="row control-row">
@@ -122,8 +123,9 @@
     </div>
   </pagesection>
 
-  <pagesection id="joblist" :renderImmediately="true">
-    <span slot="title">Job List</span>
+  <a class="anchor main-anchor" id="joblist" title="Previous runs"></a>
+  <pagesection :renderImmediately="true">
+    <span slot="title">Previous runs</span>
     <div slot="body">
       <datatable ref="datatable" :colunmsProp="jobcolumns" detailsRoute="JobDetails" :pageProp=page :perPageProp=perPage :filterTextProp=filter :sortOrder="[{field: sort, sortField: sort, direction: direction}]" :url="this.schedulestUrl + this.$route.params.id + '/jobs'">
       </datatable>
@@ -135,9 +137,10 @@
 <script>
 import QueryStrings from '../mixins/QueryStrings.vue'
 import DataFormating from '../mixins/DataFormating.vue'
+import Anchors from '../mixins/Anchors.vue'
 import Api from '../mixins/Api.vue'
 export default {
-  mixins: [QueryStrings, DataFormating, Api],
+  mixins: [QueryStrings, DataFormating, Api, Anchors],
   data() {
     return {
       schedule: null,
@@ -180,7 +183,8 @@ export default {
   methods: {
     pauseSchedule() {
       this.$http.put(this.schedulestUrl + this.$route.params.id + '/', {
-        enabled: 'false'
+        enabled: false,
+        name: this.schedule.name
       }).then(response => {
         if (response.body.schedule) {
           this.schedule.enabled = false
@@ -192,7 +196,8 @@ export default {
     },
     resumeSchedule() {
       this.$http.put(this.schedulestUrl + this.$route.params.id + '/', {
-        enabled: 'true'
+        enabled: true,
+        name: this.schedule.name
       }).then(response => {
         if (response.body.schedule) {
           this.schedule.enabled = true
@@ -218,6 +223,7 @@ export default {
       this.$http.get(this.schedulestUrl + this.$route.params.id).then((response) => {
         this.schedule = response.body.schedule
         this.fetching = false
+        this.parseAnchors()
       }, (response) => {
         this.fetching = false
         console.log('error loading schedule: ', response.status)

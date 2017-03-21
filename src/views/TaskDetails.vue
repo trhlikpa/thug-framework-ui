@@ -6,7 +6,8 @@
   <div class="row" v-if="task">
     <a class="btn btn-info" v-bind:href="/jobs/ + task.job_id.$oid">Back to list</a>
   </div>
-  <pagesection id="taskdetails" v-if="task" :renderImmediately="true">
+  <a class="anchor main-anchor" id="taskdetails" title="Task Details"></a>
+  <pagesection v-if="task" :renderImmediately="true">
     <span slot="title">Task Details</span>
     <div slot="body">
       <div class="row control-row">
@@ -130,7 +131,8 @@
     </div>
   </pagesection>
 
-  <pagesection id="exploits" :renderImmediately="false" v-on:fetchdata="fetchExploits">
+  <a class="anchor main-anchor" id="exploits" title="Exploits"></a>
+  <pagesection :renderImmediately="false" v-on:fetchdata="fetchExploits">
     <span slot="title">Exploits</span>
     <div slot="body" class="loader" v-if="!subresourcesLoaded.exploits">
     </div>
@@ -140,7 +142,6 @@
           <p>No relevant data</p>
         </div>
         <div v-else v-for="(item, index) in subresources.exploits">
-          <a class="anchor" v-bind:title="'Exploit ' + (index + 1)" v-bind:id="'exploit'+ (index + 1)"></a>
           <h3>{{'Exploit ' + (index + 1)}}</h3>
           <table class="table details-table">
             <tbody>
@@ -181,7 +182,8 @@
     </div>
   </pagesection>
 
-  <pagesection id="graphs" :renderImmediately="true" v-on:fetchdata="fetchGraphs">
+  <a class="anchor main-anchor" id="graphs" title="Graphs"></a>
+  <pagesection :renderImmediately="true" v-on:fetchdata="fetchGraphs">
     <span slot="title">Graphs</span>
     <div slot="body" class="loader" v-if="!subresourcesLoaded.graphs">
     </div>
@@ -191,7 +193,6 @@
           <p>No relevant data</p>
         </div>
         <div v-else v-for="(item, index) in subresources.graphs">
-          <a class="anchor" v-bind:title="'Graph ' + (index + 1)" v-bind:id="'graph'+ (index + 1)"></a>
           <h3>{{'Graph ' + (index + 1)}}</h3>
           <table class="table details-table">
             <tbody>
@@ -205,7 +206,8 @@
     </div>
   </pagesection>
 
-  <pagesection id="locations" :renderImmediately="false" v-on:fetchdata="fetchLocations">
+  <a class="anchor main-anchor" id="locations" title="Locations"></a>
+  <pagesection :renderImmediately="false" v-on:fetchdata="fetchLocations">
     <span slot="title">Locations</span>
     <div slot="body" class="loader" v-if="!subresourcesLoaded.locations">
     </div>
@@ -215,7 +217,6 @@
           <p>No relevant data</p>
         </div>
         <div v-else v-for="(item, index) in subresources.locations">
-          <a class="anchor" v-bind:title="'Location ' + (index + 1)" v-bind:id="'location'+ (index + 1)"></a>
           <h3>{{'Location ' + (index + 1)}}</h3>
           <table class="table details-table">
             <tbody>
@@ -262,7 +263,8 @@
     </div>
   </pagesection>
 
-  <pagesection id="connections" :renderImmediately="false" v-on:fetchdata="fetchConnections">
+  <a class="anchor main-anchor" id="connections" title="Connections"></a>
+  <pagesection :renderImmediately="false" v-on:fetchdata="fetchConnections">
     <span slot="title">Connections</span>
     <div slot="body" class="loader" v-if="!subresourcesLoaded.connections">
     </div>
@@ -272,7 +274,6 @@
           <p>No relevant data</p>
         </div>
         <div v-else v-for="(item, index) in subresources.connections">
-          <a class="anchor" v-bind:title="'Connection ' + (index + 1)" v-bind:id="'connection'+ (index + 1)"></a>
           <h3>{{'Connection ' + (index + 1)}}</h3>
           <table class="table details-table">
             <tbody>
@@ -303,7 +304,8 @@
     </div>
   </pagesection>
 
-  <pagesection id="samples" :renderImmediately="false" v-on:fetchdata="fetchSamples">
+  <a class="anchor main-anchor" id="samples" title="Samples"></a>
+  <pagesection :renderImmediately="false" v-on:fetchdata="fetchSamples">
     <span slot="title">Samples</span>
     <div slot="body" class="loader" v-if="!subresourcesLoaded.samples">
     </div>
@@ -313,7 +315,6 @@
           <p>No relevant data</p>
         </div>
         <div v-else v-for="(item, index) in subresources.samples">
-          <a class="anchor" v-bind:title="'Sample ' + (index + 1)" v-bind:id="'sample'+ (index + 1)"></a>
           <h3>{{'Sample ' + (index + 1)}}</h3>
           <table class="table details-table">
             <tbody>
@@ -348,7 +349,8 @@
     </div>
   </pagesection>
 
-  <pagesection id="classifiers" :renderImmediately="false" v-on:fetchdata="fetchClassifiers">
+  <a class="anchor main-anchor" id="classifiers" title="Classifiers"></a>
+  <pagesection :renderImmediately="false" v-on:fetchdata="fetchClassifiers">
     <span slot="title">Classifiers</span>
     <div slot="body" class="loader" v-if="!subresourcesLoaded.classifiers">
     </div>
@@ -358,7 +360,6 @@
           <p>No relevant data</p>
         </div>
         <div v-else v-for="(item, index) in subresources.classifiers">
-          <a class="anchor" v-bind:title="'Classifier ' + (index + 1)" v-bind:id="'classifier'+ (index + 1)"></a>
           <h3>{{'Classifier ' + (index + 1)}}</h3>
           <table class="table details-table">
             <tbody>
@@ -381,7 +382,8 @@
     </div>
   </pagesection>
 
-  <pagesection id="behaviors" :renderImmediately="false" v-on:fetchdata="fetchBehaviors">
+  <a class="anchor main-anchor" id="behaviors" title="Behaviors"></a>
+  <pagesection :renderImmediately="false" v-on:fetchdata="fetchBehaviors">
     <span slot="title">Behaviors</span>
     <div slot="body" class="loader" v-if="!subresourcesLoaded.behaviors">
     </div>
@@ -391,7 +393,6 @@
           <p>No relevant data</p>
         </div>
         <div v-else v-for="(item, index) in subresources.behaviors">
-          <a class="anchor" v-bind:title="'Behavior ' + (index + 1)" v-bind:id="'behavior'+ (index + 1)"></a>
           <h3>{{'Behavior ' + (index + 1)}}</h3>
           <table class="table details-table">
             <tbody>
@@ -418,7 +419,8 @@
     </div>
   </pagesection>
 
-  <pagesection id="certificates" :renderImmediately="false" v-on:fetchdata="fetchCertificates">
+  <a class="anchor main-anchor" id="certificates" title="Certificates"></a>
+  <pagesection :renderImmediately="false" v-on:fetchdata="fetchCertificates">
     <span slot="title">Certificates</span>
     <div slot="body" class="loader" v-if="!subresourcesLoaded.certificates">
     </div>
@@ -428,7 +430,6 @@
           <p>No relevant data</p>
         </div>
         <div v-else v-for="(item, index) in subresources.certificates">
-          <a class="anchor" v-bind:title="'Certificate ' + (index + 1)" v-bind:id="'certificate'+ (index + 1)"></a>
           <h3>{{'Certificate ' + (index + 1)}}</h3>
           <table class="table details-table">
             <tbody>
@@ -447,7 +448,8 @@
     </div>
   </pagesection>
 
-  <pagesection id="codes" :renderImmediately="false" v-on:fetchdata="fetchCodes">
+  <a class="anchor main-anchor" id="codes" title="Codes"></a>
+  <pagesection :renderImmediately="false" v-on:fetchdata="fetchCodes">
     <span slot="title">Codes</span>
     <div slot="body" class="loader" v-if="!subresourcesLoaded.codes">
     </div>
@@ -457,7 +459,6 @@
           <p>No relevant data</p>
         </div>
         <div v-else v-for="(item, index) in subresources.codes">
-          <a class="anchor" v-bind:title="'Code ' + (index + 1)" v-bind:id="'code'+ (index + 1)"></a>
           <h3>{{'Code ' + (index + 1)}}</h3>
           <table class="table details-table">
             <tbody>
@@ -483,7 +484,8 @@
     </div>
   </pagesection>
 
-  <pagesection id="virustotal" :renderImmediately="false" v-on:fetchdata="fetchVirusTotal">
+  <a class="anchor main-anchor" id="virustotal" title="Virustotal"></a>
+  <pagesection :renderImmediately="false" v-on:fetchdata="fetchVirusTotal">
     <span slot="title">Virus Total</span>
     <div slot="body" class="loader" v-if="!subresourcesLoaded.virustotal">
     </div>
@@ -493,7 +495,6 @@
           <p>No relevant data</p>
         </div>
         <div v-else v-for="(item, index) in subresources.virustotal">
-          <a class="anchor" v-bind:title="'Virustotal ' + (index + 1)" v-bind:id="'virustotal'+ (index + 1)"></a>
           <h3>{{'Virustotal ' + (index + 1)}}</h3>
           <table class="table details-table">
             <tbody>
@@ -512,7 +513,8 @@
     </div>
   </pagesection>
 
-  <pagesection id="honeyagent" :renderImmediately="false" v-on:fetchdata="fetchHoneyagent">
+  <a class="anchor main-anchor" id="honeyagent" title="Honeyagent"></a>
+  <pagesection :renderImmediately="false" v-on:fetchdata="fetchHoneyagent">
     <span slot="title">Honeyagent</span>
     <div slot="body" class="loader" v-if="!subresourcesLoaded.honeyagent">
     </div>
@@ -522,7 +524,6 @@
           <p>No relevant data</p>
         </div>
         <div v-else v-for="(item, index) in subresources.honeyagent">
-          <a class="anchor" v-bind:title="'Honeyagent ' + (index + 1)" v-bind:id="'honeyagent'+ (index + 1)"></a>
           <h3>{{'Honeyagent ' + (index + 1)}}</h3>
           <table class="table details-table">
             <tbody>
@@ -541,7 +542,8 @@
     </div>
   </pagesection>
 
-  <pagesection id="androguard" :renderImmediately="false" v-on:fetchdata="fetchAndroguard">
+  <a class="anchor main-anchor" id="androguard" title="Androguard"></a>
+  <pagesection :renderImmediately="false" v-on:fetchdata="fetchAndroguard">
     <span slot="title">Androguard</span>
     <div slot="body" class="loader" v-if="!subresourcesLoaded.androguard">
     </div>
@@ -551,7 +553,6 @@
           <p>No relevant data</p>
         </div>
         <div v-else v-for="(item, index) in subresources.androguard">
-          <a class="anchor" v-bind:title="'Androguard ' + (index + 1)" v-bind:id="'androguard'+ (index + 1)"></a>
           <h3>{{'Androguard ' + (index + 1)}}</h3>
           <table class="table details-table">
             <tbody>
@@ -570,7 +571,8 @@
     </div>
   </pagesection>
 
-  <pagesection id="peepdf" :renderImmediately="false" v-on:fetchdata="fetchPeepdf">
+  <a class="anchor main-anchor" id="peepdf" title="Peepdf"></a>
+  <pagesection :renderImmediately="false" v-on:fetchdata="fetchPeepdf">
     <span slot="title">Peepdf</span>
     <div slot="body" class="loader" v-if="!subresourcesLoaded.peepdf">
     </div>
@@ -580,7 +582,6 @@
           <p>No relevant data</p>
         </div>
         <div v-else v-for="(item, index) in subresources.peepdf">
-          <a class="anchor" v-bind:title="'Peepdf ' + (index + 1)" v-bind:id="'peepdf'+ (index + 1)"></a>
           <h3>{{'Peepdf ' + (index + 1)}}</h3>
           <table class="table details-table">
             <tbody>
@@ -605,8 +606,9 @@
 import Vue from 'vue'
 import Api from '../mixins/Api.vue'
 import DataFormating from '../mixins/DataFormating.vue'
+import Anchors from '../mixins/Anchors.vue'
 export default {
-  mixins: [Api, DataFormating],
+  mixins: [Api, DataFormating, Anchors],
   data() {
     return {
       fetching: true,
@@ -637,6 +639,7 @@ export default {
         this.fetchSubresource('options')
         this.fetchSubresource('geolocation')
         this.fetching = false
+        this.parseAnchors()
       }, (response) => {
         this.fetching = false
         console.log('error loading task: ', response.status)
@@ -690,6 +693,7 @@ export default {
       this.$http.get(this.tasksUrl + this.$route.params.id + '/' + subresource).then((response) => {
         Vue.set(this.subresources, subresource, response.body[subresource])
         Vue.set(this.subresourcesLoaded, subresource, true)
+        this.parseAnchors()
       }, (response) => {
         console.log('error loading task ' + subresource + ': ', response.status)
         Vue.set(this.subresourcesLoaded, subresource, true)
