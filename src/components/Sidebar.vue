@@ -1,14 +1,15 @@
 <template>
 <div class="col-sm-3 col-md-2 sidebar">
-  <ul class="nav nav-sidebar" v-if="anchors">
+  <ul ref="sidebar" class="nav nav-sidebar" v-if="anchors">
     <template v-for="anchor in anchors">
       <router-link tag="li" :to="{ path:'#' + anchor.id, query: $route.query}"><a v-bind:class="{ sectionlink: anchor.classList.contains('main-anchor') }">{{anchor.title}}</a></router-link>
-</template>
+    </template>
   </ul>
 </div>
 </template>
 
 <script>
+import Vue from 'vue'
 export default {
   data() {
     return {
@@ -24,47 +25,6 @@ export default {
       }
       this.anchors = tmp
     }
-  },
-  mounted() {
-    $(document).ready(function() {
-      $(document).on("scroll", onScroll);
-
-      //smoothscroll
-      $('a[href^="#"]').on('click', function(e) {
-        e.preventDefault();
-        $(document).off("scroll");
-
-        $('a').each(function() {
-          $(this).removeClass('active');
-        })
-        $(this).addClass('active');
-
-        var target = this.hash,
-          menu = target;
-        $target = $(target);
-        $('html, body').stop().animate({
-          'scrollTop': $target.offset().top + 2
-        }, 500, 'swing', function() {
-          window.location.hash = target;
-          $(document).on("scroll", onScroll);
-        });
-      });
-    });
-
-    function onScroll(event){
-    var scrollPos = $(document).scrollTop();
-    $('#menu-center a').each(function () {
-        var currLink = $(this);
-        var refElement = $(currLink.attr("href"));
-        if (refElement.position().top <= scrollPos && refElement.position().top + refElement.height() > scrollPos) {
-            $('#menu-center ul li a').removeClass("active");
-            currLink.addClass("active");
-        }
-        else{
-            currLink.removeClass("active");
-        }
-    });
-  }
   }
 }
 </script>

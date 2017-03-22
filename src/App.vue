@@ -297,4 +297,8 @@ pre {
   margin: 0px 5px 20px 5px;
   color: #fff !important;
 }
+
+.input-group-addon {
+  padding: 5px 5px;
+}
 </style>

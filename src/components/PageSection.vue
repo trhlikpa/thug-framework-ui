@@ -1,16 +1,21 @@
 <template>
 <div>
   <header>
-    <h2 class="sub-header">
+    <h2 v-if="disabled" class="sub-header disabled">
+      <i class="glyphicon glyphicon-remove"></i>
+      <slot name="title">
+      </slot>
+    </h2>
+    <h2 v-else class="sub-header">
       <a href="javascript:void(0)" @click="switchState">
-        <i v-if="enabled" class="glyphicon glyphicon-chevron-down"></i>
+        <i v-if="visible" class="glyphicon glyphicon-chevron-down"></i>
         <i v-else class="glyphicon glyphicon-chevron-right"></i>
       </a>
       <slot name="title">
       </slot>
     </h2>
   </header>
-  <main class="content" v-if="enabled">
+  <main class="content" v-if="!disabled && visible">
     <slot name="body">
       <p>No relevant data</p>
     </slot>
@@ -29,10 +34,14 @@ export default {
     renderImmediately: {
       type: Boolean,
       required: true
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
-    enabled: {
+    visible: {
       get: function() {
         if (this.collapsed == null) {
           if (this.renderImmediately) {
@@ -75,5 +84,14 @@ export default {
   position: relative;
   opacity: 1;
   min-height: 200px;
+}
+
+.disabled {
+  opacity: 0.4;
+}
+
+.glyphicon-remove {
+  font-size: 19px;
+  top: 0px;
 }
 </style>

@@ -14,6 +14,9 @@ export default {
     },
     tasksUrl() {
       return this.baseUrl + '/api/v1.0/tasks/'
+    },
+    userAgentsUrl() {
+      return this.baseUrl + '/api/v1.0/useragents/'
     }
   }
 }
