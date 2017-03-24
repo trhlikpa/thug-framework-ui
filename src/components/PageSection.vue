@@ -2,7 +2,7 @@
 <div>
   <header>
     <h2 v-if="disabled" class="sub-header disabled">
-      <i class="glyphicon glyphicon-remove"></i>
+      <i class="glyphicon glyphicon-remove disabled-glyph"></i>
       <slot name="title">
       </slot>
     </h2>
@@ -90,7 +90,7 @@ export default {
   opacity: 0.4;
 }
 
-.glyphicon-remove {
+.disabled-glyph{
   font-size: 19px;
   top: 0px;
 }

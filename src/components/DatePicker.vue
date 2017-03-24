@@ -23,7 +23,13 @@ export default {
   },
   methods: {
     updateDate() {
-      this.$emit('input', $('#' + this.id).data("DateTimePicker").date().toISOString())
+      var date = $('#' + this.id).data("DateTimePicker").date()
+
+      if (date) {
+        this.$emit('input', date.toISOString())
+      } else {
+        this.$emit('input', '')
+      }
     }
   },
   mounted() {

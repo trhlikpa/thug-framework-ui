@@ -68,9 +68,22 @@
       <div slot="body">
         <div class="row">
           <div class="form-group">
+            <label for="inputProxy" class="col-sm-2 control-label">Proxy:</label>
+            <div class="input-group col-sm-8">
+              <div class="input-group-addon">
+                <select class="selectpicker" id="proxyscheme" v-model="proxyScheme">
+                  <option>http://</option>
+                  <option>socks4://</option>
+                  <option>socks5://</option>
+                </select>
+              </div>
+              <input type="url" class="form-control" id="inputProxy" placeholder="[username:password@]host:port" v-model="proxy" />
+            </div>
+          </div>
+          <div class="form-group">
             <label for="inputThugLimit" class="col-sm-2 control-label">Thug time limit:</label>
             <div class="col-sm-3">
-              <input type="number" class="form-control" id="inputThugLimit" v-model="thugTimeLimit" />
+              <input type="number" class="form-control" id="inputThugLimit" v-model.number="thugTimeLimit" />
             </div>
           </div>
           <div class="form-group">
@@ -107,19 +120,6 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="inputProxy" class="col-sm-2 control-label">Proxy:</label>
-            <div class="input-group col-sm-8">
-              <div class="input-group-addon">
-                <select class="selectpicker" id="proxyscheme" v-model="proxyScheme">
-                  <option>http://</option>
-                  <option>socks4://</option>
-                  <option>socks5://</option>
-                </select>
-              </div>
-              <input type="url" class="form-control" id="inputProxy" placeholder="[username:password@]host:port" v-model="proxy" />
-            </div>
-          </div>
-          <div class="form-group">
             <label class="col-sm-2 control-label">Disable local web cache:</label>
             <div class="col-sm-3">
               <togglebutton v-model="noCache" true-type="success" false-type="danger"></togglebutton>
@@ -149,13 +149,25 @@
       <div slot="body">
         <div class="row">
           <div class="form-group">
-            <label for="inputDepth" class="control-label col-sm-2">Depth:</label>
+            <label for="inputCrawlerLimit" class="col-sm-2 control-label">Crawler time limit:</label>
             <div class="col-sm-3">
-              <input type="number" class="form-control" id="inputDepth" v-model="depth" />
+              <input type="number" class="form-control" id="inputCrawlerLimit" v-model.number="crawlerTimeLimit" />
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 control-label">Only interval:</label>
+            <label for="inputDepth" class="control-label col-sm-2">Depth:</label>
+            <div class="col-sm-3">
+              <input type="number" class="form-control" id="inputDepth" v-model.number="depth" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputMaxRedirects" class="control-label col-sm-2">Redirect max times:</label>
+            <div class="col-sm-3">
+              <input type="number" class="form-control" id="inputMaxRedirects" v-model.number="redirectMaxTimes" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Follow only internal links:</label>
             <div class="col-sm-3">
               <togglebutton v-model="onlyInternal" true-type="success" false-type="danger"></togglebutton>
             </div>
@@ -168,8 +180,71 @@
           </div>
           <div class="form-group" v-if="!onlyInternal && (domainList && domainList.length > 0)">
             <label class="control-label col-sm-2">Domain list:</label>
+            <div class="col-sm-3">
+              <template v-for="domain in domainList">
+                <div class="row domain-row">
+                  <span @click="removeFromDomailList(domain)" class="label label-info domain-label"><span>{{domain}}</span><a><i class="glyphicon glyphicon-remove"></i></a></span>
+                </div>
+              </template>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputDelay" class="control-label col-sm-2">Download delay:</label>
+            <div class="col-sm-3">
+              <input type="number" class="form-control" id="inputDelay" v-model.number="downloadDelay" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Randomize download delay:</label>
+            <div class="col-sm-3">
+              <togglebutton v-model="rndDownloadDelay" true-type="success" false-type="danger"></togglebutton>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Obey robottxt rules:</label>
+            <div class="col-sm-3">
+              <togglebutton v-model="robotstxtObey" true-type="success" false-type="danger"></togglebutton>
+            </div>
+          </div>
+        </div>
+      </div>
+    </pagesection>
+    <a class="anchor main-anchor" id="scheduleparameters" title="Schedule parameters"></a>
+    <pagesection :renderImmediately="true" :disabled="scheduling == 'once'">
+      <span slot="title">Schedule parameters</span>
+      <div slot="body" v-if="scheduling == 'date'">
+        <div class="row">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Run after:</label>
+            <div class="col-sm-3">
+              <datepicker v-model="eta" id="date-etapicker"></datepicker>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div slot="body" v-else>
+        <div class="row">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Run after:</label>
+            <div class="col-sm-3">
+              <datepicker v-model="scheduleEta" id="schedule-etapicker"></datepicker>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputMaxRunCount" class="control-label col-sm-2">Max run count:</label>
+            <div class="col-sm-3">
+              <input type="number" class="form-control" id="inputMaxRunCount" v-model.number="maxRunCount" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Schedule by:</label>
             <div class="col-sm-8">
-              <span>{{domainList}}</span>
+              <div class="radio">
+                <label><input type="radio" value="interval" name="crawlradio" v-model="scheduleType">Interval</label>
+              </div>
+              <div class="radio">
+                <label><input type="radio" value="cron" name="crawlradio" v-model="scheduleType">Cron</label>
+              </div>
             </div>
           </div>
         </div>
@@ -206,12 +281,21 @@ export default {
       scheduling: 'once',
       referer: null,
       thugTimeLimit: 600,
+      crawlerTimeLimit: 600,
       noCache: false,
       webTracking: false,
       depth: 1,
       onlyInternal: true,
       currentDomain: '',
-      domainList: []
+      downloadDelay: 2,
+      rndDownloadDelay: false,
+      redirectMaxTimes: 30,
+      robotstxtObey: false,
+      domainList: [],
+      eta: null,
+      scheduleEta: null,
+      maxRunCount: 10,
+      scheduleType: 'interval'
     }
   },
   computed: {
@@ -220,8 +304,10 @@ export default {
         return this.currentDomain
       },
       set(value) {
-        this.currentDomain = value
-        this.domainList.push(value)
+        if(value.trim()) {
+          this.currentDomain = value
+          this.domainList.push(value)
+        }
       }
     },
     url: {
@@ -261,6 +347,9 @@ export default {
     }
   },
   methods: {
+    removeFromDomailList(value) {
+    this.domainList = this.domainList.filter(item => item !== value);
+    },
     fetchUserAgents() {
       this.$http.get(this.userAgentsUrl).then((response) => {
         this.userAgents = response.body.map(function(obj) {
@@ -318,6 +407,20 @@ export default {
 .input-group {
   padding-left: 15px !important;
   padding-right: 15px !important;
+}
+
+.domain-row {
+  margin-bottom: 8px;
+}
+
+.domain-label {
+  font-size: 13px;
+}
+
+.domain-label > a > i {
+  margin-right: 0px;
+  margin-left: 5px;
+  top: 3px;
 }
 
 .form-group-header {
