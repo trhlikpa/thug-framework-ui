@@ -17,6 +17,12 @@ export default {
     },
     userAgentsUrl() {
       return this.baseUrl + '/api/v1.0/useragents/'
+    },
+    pluginsUrl() {
+      return this.baseUrl + '/api/v1.0/plugins/'
+    },
+    domEvents() {
+      return this.baseUrl + '/api/v1.0/domevents/'
     }
   }
 }

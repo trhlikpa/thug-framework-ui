@@ -43,7 +43,7 @@
               <div class="col-sm-3">
                   <datepicker v-model="datepicker.value" ref="datepicker" v-bind:id="datepicker.id"></datepicker>
               </div>
-            </template>
+</template>
           </div>
         </div>
     </template>
@@ -200,7 +200,7 @@ export default {
       this.fetching = true
     },
     onTableLoaded() {
-      this.fetching = false      
+      this.fetching = false
     },
     doSimpleFilter() {
       this.moreParams = {

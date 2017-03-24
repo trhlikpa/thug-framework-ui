@@ -146,6 +146,15 @@ html {
   top: 2px;
 }
 
+button.glyphicon {
+  top: 0px;
+}
+
+td.glyphicon {
+  top: 0px !important;
+  display: table-cell;
+}
+
 .anchor {
   display: block;
   position: relative;
@@ -254,11 +263,6 @@ td.value {
   white-space: pre-line;
   word-wrap: break-word;
   word-break: break-all;
-}
-
-td.glyphicon {
-  top: 0px !important;
-  display: table-cell;
 }
 
 td.name {

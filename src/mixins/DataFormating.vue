@@ -136,7 +136,7 @@ export default {
   white-space: normal;
   position: absolute;
   max-width: none;
-  background: inherit;
+  background: #fff;
   z-index: 100;
   overflow: visible;
   border-top: 1px solid #ddd !important;

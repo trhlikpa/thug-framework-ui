@@ -107,16 +107,6 @@
               <td class="value" v-if="schedule.args[0].args.type != 'singleurl'">{{schedule.args[0].args.depth_limit}}</td>
               <td class="glyphicon glyphicon-remove text-danger" v-else></td>
             </tr>
-            <tr class="entry" v-if="schedule.args[0].args.type != 'singleurl'">
-              <td class="name">Domains:</td>
-              <td class="value" v-if="schedule.args[0].args.allowed_domains && schedule.args[0].args.allowed_domains.length > 0">{{schedule.args[0].args.allowed_domains}}</td>
-              <td class="glyphicon glyphicon-remove text-danger" v-else></td>
-            </tr>
-            <tr class="entry" v-if="schedule.args[0].args.type != 'singleurl' && (!schedule.args[0].args.allowed_domains || schedule.args[0].args.allowed_domains.length < 1)">
-              <td class="name">Only internal:</td>
-              <td class="glyphicon glyphicon-ok text-success" v-if="schedule.args[0].args.only_internal"></td>
-              <td class="glyphicon glyphicon-remove text-danger" v-else></td>
-            </tr>
           </tbody>
         </table>
       </div>

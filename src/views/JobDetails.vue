@@ -243,10 +243,10 @@
               <td class="glyphicon glyphicon-ok text-success" v-if="job.args.only_internal"></td>
               <td class="glyphicon glyphicon-remove text-danger" v-else></td>
             </tr>
-            <tr class="entry">
+            <tr class="entry" v-if="!job.args.only_internal">
               <td class="name">Allowed domains:</td>
-              <td class="value" v-if="job.allowed_domains">{{job.allowed_domains}}</td>
-              <td class="glyphicon glyphicon-remove text-danger" v-else></td>
+              <td class="value" v-if="job.args.allowed_domains">{{job.args.allowed_domains}}</td>
+              <td class="value" v-else>No restrictions</td>
             </tr>
             <tr class="entry">
               <td class="name">Download delay:</td>
