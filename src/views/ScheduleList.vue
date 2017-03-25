@@ -39,18 +39,19 @@ export default {
         dataClass: 'text-center',
         callback: 'dateFormat'
       }, {
-        name: 'cron',
-        title: 'Cron',
+        name: 'next_run',
+        title: 'Next run',
         titleClass: 'text-center',
-        dataClass: 'text-center'
-      }, {
-        name: 'interval',
-        title: 'Interval',
-        titleClass: 'text-center',
-        dataClass: 'text-center'
+        dataClass: 'text-center',
+        callback: 'dateFormat'
       }, {
         name: 'previous_runs.length',
-        title: 'Total runs',
+        title: 'Total run count',
+        titleClass: 'text-center',
+        dataClass: 'text-center'
+      }, {
+        name: 'max_run_count',
+        title: 'Max run count',
         titleClass: 'text-center',
         dataClass: 'text-center'
       }, {

@@ -59,7 +59,7 @@
             </tr>
             <tr class="entry" v-if="schedule.cron">
               <td class="name">Cron:</td>
-              <td class="value">{{schedule.cron}}</td>
+              <td class="value">{{cronFormat(schedule.cron)}}</td>
             </tr>
             <tr class="entry" v-if="!schedule.cron && schedule.interval">
               <td class="name">Interval:</td>
@@ -68,6 +68,10 @@
             <tr class="entry">
               <td class="name">Last run at:</td>
               <td class="value">{{dateFormat(schedule.last_run_at)}}</td>
+            </tr>
+            <tr class="entry">
+              <td class="name">Next run at:</td>
+              <td class="value">{{dateFormat(schedule.next_run)}}</td>
             </tr>
             <tr class="entry">
               <td class="name">Enabled:</td>

@@ -68,19 +68,6 @@
       <div slot="body">
         <div class="row">
           <div class="form-group">
-            <label for="inputProxy" class="col-sm-2 control-label">Proxy:</label>
-            <div class="input-group col-sm-8">
-              <div class="input-group-addon">
-                <select class="selectpicker" id="proxyscheme" v-model="proxyScheme">
-                  <option>http://</option>
-                  <option>socks4://</option>
-                  <option>socks5://</option>
-                </select>
-              </div>
-              <input type="url" class="form-control" id="inputProxy" placeholder="[username:password@]host:port" v-model="proxy" />
-            </div>
-          </div>
-          <div class="form-group">
             <label for="inputThugLimit" class="col-sm-2 control-label">Thug time limit:</label>
             <div class="col-sm-3">
               <input type="number" class="form-control" id="inputThugLimit" v-model.number="thugTimeLimit" />
@@ -140,6 +127,19 @@
               </div>
             </div>
           </div>
+          <div class="form-group">
+            <label for="inputProxy" class="col-sm-2 control-label">Proxy:</label>
+            <div class="input-group col-sm-8">
+              <div class="input-group-addon">
+                <select class="selectpicker" id="proxyscheme" v-model="proxyScheme">
+                  <option>http://</option>
+                  <option>socks4://</option>
+                  <option>socks5://</option>
+                </select>
+              </div>
+              <input type="url" class="form-control" id="inputProxy" placeholder="[username:password@]host:port" v-model="proxy" />
+            </div>
+          </div>
         </div>
       </div>
     </pagesection>
@@ -185,7 +185,7 @@
                 <div class="row domain-row">
                   <span @click="removeFromDomailList(domain)" class="label label-info domain-label"><span>{{domain}}</span><a><i class="glyphicon glyphicon-remove"></i></a></span>
                 </div>
-              </template>
+</template>
             </div>
           </div>
           <div class="form-group">
@@ -237,14 +237,85 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 control-label">Schedule by:</label>
-            <div class="col-sm-8">
-              <div class="radio">
-                <label><input type="radio" value="interval" name="crawlradio" v-model="scheduleType">Interval</label>
-              </div>
-              <div class="radio">
-                <label><input type="radio" value="cron" name="crawlradio" v-model="scheduleType">Cron</label>
-              </div>
+            <label for="inputMinute" class="col-sm-2 control-label">Minute:</label>
+            <div class="col-sm-3">
+              <select class="form-control" id="inputMinute" v-model="schedule.minute">
+              <option value="*">Every minute</option>
+              <option value="*/5">Every 5 minutes</option>
+              <option value="*/15">Every 15 minutes</option>
+              <option value="*/30">Every 30 minutes</option>
+            </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputHour" class="col-sm-2 control-label">Hour:</label>
+            <div class="col-sm-3">
+              <select class="form-control" id="inputHour" v-model="schedule.hour">
+              <option value="*">Every hour</option>
+              <option value="*/3">Every 3 hours</option>
+              <option value="*/6">Every 6 hours</option>
+              <option value="*/12">Every 12 hours</option>
+            </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputDay" class="col-sm-2 control-label">Day of month:</label>
+            <div class="col-sm-3">
+              <select class="form-control" id="inputDay" v-model="schedule.day">
+              <option value="*">Every day</option>
+              <option value="*/5">Every 5 days</option>
+              <option value="*/10">Every 10 days</option>
+              <option value="*/15">Every 15 days</option>
+              <option disabled class="separator"></option>
+              <option v-for="n in 31">{{ n }}</option>
+            </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputMonth" class="col-sm-2 control-label">Month:</label>
+            <div class="col-sm-3">
+              <select class="form-control" id="inputMonth" v-model="schedule.month">
+              <option value="*">Every month</option>
+              <option value="*/2">Even months</option>
+              <option value="1-11/2">Odd months</option>
+              <option value="*/3">Every 3 months</option>
+              <option value="*/4">Every 4 months</option>
+              <option value="*/6">Every half a year</option>
+              <option disabled class="separator"></option>
+              <option value="1">January</option>
+              <option value="2">February</option>
+              <option value="3">March</option>
+              <option value="4">April</option>
+              <option value="5">May</option>
+              <option value="6">June</option>
+              <option value="7">July</option>
+              <option value="8">August</option>
+              <option value="9">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputWeekday" class="col-sm-2 control-label">Weekday:</label>
+            <div class="col-sm-3">
+              <select class="form-control" id="inputWeekday" v-model="schedule.weekday">
+              <option value="*">Every weekday</option>
+              <option value="0">Sunday</option>
+              <option value="1">Monday</option>
+              <option value="2">Tuesday</option>
+              <option value="3">Wednesday</option>
+              <option value="4">Thursday</option>
+              <option value="5">Friday</option>
+              <option value="6">Saturday</option>
+            </select>
+            </div>
+          </div>
+          <div class="row">
+            <label class="col-sm-2 control-label">Cron:</label>
+            <div class="col-sm-3">
+              <label>{{ cronFormat(schedule) }}</label>
             </div>
           </div>
         </div>
@@ -256,8 +327,10 @@
 
 <script>
 import Api from '../mixins/Api.vue'
+import DataFormating from '../mixins/DataFormating.vue'
+import Anchors from '../mixins/Anchors.vue'
 export default {
-  mixins: [Api],
+  mixins: [Api, Anchors, DataFormating],
   data() {
     return {
       name: null,
@@ -295,7 +368,13 @@ export default {
       eta: null,
       scheduleEta: null,
       maxRunCount: 10,
-      scheduleType: 'interval'
+      schedule: {
+        minute: '*',
+        hour: '*',
+        day: '*',
+        month: '*',
+        weekday: '*'
+      }
     }
   },
   computed: {
@@ -304,7 +383,7 @@ export default {
         return this.currentDomain
       },
       set(value) {
-        if(value.trim()) {
+        if (value.trim()) {
           this.currentDomain = value
           this.domainList.push(value)
         }
@@ -348,7 +427,7 @@ export default {
   },
   methods: {
     removeFromDomailList(value) {
-    this.domainList = this.domainList.filter(item => item !== value);
+      this.domainList = this.domainList.filter(item => item !== value);
     },
     fetchUserAgents() {
       this.$http.get(this.userAgentsUrl).then((response) => {
@@ -399,6 +478,7 @@ export default {
     this.fetchUserAgents()
     this.fetchPlugins()
     this.fetchDomEvents()
+    this.parseAnchors()
   }
 }
 </script>
@@ -417,7 +497,7 @@ export default {
   font-size: 13px;
 }
 
-.domain-label > a > i {
+.domain-label>a>i {
   margin-right: 0px;
   margin-left: 5px;
   top: 3px;
@@ -426,5 +506,10 @@ export default {
 .form-group-header {
   border-bottom: 1px solid #E8E8E8;
   margin-top: 0px;
+}
+
+#schedule-etapicker {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
 }
 </style>

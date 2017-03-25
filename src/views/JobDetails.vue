@@ -298,11 +298,6 @@
               <td class="value" v-if="schedule.max_run_count">{{schedule.max_run_count}}</td>
               <td class="glyphicon glyphicon-remove text-danger" v-else></td>
             </tr>
-            <tr class="entry">
-              <td class="name">Next run:</td>
-              <td class="value" v-if="schedule.cron || schedule.interval">{{nextRunFormat(schedule)}}</td>
-              <td class="glyphicon glyphicon-remove text-danger" v-else></td>
-            </tr>
           </tbody>
         </table>
       </div>

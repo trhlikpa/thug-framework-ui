@@ -183,7 +183,7 @@
   </pagesection>
 
   <a class="anchor main-anchor" id="graphs" title="Graphs"></a>
-  <pagesection :renderImmediately="true" v-on:fetchdata="fetchGraphs">
+  <pagesection :renderImmediately="false" v-on:fetchdata="fetchGraphs">
     <span slot="title">Graphs</span>
     <div slot="body" class="loader" v-if="!subresourcesLoaded.graphs">
     </div>

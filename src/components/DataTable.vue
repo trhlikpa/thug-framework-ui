@@ -351,7 +351,6 @@ export default {
 }
 
 .control-label {
-  font-weight: normal;
   text-align: left;
   white-space: nowrap;
 }

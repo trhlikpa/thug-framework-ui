@@ -55,9 +55,6 @@ export default {
       }
       return 0
     },
-    nextRunFormat: function() {
-      return 0
-    },
     escapeHtmlChars(val) {
       var mapping = {
         '&': '&amp;',
@@ -79,6 +76,9 @@ export default {
       return !value ?
         '<span class="glyphicon glyphicon-remove text-danger"></span>' :
         '<span class="glyphicon glyphicon-ok text-success"></span>'
+    },
+    cronFormat: function(value) {
+      return value.minute + ' ' + value.hour + ' ' + value.day + ' ' + value.month + ' ' + value.weekday
     }
   }
 }
