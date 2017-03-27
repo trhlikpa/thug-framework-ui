@@ -83,7 +83,7 @@
             <label for="inputJava" class="col-sm-2 control-label">Java plugin:</label>
             <div class="col-sm-3">
               <div class="btn-group btn-group-justified">
-                <vueselect v-model="java" :options="plugins.java" search>
+                <vueselect v-model="java" placeholder="1.6.0.32" :options="plugins.java" search>
                 </vueselect>
               </div>
             </div>
@@ -92,7 +92,7 @@
             <label for="inputAdobe" class="col-sm-2 control-label">Adobe Reader plugin:</label>
             <div class="col-sm-3">
               <div class="btn-group btn-group-justified">
-                <vueselect v-model="adobepdf" :options="plugins.adobepdf" search>
+                <vueselect v-model="adobepdf" placeholder="9.1.0" :options="plugins.adobepdf" search>
                 </vueselect>
               </div>
             </div>
@@ -101,7 +101,7 @@
             <label for="inputFlash" class="col-sm-2 control-label">Shockwave Flash plugin:</label>
             <div class="col-sm-3">
               <div class="btn-group btn-group-justified">
-                <vueselect v-model="shockwave" :options="plugins.shockwave" search>
+                <vueselect v-model="shockwave" placeholder="10.0.64.0" :options="plugins.shockwave" search>
                 </vueselect>
               </div>
             </div>
@@ -375,9 +375,9 @@ export default {
       urlTmp: null,
       proxyTmp: null,
       type: 'singleurl',
-      java: null,
-      adobepdf: null,
-      shockwave: null,
+      java: '1.6.0.32',
+      adobepdf: '9.1.0',
+      shockwave: '10.0.64.0',
       plugins: {
         'java': [],
         'adobepdf': [],
