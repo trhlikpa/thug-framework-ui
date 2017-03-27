@@ -59,27 +59,100 @@ export default {
     var graph = this.values
     var referer = this.referer
     var baseUrl = this.baseUrl
+    var colorSet = [
+      {
+        color: '#7293cb',
+        value: 'referer/base URL'
+      }, {
+        color: '#90679d',
+        value: 'XML/JSON'
+      }, {
+        color: '#e1974c',
+        value: 'CSS'
+      }, {
+        color: '#84ba5b',
+        value: 'JS'
+      }, {
+        color: 'pink',
+        value: 'HTML'
+      }, {
+        color: '#ccc210',
+        value: 'PHP'
+      }, {
+        color: '#808585',
+        value: 'Other'
+      }
+    ]
+
+    var legend = svg.selectAll(".legend")
+      .data(colorSet)
+      .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function(d, i) {
+        return "translate(0," + i * 20 + ")";
+      });
+
+    legend.append("rect")
+      .attr("x", 0)
+      .attr("width", 18)
+      .attr("height", 18)
+      .style("fill", function(d) {
+        return d.color;
+      });
+
+    legend.append("text")
+      .attr("x", 0 + 25)
+      .attr("y", 9)
+      .attr("dy", ".35em")
+      .style("text-anchor", "start")
+      .text(function(d) {
+        return d.value;
+      });
 
     var g = svg.append("g");
 
-    g.append("defs").selectAll("marker")
-      .enter().append("marker")
-      .attr("id", "triangle")
+    g.append("defs").append("marker")
+      .attr("id", "arrow")
       .attr("viewBox", "0 -5 10 10")
-      .attr("refX", 15)
-      .attr("refY", -1.5)
-      .attr("markerWidth", 6)
-      .attr("markerHeight", 6)
+      .attr("refX", 24)
+      .attr("refY", 0)
+      .attr("markerWidth", 10)
+      .attr("markerHeight", 8)
       .attr("orient", "auto")
-      .append("path")
-      .attr("d", "M0,-5L10,0L0,5");
+      .append("svg:path")
+      .attr("d", "M0,-5L10,0L0,5")
+      .style("opacity", 0.3)
+
+    g.append("defs").append("marker")
+      .attr("id", "arrowHighlighted")
+      .attr("viewBox", "0 -5 10 10")
+      .attr("refX", 24)
+      .attr("refY", 0)
+      .attr("markerWidth", 10)
+      .attr("markerHeight", 8)
+      .attr("orient", "auto")
+      .append("svg:path")
+      .attr("d", "M0,-5L10,0L0,5")
+      .style("fill", 'red')
 
     var link = g.append("g")
       .attr("class", "links")
       .selectAll("line")
       .data(graph.links)
       .enter().append("line")
-      .attr('marker-end', 'url(#triangle)')
+      .attr("marker-end", "url(#arrow)")
+
+    var labelLine = g.append("g")
+      .attr("class", "linklabels")
+      .selectAll("text")
+      .data(graph.links)
+      .enter().append("text")
+      .attr("class", "linklabel")
+      .attr("dy", ".35em")
+      .attr("text-anchor", "middle")
+      .text(function(d) {
+        return d.method
+      });
 
     var node = g.append("g")
       .attr("class", "nodes")
@@ -129,7 +202,7 @@ export default {
         return '#e1974c'
       } else if (~d.url.indexOf('.js')) {
         return '#84ba5b'
-      } else if (~d.url.indexOf('.png')) {
+      } else if (~d.url.indexOf('.html')) {
         return 'pink'
       } else if (~d.url.indexOf('.php')) {
         return '#ccc210'
@@ -143,7 +216,9 @@ export default {
       if (highlightedNode) {
         node.classed("highlighted", false);
         label.classed("highlighted", false);
-        link.classed("highlighted", false);
+        labelLine.classed("highlighted", false);
+        link.classed("highlighted", false)
+          .attr("marker-end", "url(#arrow)");
         if (highlightedNode == d) {
           highlightedNode = null
           return
@@ -154,9 +229,20 @@ export default {
         return d.index == o.index
       })
 
-      link.classed("highlighted", function(o) {
+      labelLine.classed("highlighted", function(o) {
         return d.index == o.source.index
       })
+
+      link.classed("highlighted", function(o) {
+        return d.index == o.source.index
+      }).attr("marker-end", function(o) {
+        if (d.index == o.source.index) {
+          return "url(#arrowHighlighted)"
+        } else {
+          return "url(#arrow)"
+        }
+      })
+
       highlightedNode = d
     }
 
@@ -200,6 +286,14 @@ export default {
         })
         .attr("y2", function(d) {
           return d.target.y;
+        });
+
+      labelLine
+        .attr("x", function(d) {
+          return (d.source.x + d.target.x) / 2;
+        })
+        .attr("y", function(d) {
+          return (d.source.y + d.target.y) / 2;
         });
 
       node
@@ -262,6 +356,12 @@ text.highlighted {
 }
 
 .labels text {
+  opacity: 0.3;
+  font-size: 6px;
+  pointer-events: none;
+}
+
+.linklabels text {
   opacity: 0.3;
   font-size: 6px;
   pointer-events: none;

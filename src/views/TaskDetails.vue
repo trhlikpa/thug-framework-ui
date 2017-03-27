@@ -685,7 +685,7 @@ export default {
       this.fetchSubresource('peepdf')
     },
     fetchSubresource(subresource) {
-      if (this.task._state != 'SUCCESSFUL') {
+      if (!this.task || this.task._state != 'SUCCESSFUL') {
         Vue.set(this.subresourcesLoaded, subresource, true)
         return
       }
