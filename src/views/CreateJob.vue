@@ -7,13 +7,13 @@
       <span slot="title">General parameters</span>
       <div slot="body">
         <div class="row">
-          <div class="form-group">
+          <div class="form-group" v-bind:class="{'has-error': !name}">
             <label for="inputName" class="control-label col-sm-2">Name:</label>
             <div class="col-sm-8">
               <input type="text" class="form-control" id="inputName" placeholder="Job name" v-model="name" />
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group" v-bind:class="{'has-error': !protocol || !url}">
             <label for="inputUrl" class="control-label col-sm-2">URL:</label>
             <div class="input-group col-sm-8">
               <div class="input-group-addon">
@@ -25,7 +25,7 @@
               <input type="url" class="form-control" id="inputUrl" placeholder="URL" v-model="url" />
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group" v-bind:class="{'has-error': !selectedUserAgents || selectedUserAgents.length < 1}">
             <label class="col-sm-2 control-label">User agent:</label>
             <div class="col-sm-3">
               <div class="btn-group btn-group-justified">
@@ -34,7 +34,7 @@
               </div>
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group" v-bind:class="{'has-error': !type}">
             <label class="col-sm-2 control-label">Type:</label>
             <div class="col-sm-8">
               <div class="radio">
@@ -45,7 +45,7 @@
               </div>
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group" v-bind:class="{'has-error': !scheduling}">
             <label class="col-sm-2 control-label">Run job:</label>
             <div class="col-sm-3">
               <div class="radio">
@@ -174,18 +174,21 @@
           </div>
           <div class="form-group" v-if="!onlyInternal">
             <label for="inputDomains" class="control-label col-sm-2">Allowed domains:</label>
-            <div class="col-sm-3">
+            <div class="input-group col-sm-3">
               <input type="text" class="form-control" v-model.lazy="allowedDomains" id="inputDomains" />
+              <span class="input-group-btn" style="width:0;">
+                <button class="btn btn-default" type="button">Add</button>
+              </span>
             </div>
           </div>
           <div class="form-group" v-if="!onlyInternal && (domainList && domainList.length > 0)">
-            <label class="control-label col-sm-2">Domain list:</label>
+            <label class="control-label col-sm-2">Allowed domains list:</label>
             <div class="col-sm-3">
               <template v-for="domain in domainList">
                 <div class="row domain-row">
                   <span @click="removeFromDomailList(domain)" class="label label-info domain-label"><span>{{domain}}</span><a><i class="glyphicon glyphicon-remove"></i></a></span>
                 </div>
-</template>
+              </template>
             </div>
           </div>
           <div class="form-group">
@@ -214,8 +217,8 @@
       <span slot="title">Schedule parameters</span>
       <div slot="body" v-if="scheduling == 'date'">
         <div class="row">
-          <div class="form-group">
-            <label class="col-sm-2 control-label">Run after:</label>
+          <div class="form-group" v-bind:class="{'has-error': !eta}">
+            <label class="col-sm-2 control-label">Run on:</label>
             <div class="col-sm-3">
               <datepicker v-model="eta" id="date-etapicker"></datepicker>
             </div>
@@ -322,6 +325,38 @@
       </div>
     </pagesection>
   </form>
+  <div v-if="!name" class="alert alert-danger">
+    <strong>Error!</strong> Enter job name!
+  </div>
+  <div v-if="!url || !protocol" class="alert alert-danger">
+    <strong>Error!</strong> Enter URL!
+  </div>
+  <div v-if="!selectedUserAgents || selectedUserAgents.length < 1" class="alert alert-danger">
+    <strong>Error!</strong> Select user agents!
+  </div>
+  <div v-if="scheduling=='date' && !eta" class="alert alert-danger">
+    <strong>Error!</strong> Enter date!
+  </div>
+  <button v-if="valid" class="btn btn-success btn-lg control-btn" @click="submitJob">Submit job</button>
+  <div class="modal fade" id="confirm-insert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2><i class="glyphicon glyphicon-check"></i> Job creation status</h2>
+        </div>
+        <div class="modal-body">
+          <div v-for="jobStatus in jobCreationStatusList">
+            <div class="row">
+              <label class="pull-left modal-title">{{jobStatus.name}}</label>
+              <span class="pull-right modal-value" v-html="statusIconFormat(jobStatus.state)"></span>
+            </div>
+          </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 </template>
 
@@ -333,6 +368,7 @@ export default {
   mixins: [Api, Anchors, DataFormating],
   data() {
     return {
+      jobCreationStatusList: [],
       name: null,
       protocol: null,
       proxyScheme: null,
@@ -378,6 +414,18 @@ export default {
     }
   },
   computed: {
+    valid() {
+      if (!this.name || !this.protocol || !this.url || !this.selectedUserAgents ||
+        this.selectedUserAgents.length < 1) {
+        return false
+      }
+
+      if (this.scheduling == 'date' && !this.eta) {
+        return false
+      }
+
+      return true
+    },
     allowedDomains: {
       get() {
         return this.currentDomain
@@ -426,6 +474,52 @@ export default {
     }
   },
   methods: {
+    submitJob() {
+      $('#confirm-insert').modal('show')
+      for (var i = 0; i < this.selectedUserAgents.length; i++) {
+        var name = this.name
+        if (this.selectedUserAgents.length != 1) {
+          name = this.name + '_' + this.selectedUserAgents[i]
+        }
+
+        this.jobCreationStatusList.push({name: name, state: 'PENDING'})
+
+        this.$http.post(this.jobsUrl, {
+          name: name,
+          url: this.protocol + this.url,
+          type: this.type,
+          useragent: this.selectedUserAgents[i],
+          eta: this.scheduling == 'schedule' ? this.scheduleEta : this.eta,
+          max_run_count: this.maxRunCount == 'schedule' && this.maxRunCount ? this.maxRunCount : null,
+          cron: this.scheduling == 'schedule' && this.schedule ? this.schedule : null,
+          thug_time_limit: this.thugTimeLimit,
+          referer: this.referer,
+          java: this.java,
+          shockwave: this.shockwave,
+          adobepdf: this.adobepdf,
+          proxy: this.proxyScheme && this.proxy ? this.proxyScheme && this.proxy : null,
+          dom_events: this.selectedDomEvents,
+          no_cache: this.noCache,
+          web_tracking: this.webTracking,
+          depth_limit: this.depth,
+          download_delay: this.downloadDelay,
+          randomize_download_delay: this.rndDownloadDelay,
+          redirect_max_times: this.redirectMaxTimes,
+          robotstxt_obey: this.robotstxtObey,
+          only_internal: this.onlyInternal,
+          crawler_time_limit: this.crawlerTimeLimit,
+          allowed_domains: this.allowed_domains
+        }).then((response) => {
+          this.jobCreationStatusList.pop()
+          this.jobCreationStatusList.push({name: name, state: 'SUCCESSFUL'})
+          console.log("Succesfuly added Job: " + name)
+        }, (response) => {
+          this.jobCreationStatusList.pop()
+          this.jobCreationStatusList.push({name: name, state: 'FAILURE'})
+          console.log("Error adding Job: " + name)
+        })
+      }
+    },
     removeFromDomailList(value) {
       this.domainList = this.domainList.filter(item => item !== value);
     },
@@ -511,5 +605,17 @@ export default {
 #schedule-etapicker {
   padding-left: 0px !important;
   padding-right: 0px !important;
+}
+
+.control-btn {
+  margin-top: 10px;
+}
+
+.modal-title {
+  margin-left: 25px;
+}
+
+.modal-value {
+  margin-right: 20px;
 }
 </style>

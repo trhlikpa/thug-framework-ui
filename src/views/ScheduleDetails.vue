@@ -71,7 +71,7 @@
             </tr>
             <tr class="entry">
               <td class="name">Next run at:</td>
-              <td class="value">{{dateFormat(schedule.next_run)}}</td>
+              <td class="value" v-if="!schedule.enabled">{{dateFormat(schedule.next_run)}}</td>
             </tr>
             <tr class="entry">
               <td class="name">Enabled:</td>

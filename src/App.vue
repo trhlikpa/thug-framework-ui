@@ -297,6 +297,11 @@ pre {
   margin-bottom: 10px;
 }
 
+.submit-row {
+  border-top: 1px solid #E8E8E8;
+  margin-top: 10px;  
+}
+
 .control-btn {
   margin: 0px 5px 20px 5px;
   color: #fff !important;

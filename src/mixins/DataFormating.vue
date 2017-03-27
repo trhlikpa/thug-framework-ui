@@ -26,6 +26,15 @@ export default {
         return '<span class="text-info">STARTED</span>'
       }
     },
+    statusIconFormat: function(value) {
+      if (value == 'SUCCESSFUL') {
+        return '<i class="glyphicon glyphicon-ok text-success"></i>'
+      } else if (value == 'FAILURE') {
+        return '<i class="glyphicon glyphicon-remove text-danger"></i>'
+      } else if (value == 'PENDING') {
+        return '<i class="glyphicon glyphicon-refresh text-info"></i>'
+      }
+    },
     classificationFormat: function(value) {
       if (value == null) {
         return '<span class="text-info">TBD</span>'
