@@ -197,7 +197,7 @@
           <table class="table details-table">
             <tbody>
               <tr class="entry" v-if="subresources.options">
-                <td colspan="2"><graph :valuesProp="item.graph" :baseUrl="task.url" :referer="subresources.options[0].thug.options.referer"></graph></td>
+                <td colspan="2"><forcegraph :valuesProp="item.graph" :baseUrl="task.url" :referer="subresources.options[0].thug.options.referer"></forcegraph></td>
               </tr>
             </tbody>
           </table>

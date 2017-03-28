@@ -6,6 +6,7 @@ import JobDetails from 'views/JobDetails'
 import TaskDetails from 'views/TaskDetails'
 import ScheduleDetails from 'views/ScheduleDetails'
 import CreateJob from 'views/CreateJob'
+import Stats from 'views/Stats'
 
 Vue.use(Router)
 
@@ -52,6 +53,11 @@ export default new Router({
       path: '/createjob',
       name: 'CreateJob',
       component: CreateJob
+    },
+    {
+      path: '/stats',
+      name: 'Stats',
+      component: Stats
     },
     {
       path: '*',

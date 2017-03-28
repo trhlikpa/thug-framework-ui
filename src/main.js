@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import VueResource from 'vue-resource'
-import Graph from './components/Graph.vue'
+import ForceGraph from './components/ForceGraph.vue'
 import DataTable from './components/DataTable.vue'
 import DatePicker from './components/DatePicker.vue'
 import PageSection from './components/PageSection.vue'
@@ -22,7 +22,7 @@ Vue.component('datatable', DataTable)
 Vue.component('datepicker', DatePicker)
 Vue.component('pagesection', PageSection)
 Vue.component('sidebar', Sidebar)
-Vue.component('graph', Graph)
+Vue.component('forcegraph', ForceGraph)
 Vue.component('vueselect', Select)
 Vue.component('togglebutton', ToggleButton)
 
