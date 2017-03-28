@@ -497,7 +497,7 @@ export default {
           java: this.java,
           shockwave: this.shockwave,
           adobepdf: this.adobepdf,
-          proxy: this.proxyScheme && this.proxy ? this.proxyScheme && this.proxy : null,
+          proxy: this.proxyScheme && this.proxy ? this.proxyScheme + this.proxy : null,
           dom_events: this.selectedDomEvents,
           no_cache: this.noCache,
           web_tracking: this.webTracking,
@@ -508,7 +508,7 @@ export default {
           robotstxt_obey: this.robotstxtObey,
           only_internal: this.onlyInternal,
           crawler_time_limit: this.crawlerTimeLimit,
-          allowed_domains: this.allowed_domains
+          allowed_domains: this.domainList.length > 0 ? this.domainList : null
         }).then((response) => {
           this.jobCreationStatusList.pop()
           this.jobCreationStatusList.push({name: name, state: 'SUCCESSFUL'})
