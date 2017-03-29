@@ -490,7 +490,7 @@ export default {
           type: this.type,
           useragent: this.selectedUserAgents[i],
           eta: this.scheduling == 'schedule' ? this.scheduleEta : this.eta,
-          max_run_count: this.maxRunCount == 'schedule' && this.maxRunCount ? this.maxRunCount : null,
+          max_run_count: this.scheduling == 'schedule' && this.maxRunCount ? this.maxRunCount : null,
           cron: this.scheduling == 'schedule' && this.schedule ? this.schedule : null,
           thug_time_limit: this.thugTimeLimit,
           referer: this.referer,

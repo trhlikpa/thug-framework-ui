@@ -28,7 +28,7 @@ export default {
   mounted() {
     var svg = d3.select(this.$refs.wrapper)
       .append("svg")
-      .classed("graph", true)
+      .classed("forcegraph", true)
 
     var width = parseInt(svg.style("width"), 10)
     var height = parseInt(svg.style("height"), 10)
@@ -317,7 +317,7 @@ export default {
 </script>
 
 <style>
-.graph {
+.forcegraph {
   width: 100%;
   height: 600px;
   white-space: pre-wrap;

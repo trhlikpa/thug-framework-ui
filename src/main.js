@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import VueResource from 'vue-resource'
 import ForceGraph from './components/ForceGraph.vue'
+import SunburstGraph from './components/SunburstGraph.vue'
 import DataTable from './components/DataTable.vue'
 import DatePicker from './components/DatePicker.vue'
 import PageSection from './components/PageSection.vue'
@@ -23,6 +24,7 @@ Vue.component('datepicker', DatePicker)
 Vue.component('pagesection', PageSection)
 Vue.component('sidebar', Sidebar)
 Vue.component('forcegraph', ForceGraph)
+Vue.component('sunburstgraph', SunburstGraph)
 Vue.component('vueselect', Select)
 Vue.component('togglebutton', ToggleButton)
 
