@@ -27,10 +27,41 @@
   <pagesection v-if="tasks.length > 0" :renderImmediately="true">
     <span slot="title">Dataset</span>
     <div slot="body">
-      <sunburstgraph :valuesProp="tasks"></sunburstgraph>
-    </div>
+      <sunburstgraph ref="datasetgraph" v-model="selected"></sunburstgraph>
+      <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-5">
+          <div class="row">
+            <label><i class="colorbox allcolor" aria-hidden="true"></i> Total: {{tasks.length}} </label>
+          </div>
+          <div class="row">
+            <label><i class="colorbox successfulcolor" aria-hidden="true"></i> Successful: {{successfulCount}} </label>
+          </div>
+          <div class="row">
+            <label><i class="colorbox failurecolor" aria-hidden="true"></i> Failed: {{failureCount}} </label>
+          </div>
+          <div class="row">
+            <label><i class="colorbox pendingcolor" aria-hidden="true"></i> Pending: {{pendingCount}} </label>
+          </div>
+          <div class="row">
+            <label><i class="colorbox startedcolor" aria-hidden="true"></i> Started: {{startedCount}} </label>
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-4">
+          <div class="row">
+            <label><i class="colorbox clearcolor" aria-hidden="true"></i> Clear: {{clearCount}} </label>
+          </div>
+          <div class="row">
+            <label><i class="colorbox maliciouscolor" aria-hidden="true"></i> Malicious: {{maliciousCount}} </label>
+          </div>
+          <div class="row">
+            <label><i class="colorbox sucpiciouscolor" aria-hidden="true"></i> Suspicious: {{suspicousCount}} </label>
+          </div>
+        </div>
+        <div>
   </pagesection>
-</div>
+  </div>
 </template>
 
 <script>
@@ -48,6 +79,64 @@ export default {
       fetching: true
     }
   },
+  computed: {
+    successfulCount() {
+      var count = 0;
+      for (var i = 0; i < this.selected.length; ++i) {
+        if (this.selected[i]._state == 'SUCCESSFUL')
+          count++;
+      }
+      return count
+    },
+    failureCount() {
+      var count = 0;
+      for (var i = 0; i < this.selected.length; ++i) {
+        if (this.selected[i]._state == 'FAILURE')
+          count++;
+      }
+      return count
+    },
+    pendingCount() {
+      var count = 0;
+      for (var i = 0; i < this.selected.length; ++i) {
+        if (this.selected[i]._state == 'PENDING')
+          count++;
+      }
+      return count
+    },
+    startedCount() {
+      var count = 0;
+      for (var i = 0; i < this.selected.length; ++i) {
+        if (this.selected[i]._state == 'STARTED')
+          count++;
+      }
+      return count
+    },
+    clearCount() {
+      var count = 0;
+      for (var i = 0; i < this.selected.length; ++i) {
+        if (this.selected[i].classification == 'CLEAR')
+          count++;
+      }
+      return count
+    },
+    maliciousCount() {
+      var count = 0;
+      for (var i = 0; i < this.selected.length; ++i) {
+        if (this.selected[i].classification == 'MALICIOUS')
+          count++;
+      }
+      return count
+    },
+    suspicousCount() {
+      var count = 0;
+      for (var i = 0; i < this.selected.length; ++i) {
+        if (this.selected[i].classification == 'SUSPICIOUS')
+          count++;
+      }
+      return count
+    }
+  },
   methods: {
     fetchTasks() {
       this.$http.get(this.tasksUrl + '?per_page=-1').then((response) => {
@@ -57,6 +146,39 @@ export default {
         console.log('error loading tasks: ', response.status)
       })
       this.fetching = false
+    },
+    updateSelected() {
+      console.log('update')
+    },
+    updateSelected() {
+      var vm = this
+      this.selected = this.tasks
+      if (vm.from != null) {
+        vm.selected = vm.selected.filter(function(task) {
+          return moment.utc(task.start_time).isAfter(vm.from)
+        })
+      }
+      if (vm.to != null) {
+        vm.selected = vm.selected.filter(function(task) {
+          return moment.utc(task.start_time).isBefore(vm.toDate)
+        })
+      }
+      if (vm.url != null) {
+        vm.selected = vm.selected.filter(function(task) {
+          return task.url.indexOf(vm.url) != -1
+        })
+      }
+    }
+  },
+  watch: {
+    'url': function(val, oldVal) {
+      this.updateSelected()
+    },
+    'from': function(val, oldVal) {
+      this.updateSelected()
+    },
+    'to': function(val, oldVal) {
+      this.updateSelected()
     }
   },
   mounted() {
@@ -67,5 +189,43 @@ export default {
 </script>
 
 <style>
+.colorbox {
+  float: left;
+  width: 10px;
+  height: 10px;
+  margin: 6px;
+  border: 1px solid rgba(0, 0, 0, .2);
+}
 
+.allcolor {
+  background: black;
+}
+
+.pendingcolor {
+  background: #7293cb;
+}
+
+.startedcolor {
+  background: #90679d;
+}
+
+.failurecolor {
+  background: #e1974c;
+}
+
+.sucpiciouscolor {
+  background: #eec49b;
+}
+
+.successfulcolor {
+  background: #84ba5b;
+}
+
+.clearcolor {
+  background: #c9e1b7;
+}
+
+.maliciouscolor {
+  background: #d35e60;
+}
 </style>
