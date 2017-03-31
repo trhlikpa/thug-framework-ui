@@ -89,8 +89,8 @@ export default {
   },
   methods: {
     renderGraph() {
-      var width = 960,
-        height = 700,
+      var width = 900,
+        height = 600,
         radius = (Math.min(width, height) / 2) - 10;
 
       var formatNumber = d3.format(",d");

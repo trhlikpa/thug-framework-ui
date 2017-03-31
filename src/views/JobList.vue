@@ -4,7 +4,7 @@
 
   <a class="anchor main-anchor" id="joblist" title="Job list"></a>
   <pagesection :renderImmediately="true">
-    <span slot="title">Job List</span>
+    <span slot="title">Job list</span>
     <div slot="body">
       <div class="row control-row">
         <a class="btn btn-success btn-lg control-btn" href="/createjob"><i class="glyphicon glyphicon-plus"></i>Create new job</a>
@@ -57,7 +57,7 @@ export default {
         searchType: 'string'
       }, {
         name: 'useragent',
-        title: 'User Agent',
+        title: 'User agent',
         sortField: 'useragent',
         titleClass: 'text-center',
         dataClass: 'text-center',
@@ -71,7 +71,7 @@ export default {
         callback: 'scheduleFormat'
       }, {
         name: 'end_time',
-        title: 'Finish Time',
+        title: 'Finish time',
         sortField: 'end_time',
         titleClass: 'text-center',
         dataClass: 'text-center',

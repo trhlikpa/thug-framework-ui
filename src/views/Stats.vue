@@ -32,7 +32,7 @@
         <div class="col-md-2"></div>
         <div class="col-md-5">
           <div class="row">
-            <label><i class="colorbox allcolor" aria-hidden="true"></i> Total: {{tasks.length}} </label>
+            <label><i class="colorbox allcolor" aria-hidden="true"></i> Total: {{selected.length}} </label>
           </div>
           <div class="row">
             <label><i class="colorbox successfulcolor" aria-hidden="true"></i> Successful: {{successfulCount}} </label>
@@ -47,7 +47,6 @@
             <label><i class="colorbox startedcolor" aria-hidden="true"></i> Started: {{startedCount}} </label>
           </div>
         </div>
-        <div class="col-md-1"></div>
         <div class="col-md-4">
           <div class="row">
             <label><i class="colorbox clearcolor" aria-hidden="true"></i> Clear: {{clearCount}} </label>
@@ -60,6 +59,13 @@
           </div>
         </div>
         <div>
+  </pagesection>
+
+  <a class="anchor main-anchor" id="exploits" title="Exploits stats"></a>
+  <pagesection v-if="tasks.length > 0" :renderImmediately="true">
+    <span slot="title">Exploits stats</span>
+    <div slot="body">
+    </div>
   </pagesection>
   </div>
 </template>
@@ -146,9 +152,6 @@ export default {
         console.log('error loading tasks: ', response.status)
       })
       this.fetching = false
-    },
-    updateSelected() {
-      console.log('update')
     },
     updateSelected() {
       var vm = this

@@ -8,7 +8,7 @@
   </div>
   <a class="anchor main-anchor" id="scheduledetails" title="Schedule details"></a>
   <pagesection v-if="schedule" :renderImmediately="true">
-    <span slot="title">Schedule Details</span>
+    <span slot="title">Schedule details</span>
     <div slot="body">
       <div class="row control-row">
         <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -29,8 +29,8 @@
         <button v-else @click="resumeSchedule" class="btn btn-success btn-lg control-btn"><i class="glyphicon glyphicon-play"></i>Resume schedule</button>
       </div>
       <div class="col-md-12">
-        <a class="anchor" title="General Details" id="generaldetails"></a>
-        <h3>General Details</h3>
+        <a class="anchor" title="General details" id="generaldetails"></a>
+        <h3>General details</h3>
         <table class="table details-table">
           <tbody>
             <tr class="entry">
@@ -80,7 +80,7 @@
             </tr>
           </tbody>
         </table>
-        <a class="anchor" title="Job Template" id="jobtemplate"></a>
+        <a class="anchor" title="Job template" id="jobtemplate"></a>
         <h3>Job template</h3>
         <table class="table details-table">
           <tbody>

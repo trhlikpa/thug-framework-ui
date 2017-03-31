@@ -4,7 +4,7 @@
 
   <a class="anchor main-anchor" id="schedulelist" title="Schedule list"></a>
   <pagesection :renderImmediately="true">
-    <span slot="title">Schedule List</span>
+    <span slot="title">Schedule list</span>
     <div slot="body">
       <datatable :colunmsProp="columns" detailsRoute="ScheduleDetails" :pageProp=page :perPageProp=perPage :filterTextProp=filter :url="schedulestUrl">
       </datatable>

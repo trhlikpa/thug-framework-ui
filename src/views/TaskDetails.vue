@@ -6,9 +6,9 @@
   <div class="row" v-if="task">
     <a class="btn btn-info" v-bind:href="/jobs/ + task.job_id.$oid">Back to list</a>
   </div>
-  <a class="anchor main-anchor" id="taskdetails" title="Task Details"></a>
+  <a class="anchor main-anchor" id="taskdetails" title="Task details"></a>
   <pagesection v-if="task" :renderImmediately="true">
-    <span slot="title">Task Details</span>
+    <span slot="title">Task details</span>
     <div slot="body">
       <div class="row control-row">
         <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -27,8 +27,8 @@
         <button class="btn btn-danger btn-lg control-btn" data-toggle="modal" data-target="#confirm-delete"><i class="glyphicon glyphicon-trash"></i>Delete task</button>
       </div>
       <div class="col-md- 12">
-        <a class="anchor" title="General Details" id="generaldetails"></a>
-        <h3>General Details</h3>
+        <a class="anchor" title="General details" id="generaldetails"></a>
+        <h3>General details</h3>
         <table class="table details-table">
           <tbody>
             <tr class="entry">
@@ -82,17 +82,17 @@
             </tr>
           </tbody>
         </table>
-        <a class="anchor" v-if="subresources.options" title="Thug Details" id="thugdetails"></a>
-        <h3 v-if="subresources.options">Thug Details</h3>
+        <a class="anchor" v-if="subresources.options" title="Thug details" id="thugdetails"></a>
+        <h3 v-if="subresources.options">Thug details</h3>
         <table class="table details-table" v-if="subresources.options && subresources.options[0].thug">
           <tbody>
             <tr class="entry">
-              <td class="name">Thug Version:</td>
+              <td class="name">Thug version:</td>
               <td class="value" v-if="subresources.options[0].thug.version">{{subresources.options[0].thug.version}}</td>
               <td class="glyphicon glyphicon-remove text-danger" v-else></td>
             </tr>
             <tr class="entry">
-              <td class="name">User Agent:</td>
+              <td class="name">User agent:</td>
               <td class="value" v-if="subresources.options[0].thug.personality.useragent">{{subresources.options[0].thug.personality.useragent}}</td>
               <td class="glyphicon glyphicon-remove text-danger" v-else></td>
             </tr>
@@ -102,17 +102,17 @@
               <td class="glyphicon glyphicon-remove text-danger" v-else></td>
             </tr>
             <tr class="entry">
-              <td class="name">Java Plugin:</td>
+              <td class="name">Java plugin:</td>
               <td class="value" v-if="subresources.options[0].thug.plugins.javaplugin">{{subresources.options[0].thug.plugins.javaplugin}}</td>
               <td class="glyphicon glyphicon-remove text-danger" v-else></td>
             </tr>
             <tr class="entry">
-              <td class="name">Adobe Reader:</td>
+              <td class="name">Adobe reader:</td>
               <td class="value" v-if="subresources.options[0].thug.plugins.acropdf">{{subresources.options[0].thug.plugins.acropdf}}</td>
               <td class="glyphicon glyphicon-remove text-danger" v-else></td>
             </tr>
             <tr class="entry">
-              <td class="name">Shockwave Flash:</td>
+              <td class="name">Shockwave flash:</td>
               <td class="value" v-if="subresources.options[0].thug.plugins.shockwaveflash">{{subresources.options[0].thug.plugins.shockwaveflash}}</td>
               <td class="glyphicon glyphicon-remove text-danger" v-else></td>
             </tr>

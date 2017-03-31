@@ -10,14 +10,14 @@
   </div>
   <a class="anchor main-anchor" id="jobdetails" title="Job details"></a>
   <pagesection v-if="job" :renderImmediately="true">
-    <span slot="title">Job Details</span>
+    <span slot="title">Job details</span>
     <div slot="body">
       <div class="row control-row">
         <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h2><i class="glyphicon glyphicon-trash"></i> Delete Job?</h2>
+                <h2><i class="glyphicon glyphicon-trash"></i> Delete job?</h2>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -29,8 +29,8 @@
         <button class="btn btn-danger btn-lg control-btn" data-toggle="modal" data-target="#confirm-delete"><i class="glyphicon glyphicon-trash"></i>Delete job</button>
       </div>
       <div class="col-md-12">
-        <a class="anchor" title="General Details" id="generaldetails"></a>
-        <h3>General Details</h3>
+        <a class="anchor" title="General details" id="generaldetails"></a>
+        <h3>General details</h3>
         <table class="table details-table">
           <tbody>
             <tr class="entry">
@@ -136,8 +136,8 @@
             </tr>
           </tbody>
         </table>
-        <a class="anchor" title="Thug Details" id="thugdetails"></a>
-        <h3>Thug Details</h3>
+        <a class="anchor" title="Thug details" id="thugdetails"></a>
+        <h3>Thug details</h3>
         <table class="table details-table">
           <tbody>
             <tr class="entry">
@@ -215,8 +215,8 @@
             </tr>
           </tbody>
         </table>
-        <a v-if="job.type == 'extensive'" class="anchor" title="Crawl Details" id="crawldetails"></a>
-        <h3 v-if="job.type == 'extensive'">Crawl Details</h3>
+        <a v-if="job.type == 'extensive'" class="anchor" title="Crawl details" id="crawldetails"></a>
+        <h3 v-if="job.type == 'extensive'">Crawl details</h3>
         <table v-if="job.type == 'extensive'" class="table details-table">
           <tbody>
             <tr class="entry">
@@ -270,8 +270,8 @@
             </tr>
           </tbody>
         </table>
-        <a v-if="schedule" class="anchor" title="Schedule Details" id="scheduledetails"></a>
-        <h3 v-if="schedule">Schedule Details</h3>
+        <a v-if="schedule" class="anchor" title="Schedule details" id="scheduledetails"></a>
+        <h3 v-if="schedule">Schedule details</h3>
         <table v-if="schedule" class="table details-table">
           <tbody>
             <tr class="entry">
@@ -306,7 +306,7 @@
 
   <a class="anchor main-anchor" id="tasklist" title="Task list"></a>
   <pagesection :renderImmediately="true">
-    <span slot="title">Task List</span>
+    <span slot="title">Task list</span>
     <div slot="body">
       <datatable ref="datatable" :colunmsProp="taskcolumns" detailsRoute="TaskDetails" :pageProp=page :perPageProp=perPage :filterTextProp=filter :sortOrder="[{field: sort, sortField: sort, direction: direction}]" :url="this.jobsUrl + this.$route.params.id + '/tasks'">
       </datatable>
