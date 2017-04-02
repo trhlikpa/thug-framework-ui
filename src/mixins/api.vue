@@ -21,8 +21,11 @@ export default {
     pluginsUrl() {
       return this.baseUrl + '/api/v1.0/plugins/'
     },
-    domEvents() {
+    domEventsUrl() {
       return this.baseUrl + '/api/v1.0/domevents/'
+    },
+    exploitsUrl() {
+      return this.baseUrl + '/api/v1.0/exploits/'
     }
   }
 }

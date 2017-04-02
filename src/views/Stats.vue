@@ -27,7 +27,7 @@
   <pagesection v-if="tasks.length > 0" :renderImmediately="true">
     <span slot="title">Dataset</span>
     <div slot="body">
-      <sunburstgraph ref="datasetgraph" v-model="selected"></sunburstgraph>
+      <sunburstgraph v-model="selected"></sunburstgraph>
       <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-5">
@@ -62,9 +62,10 @@
   </pagesection>
 
   <a class="anchor main-anchor" id="exploits" title="Exploits stats"></a>
-  <pagesection v-if="tasks.length > 0" :renderImmediately="true">
+  <pagesection v-if="exploits && tasks.length > 0" :renderImmediately="true">
     <span slot="title">Exploits stats</span>
     <div slot="body">
+      <bargraph v-model="selectedExploits"></bargraph>
     </div>
   </pagesection>
   </div>
@@ -78,6 +79,8 @@ export default {
   data() {
     return {
       tasks: [],
+      exploits: [],
+      selectedExploits: [],
       selected: [],
       url: null,
       from: null,
@@ -153,6 +156,14 @@ export default {
       })
       this.fetching = false
     },
+    fetchExploits() {
+      this.$http.get(this.exploitsUrl).then((response) => {
+        this.exploits = response.body.exploits
+        this.selectedExploits = response.body.exploits
+      }, (response) => {
+        console.log('error loading exploits: ', response.status)
+      })
+    },
     updateSelected() {
       var vm = this
       this.selected = this.tasks
@@ -171,6 +182,15 @@ export default {
           return task.url.indexOf(vm.url) != -1
         })
       }
+
+      var analysis_ids = []
+      for (var i = 0; i < vm.selected.length; i++) {
+        analysis_ids.push(vm.selected[i].analysis_id.$oid)
+      }
+
+      vm.selectedExploits = vm.exploits.filter(function(exploit) {
+        return analysis_ids.indexOf(exploit.analysis_id.$oid ) != -1
+      })
     }
   },
   watch: {
@@ -186,6 +206,7 @@ export default {
   },
   mounted() {
     this.fetchTasks()
+    this.fetchExploits()
     this.parseAnchors()
   }
 }

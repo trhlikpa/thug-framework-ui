@@ -540,7 +540,7 @@ export default {
       })
     },
     fetchDomEvents() {
-      this.$http.get(this.domEvents).then((response) => {
+      this.$http.get(this.domEventsUrl).then((response) => {
         var obj = response.body
         if (obj.mouse_events) {
           for (var i = 0; i < obj.mouse_events.length; i++) {
