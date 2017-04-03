@@ -4,7 +4,7 @@
 <div v-else>
   <h1 class="page-header" v-if="job">{{'Job: ' + job.name}}</h1>
   <div class="row" v-if="job">
-    <a class="btn btn-info" href="/jobs/">Back to list</a>
+    <a class="btn btn-info" @click="$router.go(-1)">Back</a>
     <a class="btn btn-info pull-right" @click="nextRun" v-if="schedule && schedule.previous_runs.length > 1 && sequenceFormat(job._id.$oid, schedule) < schedule.previous_runs.length">Next run</a>
     <a class="btn btn-info pull-right" @click="previousRun" v-if="schedule && schedule.previous_runs.length > 1 && sequenceFormat(job._id.$oid, schedule) > 1">Previous run</a>
   </div>
@@ -276,7 +276,7 @@
           <tbody>
             <tr class="entry">
               <td class="name">Schedule ID:</td>
-              <td class="value"><a v-bind:href="'/schedules/' + schedule._id.$oid">{{schedule._id.$oid}}</a></td>
+              <td class="value"><router-link :to="'/schedules/' + schedule._id.$oid"><a>{{schedule._id.$oid}}</a></td></router-link>
             </tr>
             <tr class="entry">
               <td class="name">Schedule name:</td>

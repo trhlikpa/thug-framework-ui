@@ -1,5 +1,5 @@
 <template>
-<div id="app">
+<div v-if="user.authenticated" id="app">
   <nav class="navbar navbar-inverse navbar-fixed-top">
     <div id="header" class="container-fluid">
       <div class="navbar-header col-sm-3 col-md-2">
@@ -19,10 +19,11 @@
           <router-link tag="li" to="/jobs"><a>Jobs overview</a></router-link>
           <router-link tag="li" to="/schedules"><a>Schedule</a></router-link>
           <router-link tag="li" to="/stats"><a>Statistics</a></router-link>
+          <router-link tag="li" to="/about"><a>About</a></router-link>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="#">Login</a></li>
-          <li><a href="#">Register</a></li>
+          <router-link v-if="user.authenticated" tag="li" to="/profile"><a>{{ user.email }}</a></router-link>
+          <li><a v-if="user.authenticated" @click="logout()">Logout</a></li>
         </ul>
       </div>
     </div>
@@ -38,16 +39,25 @@
     </div>
   </div>
 </div>
+<div v-else id="app">
+  <router-view></router-view>
+</div>
 </template>
 
 <script>
+import auth from './auth.js'
 export default {
   data() {
     return {
-      user: null
+      user: auth.user
     }
   },
-  methods: {}
+  methods: {
+    logout() {
+      this.$router.push('Login')
+      auth.logout()
+    }
+  }
 }
 </script>
 
@@ -299,7 +309,7 @@ pre {
 
 .submit-row {
   border-top: 1px solid #E8E8E8;
-  margin-top: 10px;  
+  margin-top: 10px;
 }
 
 .control-btn {
@@ -309,5 +319,10 @@ pre {
 
 .input-group-addon {
   padding: 5px 5px;
+}
+
+.panel-heading {
+  background-color: #505F66 !important;
+  color: #fff !important;
 }
 </style>

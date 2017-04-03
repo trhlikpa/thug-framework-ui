@@ -2,7 +2,7 @@
 export default {
   data() {
     return {
-      baseUrl: "http://localhost:5000"
+      baseUrl: 'http://localhost:5000'
     }
   },
   computed: {
@@ -26,6 +26,12 @@ export default {
     },
     exploitsUrl() {
       return this.baseUrl + '/api/v1.0/exploits/'
+    },
+    loginUrl() {
+      return this.baseUrl + '/api/v1.0/auth/login/'
+    },
+    registrationUrl() {
+      return this.baseUrl + '/api/v1.0/auth/register/'
     }
   }
 }

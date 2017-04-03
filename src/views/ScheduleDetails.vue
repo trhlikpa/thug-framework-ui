@@ -4,7 +4,7 @@
 <div v-else>
   <h1 class="page-header" v-if="schedule">{{'Schedule: ' + schedule.name}}</h1>
   <div class="row" v-if="schedule">
-    <a class="btn btn-info" href="/schedules/">Back to list</a>
+    <a class="btn btn-info" @click="$router.go(-1)">Back</a>
   </div>
   <a class="anchor main-anchor" id="scheduledetails" title="Schedule details"></a>
   <pagesection v-if="schedule" :renderImmediately="true">

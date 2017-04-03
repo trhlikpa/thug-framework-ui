@@ -4,7 +4,7 @@
 <div v-else>
   <h1 class="page-header" v-if="task">{{'Task: ' + task._id.$oid}}</h1>
   <div class="row" v-if="task">
-    <a class="btn btn-info" v-bind:href="/jobs/ + task.job_id.$oid">Back to list</a>
+    <a class="btn btn-info" @click="$router.go(-1)">Back</a>
   </div>
   <a class="anchor main-anchor" id="taskdetails" title="Task details"></a>
   <pagesection v-if="task" :renderImmediately="true">

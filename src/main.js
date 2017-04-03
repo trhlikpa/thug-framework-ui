@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import auth from './auth.js'
 import VueResource from 'vue-resource'
 import BarGraph from './components/BarGraph.vue'
 import ForceGraph from './components/ForceGraph.vue'
@@ -29,6 +30,28 @@ Vue.component('forcegraph', ForceGraph)
 Vue.component('sunburstgraph', SunburstGraph)
 Vue.component('vueselect', Select)
 Vue.component('togglebutton', ToggleButton)
+
+auth.checkAuth()
+
+var token = auth.getAuthHeader()
+
+if (token != null) {
+  Vue.http.headers.common['Authorization'] = auth.getAuthHeader()
+}
+
+router.beforeEach((to, from, next) => {
+  if (!auth.user.authenticated) {
+    if (to.name != 'Login' && to.name != 'Registration') {
+      next('/login')
+    }
+  } else {
+    if (to.name == 'Login' || to.name == 'Registration') {
+      next('/jobs')
+    }
+  }
+
+  next()
+})
 
 /* eslint-disable no-new */
 new Vue({

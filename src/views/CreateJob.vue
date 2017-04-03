@@ -173,7 +173,7 @@
             </div>
           </div>
           <div class="form-group" v-if="!onlyInternal">
-            <label for="inputDomains" class="control-label col-sm-2">Allowed domains:</label>
+            <label for="inputDomains" class="control-label col-sm-2">Allowed domain:</label>
             <div class="input-group col-sm-3">
               <input type="text" class="form-control" v-model.lazy="allowedDomains" id="inputDomains" />
               <span class="input-group-btn" style="width:0;">
@@ -181,14 +181,19 @@
               </span>
             </div>
           </div>
-          <div class="form-group" v-if="!onlyInternal && (domainList && domainList.length > 0)">
+          <div class="form-group" v-if="!onlyInternal">
             <label class="control-label col-sm-2">Allowed domains list:</label>
-            <div class="col-sm-3">
+            <div class="col-sm-3" v-if="domainList && domainList.length > 0">
               <template v-for="domain in domainList">
                 <div class="row domain-row">
                   <span @click="removeFromDomailList(domain)" class="label label-info domain-label"><span>{{domain}}</span><a><i class="glyphicon glyphicon-remove"></i></a></span>
                 </div>
               </template>
+            </div>
+            <div class="col-sm-3" v-else>
+              <div class="row domain-row">
+                No restrictions
+              </div>
             </div>
           </div>
           <div class="form-group">
@@ -325,6 +330,7 @@
       </div>
     </pagesection>
   </form>
+  <div class="row alert-row">
   <div v-if="!name" class="alert alert-danger">
     <strong>Error!</strong> Enter job name!
   </div>
@@ -357,6 +363,7 @@
       </div>
     </div>
   </div>
+</div>
 </div>
 </template>
 
@@ -482,7 +489,10 @@ export default {
           name = this.name + '_' + this.selectedUserAgents[i]
         }
 
-        this.jobCreationStatusList.push({name: name, state: 'PENDING'})
+        this.jobCreationStatusList.push({
+          name: name,
+          state: 'PENDING'
+        })
 
         this.$http.post(this.jobsUrl, {
           name: name,
@@ -511,11 +521,17 @@ export default {
           allowed_domains: this.domainList.length > 0 ? this.domainList : null
         }).then((response) => {
           this.jobCreationStatusList.pop()
-          this.jobCreationStatusList.push({name: name, state: 'SUCCESSFUL'})
+          this.jobCreationStatusList.push({
+            name: name,
+            state: 'SUCCESSFUL'
+          })
           console.log("Succesfuly added Job: " + name)
         }, (response) => {
           this.jobCreationStatusList.pop()
-          this.jobCreationStatusList.push({name: name, state: 'FAILURE'})
+          this.jobCreationStatusList.push({
+            name: name,
+            state: 'FAILURE'
+          })
           console.log("Error adding Job: " + name)
         })
       }
@@ -617,5 +633,9 @@ export default {
 
 .modal-value {
   margin-right: 20px;
+}
+
+.alert-row {
+  margin-top: 20px;
 }
 </style>

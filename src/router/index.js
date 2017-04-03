@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Registration from 'views/Registration'
+import Login from 'views/Login'
+import Profile from 'views/Profile'
 import JobList from 'views/JobList'
 import ScheduleList from 'views/ScheduleList'
 import JobDetails from 'views/JobDetails'
@@ -60,8 +63,23 @@ export default new Router({
       component: Stats
     },
     {
+      path: '/registration',
+      name: 'Registration',
+      component: Registration
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
+    {
+      path: '/profile',
+      name: 'Profile',
+      component: Profile
+    },
+    {
       path: '*',
-      redirect: '/jobs'
+      redirect: '/Login'
     }
   ]
 })
