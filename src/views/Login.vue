@@ -5,10 +5,10 @@
       <h3 class="panel-title"><strong>Log in </strong></h3></div>
     <div class="panel-body">
       <div class="form-group">
-        <input type="email" class="form-control" placeholder="Enter email" v-model="credentials.email">
+        <input autofocus type="email" class="form-control"  @keyup.enter="keySubmit()" placeholder="Enter email" v-model="credentials.email">
       </div>
       <div class="form-group">
-        <input type="password" class="form-control" placeholder="Enter password" v-model="credentials.password">
+        <input type="password" class="form-control"  @keyup.enter="keySubmit()" placeholder="Enter password" v-model="credentials.password">
       </div>
       <hr>
       <div class="alert alert-danger" v-if="error">
@@ -39,6 +39,11 @@ export default {
     }
   },
   methods: {
+    keySubmit() {
+      if (this.valid) {
+        this.submit()
+      }
+    },
     submit() {
       var credentials = {
         email: this.credentials.email,

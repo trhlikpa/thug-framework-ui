@@ -25,7 +25,7 @@ export default {
   register(context, creds) {
     context.$http.post(Api.data().baseUrl + '/api/v1.0/auth/register/', creds).then((data) => {
 
-        context.$router.go({
+        context.$router.push({
           name: 'Login'
         })
       },

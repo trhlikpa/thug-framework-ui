@@ -1,5 +1,5 @@
 <template>
-<div>
+<div v-if="this.user.authenticated">
   <h1 class="page-header">Jobs Overview</h1>
 
   <a class="anchor main-anchor" id="joblist" title="Job list"></a>
@@ -22,8 +22,9 @@ import QueryStrings from '../mixins/QueryStrings.vue'
 import DataFormating from '../mixins/DataFormating.vue'
 import Anchors from '../mixins/Anchors.vue'
 import Api from '../mixins/Api.vue'
+import UserAuthentication from '../mixins/UserAuthentication.vue'
 export default {
-  mixins: [QueryStrings, DataFormating, Api, Anchors],
+  mixins: [QueryStrings, DataFormating, Api, Anchors, UserAuthentication],
   data() {
     return {
       columns: [{
@@ -104,7 +105,11 @@ export default {
     }
   },
   mounted() {
-    this.parseAnchors()
+    if (this.user.authenticated) {
+      this.parseAnchors()
+    } else {
+      this.$router.push('login')
+    }
   }
 }
 </script>

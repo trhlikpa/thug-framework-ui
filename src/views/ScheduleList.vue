@@ -1,7 +1,6 @@
 <template>
-<div>
+<div v-if="this.user.authenticated">
   <h1 class="page-header">Schedule Overview</h1>
-
   <a class="anchor main-anchor" id="schedulelist" title="Schedule list"></a>
   <pagesection :renderImmediately="true">
     <span slot="title">Schedule list</span>
@@ -17,8 +16,9 @@
 import QueryStrings from '../mixins/QueryStrings.vue'
 import Anchors from '../mixins/Anchors.vue'
 import Api from '../mixins/Api.vue'
+import UserAuthentication from '../mixins/UserAuthentication.vue'
 export default {
-  mixins: [QueryStrings, Api, Anchors],
+  mixins: [QueryStrings, Api, Anchors, UserAuthentication],
   data() {
     return {
       columns: [{
@@ -65,7 +65,11 @@ export default {
     }
   },
   mounted() {
-    this.parseAnchors()
+    if (this.user.authenticated) {
+      this.parseAnchors()
+    } else {
+      this.$router.push('login')
+    }
   }
 }
 </script>

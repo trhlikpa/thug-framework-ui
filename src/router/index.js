@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Registration from 'views/Registration'
 import Login from 'views/Login'
 import Profile from 'views/Profile'
+import About from 'views/About'
 import JobList from 'views/JobList'
 import ScheduleList from 'views/ScheduleList'
 import JobDetails from 'views/JobDetails'
@@ -76,6 +77,11 @@ export default new Router({
       path: '/profile',
       name: 'Profile',
       component: Profile
+    },
+    {
+      path: '/about',
+      name: 'About',
+      component: About
     },
     {
       path: '*',

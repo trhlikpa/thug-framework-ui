@@ -1,5 +1,5 @@
 <template>
-<div>
+<div v-if="this.user.authenticated">
   <h1 class="page-header">Create new job</h1>
   <form class="form-horizontal" v-on:submit.prevent>
     <a class="anchor main-anchor" id="generalparameters" title="General parameters"></a>
@@ -371,8 +371,9 @@
 import Api from '../mixins/Api.vue'
 import DataFormating from '../mixins/DataFormating.vue'
 import Anchors from '../mixins/Anchors.vue'
+import UserAuthentication from '../mixins/UserAuthentication.vue'
 export default {
-  mixins: [Api, Anchors, DataFormating],
+  mixins: [Api, Anchors, DataFormating, UserAuthentication],
   data() {
     return {
       jobCreationStatusList: [],
@@ -519,6 +520,10 @@ export default {
           only_internal: this.onlyInternal,
           crawler_time_limit: this.crawlerTimeLimit,
           allowed_domains: this.domainList.length > 0 ? this.domainList : null
+        }, {
+          headers: {
+            'Authorization': this.jwtoken
+          }
         }).then((response) => {
           this.jobCreationStatusList.pop()
           this.jobCreationStatusList.push({
@@ -585,10 +590,14 @@ export default {
     }
   },
   mounted() {
-    this.fetchUserAgents()
-    this.fetchPlugins()
-    this.fetchDomEvents()
-    this.parseAnchors()
+    if (this.user.authenticated) {
+      this.fetchUserAgents()
+      this.fetchPlugins()
+      this.fetchDomEvents()
+      this.parseAnchors()
+    } else {
+      this.$router.push('login')
+    }
   }
 }
 </script>

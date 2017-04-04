@@ -5,16 +5,16 @@
       <h3 class="panel-title"><strong>Create new account </strong></h3></div>
     <div class="panel-body">
       <div class="form-group">
-        <input type="text" class="form-control" placeholder="Enter name" v-model="credentials.name">
+        <input autofocus type="text" class="form-control" @keyup.enter="keySubmit()" placeholder="Enter name" v-model="credentials.name">
       </div>
       <div class="form-group">
-        <input type="email" class="form-control" placeholder="Enter email" v-model="credentials.email">
+        <input type="email" class="form-control" @keyup.enter="keySubmit()" placeholder="Enter email" v-model="credentials.email">
       </div>
       <div class="form-group">
-        <input type="password" class="form-control" placeholder="Enter password" v-model="credentials.password">
+        <input type="password" class="form-control" @keyup.enter="keySubmit()" placeholder="Enter password" v-model="credentials.password">
       </div>
       <div class="form-group">
-        <input type="password" class="form-control" placeholder="Confirm password" v-model="credentials.password_confirm">
+        <input type="password" class="form-control" @keyup.enter="keySubmit()" placeholder="Confirm password" v-model="credentials.password_confirm">
       </div>
       <hr>
       <div class="alert alert-danger" v-if="error">
@@ -83,6 +83,11 @@ export default {
     }
   },
   methods: {
+    keySubmit() {
+      if (this.valid) {
+        this.submit()
+      }
+    },
     submit() {
       var credentials = {
         name: this.credentials.name,

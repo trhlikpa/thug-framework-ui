@@ -43,7 +43,7 @@
               <div class="col-sm-3">
                   <datepicker v-model="datepicker.value" ref="datepicker" v-bind:id="datepicker.id"></datepicker>
               </div>
-</template>
+            </template>
           </div>
         </div>
     </template>
@@ -64,6 +64,7 @@
         :perPage=perPage
         :css="css"
         :fields="collums"
+        :http-options="httpData"
         pagination-path=""
         :per-page=perPage
         :sort-order="sortOrder"
@@ -87,7 +88,7 @@ import Vuetable from 'vuetable-2/src/components/Vuetable.vue'
 import VuetablePagination from 'vuetable-2/src/components/VuetablePagination.vue'
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo.vue'
 import DataFormating from '../mixins/DataFormating.vue'
-
+import auth from '../auth.js'
 export default {
   mixins: [DataFormating],
   components: {
@@ -123,6 +124,11 @@ export default {
         prev: '',
         next: '',
         last: ''
+      },
+      httpData: {
+        headers: {
+          'Authorization': auth.getAuthHeader()
+        }
       },
       moreParams: {}
     }
