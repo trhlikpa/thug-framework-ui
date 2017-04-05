@@ -11,7 +11,7 @@
     <pagesection v-if="schedule" :renderImmediately="true">
       <span slot="title">Schedule details</span>
       <div slot="body">
-        <div class="row control-row">
+        <div class="row control-row" v-if="user.email == schedule.submitter_id">
           <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
