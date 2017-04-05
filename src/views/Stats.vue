@@ -155,6 +155,7 @@ export default {
         this.tasks = response.body.data
         this.selected = response.body.data
         this.fetching = false
+        this.parseAnchors()
       }, (response) => {
         console.log('error loading tasks: ', response.status)
         this.fetching = false
@@ -212,7 +213,6 @@ export default {
     if (this.user.authenticated) {
       this.fetchTasks()
       this.fetchExploits()
-      this.parseAnchors()
     } else {
       this.$router.push('login')
     }
