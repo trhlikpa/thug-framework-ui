@@ -154,10 +154,11 @@ export default {
       this.$http.get(this.tasksUrl + '?per_page=-1').then((response) => {
         this.tasks = response.body.data
         this.selected = response.body.data
+        this.fetching = false
       }, (response) => {
         console.log('error loading tasks: ', response.status)
+        this.fetching = false
       })
-      this.fetching = false
     },
     fetchExploits() {
       this.$http.get(this.exploitsUrl).then((response) => {

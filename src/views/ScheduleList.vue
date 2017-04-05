@@ -28,7 +28,7 @@ export default {
         titleClass: 'text-center',
         dataClass: 'text-center'
       }, {
-        name: 'submitter',
+        name: 'submitter_id',
         title: 'Submitter',
         titleClass: 'text-center',
         dataClass: 'text-center'

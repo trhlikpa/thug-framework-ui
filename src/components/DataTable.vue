@@ -47,6 +47,12 @@
           </div>
         </div>
     </template>
+    <div class="form-group">
+      <label class="control-label col-md-offset-1 col-sm-2">Mine only: </label>
+      <div class="col-sm-3">
+        <togglebutton v-model="mineOnlyFilter" true-type="success" false-type="danger"></togglebutton>
+      </div>
+    </div>
       <div class="form-group">
         <div class="col-sm-offset-3 col-sm-4">
           <button @click.prevent="doAdvancedFilter" class="btn btn-default">Search</button>
@@ -106,6 +112,7 @@ export default {
       advancedFilterTextTmp: null,
       simpleFilterText: '',
       fetching: true,
+      mineOnlyFilter: false,
       css: {
         tableClass: 'table table-striped',
         ascendingIcon: 'glyphicon glyphicon-chevron-up',
@@ -244,6 +251,10 @@ export default {
             filterString += entryFilter
           }
         }
+      }
+
+      if (this.mineOnlyFilter) {
+        filterString += 'mine|true||'
       }
 
       this.advancedFilterText = filterString.slice(0, -2)
