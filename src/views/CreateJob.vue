@@ -376,7 +376,7 @@ export default {
   mixins: [Api, Anchors, DataFormating, UserAuthentication],
   data() {
     return {
-      jobCreationStatusList: [],
+      jobCreationStatusList: {},
       name: null,
       protocol: null,
       proxyScheme: null,
@@ -490,10 +490,10 @@ export default {
           name = this.name + '_' + this.selectedUserAgents[i]
         }
 
-        this.jobCreationStatusList.push({
+        this.jobCreationStatusList[name] = {
           name: name,
           state: 'PENDING'
-        })
+        }
 
         this.$http.post(this.jobsUrl, {
           name: name,
@@ -525,18 +525,16 @@ export default {
             'Authorization': this.jwtoken
           }
         }).then((response) => {
-          this.jobCreationStatusList.pop()
-          this.jobCreationStatusList.push({
+          this.jobCreationStatusList[name] = {
             name: name,
             state: 'SUCCESSFUL'
-          })
+          }
           console.log("Succesfuly added Job: " + name)
         }, (response) => {
-          this.jobCreationStatusList.pop()
-          this.jobCreationStatusList.push({
+          this.jobCreationStatusList[name] = {
             name: name,
             state: 'FAILURE'
-          })
+          }
           console.log("Error adding Job: " + name)
         })
       }
