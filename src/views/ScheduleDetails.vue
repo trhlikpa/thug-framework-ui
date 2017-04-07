@@ -44,7 +44,7 @@
               </tr>
               <tr class="entry">
                 <td class="name">Submitter:</td>
-                <td class="value">{{schedule.submitter}}</td>
+                <td class="value">{{schedule.submitter_id}}</td>
               </tr>
               <tr class="entry">
                 <td class="name">Total runs:</td>
@@ -118,7 +118,6 @@
       </div>
     </pagesection>
 
-    <a class="anchor main-anchor" id="joblist" title="Previous runs"></a>
     <pagesection :renderImmediately="true">
       <span slot="title">Previous runs</span>
       <div slot="body">

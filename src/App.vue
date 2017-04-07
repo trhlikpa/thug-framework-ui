@@ -19,7 +19,6 @@
           <router-link tag="li" to="/jobs"><a>Jobs overview</a></router-link>
           <router-link tag="li" to="/schedules"><a>Schedule</a></router-link>
           <router-link tag="li" to="/stats"><a>Statistics</a></router-link>
-          <router-link tag="li" to="/about"><a>About</a></router-link>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <router-link v-if="user.authenticated" tag="li" to="/profile"><a>{{ user.email }}</a></router-link>

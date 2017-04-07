@@ -2,7 +2,7 @@
 export default {
   data() {
     return {
-      baseUrl: 'http://localhost:5000'
+      baseUrl: ''
     }
   },
   computed: {

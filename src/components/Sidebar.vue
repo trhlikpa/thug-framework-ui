@@ -2,7 +2,7 @@
 <div class="col-sm-3 col-md-2 sidebar">
   <ul ref="sidebar" class="nav nav-sidebar" v-if="anchors">
     <template v-for="anchor in anchors">
-      <router-link tag="li" :to="{ path:'#' + anchor.id, query: $route.query}"><a v-bind:class="{ sectionlink: anchor.classList.contains('main-anchor') }">{{anchor.title}}</a></router-link>
+      <li><a v-bind:href="'#' + anchor.id" v-bind:class="{ sectionlink: anchor.classList.contains('main-anchor') }">{{anchor.title}}</a></li>
     </template>
   </ul>
 </div>

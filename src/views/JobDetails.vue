@@ -48,7 +48,7 @@
               </tr>
               <tr class="entry">
                 <td class="name">Submitter:</td>
-                <td class="value">{{job.submitter}}</td>
+                <td class="value">{{job.submitter_id}}</td>
               </tr>
               <tr class="entry">
                 <td class="name">Type:</td>
@@ -307,7 +307,6 @@
       </div>
     </pagesection>
 
-    <a class="anchor main-anchor" id="tasklist" title="Task list"></a>
     <pagesection :renderImmediately="true">
       <span slot="title">Task list</span>
       <div slot="body">
