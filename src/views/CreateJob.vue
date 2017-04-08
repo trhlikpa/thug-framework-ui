@@ -188,7 +188,7 @@
                 <div class="row domain-row">
                   <span @click="removeFromDomailList(domain)" class="label label-info domain-label"><span>{{domain}}</span><a><i class="glyphicon glyphicon-remove"></i></a></span>
                 </div>
-              </template>
+</template>
             </div>
             <div class="col-sm-3" v-else>
               <div class="row domain-row">
@@ -368,6 +368,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import Api from '../mixins/Api.vue'
 import DataFormating from '../mixins/DataFormating.vue'
 import Anchors from '../mixins/Anchors.vue'
@@ -484,16 +485,16 @@ export default {
   methods: {
     submitJob() {
       $('#confirm-insert').modal('show')
-      for (var i = 0; i < this.selectedUserAgents.length; i++) {
-        var name = this.name
+      for (let i = 0; i < this.selectedUserAgents.length; i++) {
+        let name = this.name
         if (this.selectedUserAgents.length != 1) {
           name = this.name + '_' + this.selectedUserAgents[i]
         }
 
-        this.jobCreationStatusList[name] = {
+        Vue.set(this.jobCreationStatusList, name, {
           name: name,
           state: 'PENDING'
-        }
+        })
 
         this.$http.post(this.jobsUrl, {
           name: name,
@@ -525,16 +526,16 @@ export default {
             'Authorization': this.jwtoken
           }
         }).then((response) => {
-          this.jobCreationStatusList[name] = {
+          Vue.set(this.jobCreationStatusList, name, {
             name: name,
             state: 'SUCCESSFUL'
-          }
+          })
           console.log("Succesfuly added Job: " + name)
         }, (response) => {
-          this.jobCreationStatusList[name] = {
+          Vue.set(this.jobCreationStatusList, name, {
             name: name,
             state: 'FAILURE'
-          }
+          })
           console.log("Error adding Job: " + name)
         })
       }
