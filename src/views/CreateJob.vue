@@ -252,6 +252,8 @@
               <option value="*/5">Every 5 minutes</option>
               <option value="*/15">Every 15 minutes</option>
               <option value="*/30">Every 30 minutes</option>
+              <option disabled class="separator"></option>
+              <option v-for="n in 60" v-bind:value="n - 1">{{ n - 1 }}</option>
             </select>
             </div>
           </div>
@@ -263,6 +265,8 @@
               <option value="*/3">Every 3 hours</option>
               <option value="*/6">Every 6 hours</option>
               <option value="*/12">Every 12 hours</option>
+              <option disabled class="separator"></option>
+              <option v-for="n in 24" v-bind:value="n - 1">{{ n - 1 }}</option>
             </select>
             </div>
           </div>
