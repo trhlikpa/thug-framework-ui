@@ -36,7 +36,13 @@ auth.checkAuth()
 var token = auth.getAuthHeader()
 
 if (token != null) {
-  Vue.http.headers.common['Authorization'] = auth.getAuthHeader()
+  Vue.http.headers.common['Authorization'] = token
+
+  Vue.http.interceptors.push((request, next) => {
+    request.headers.set('Authorization', token)
+    request.headers.set('Accept', 'application/json')
+    next()
+  })
 }
 
 router.beforeEach((to, from, next) => {

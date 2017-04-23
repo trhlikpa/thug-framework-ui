@@ -18,6 +18,7 @@ export default {
           name: 'Jobs'
         })
 
+        location.reload()
       },
       (err) => {
         context.error = err.body.message
