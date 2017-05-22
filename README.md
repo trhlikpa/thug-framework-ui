@@ -1,6 +1,6 @@
 # thug-framework-ui
 
-> Frontend for thug framework.
+Frontend for thug framework.
 
 Main application (backend) is located at https://github.com/trhlikpa/thug-framework.
 
