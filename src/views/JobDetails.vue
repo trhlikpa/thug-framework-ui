@@ -155,11 +155,6 @@
                 <td class="glyphicon glyphicon-remove text-danger" v-else></td>
               </tr>
               <tr class="entry">
-                <td class="name">No cache:</td>
-                <td class="glyphicon glyphicon-ok text-success" v-if="job.args.no_cache"></td>
-                <td class="glyphicon glyphicon-remove text-danger" v-else></td>
-              </tr>
-              <tr class="entry">
                 <td class="name">Web tracking:</td>
                 <td class="glyphicon glyphicon-ok text-success" v-if="job.args.web_tracking"></td>
                 <td class="glyphicon glyphicon-remove text-danger" v-else></td>

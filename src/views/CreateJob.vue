@@ -107,12 +107,6 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 control-label">Disable local web cache:</label>
-            <div class="col-sm-3">
-              <togglebutton v-model="noCache" true-type="success" false-type="danger"></togglebutton>
-            </div>
-          </div>
-          <div class="form-group">
             <label class="col-sm-2 control-label">Enable web tracking inspection:</label>
             <div class="col-sm-3">
               <togglebutton v-model="webTracking" true-type="success" false-type="danger"></togglebutton>
@@ -404,7 +398,6 @@ export default {
       referer: null,
       thugTimeLimit: 600,
       crawlerTimeLimit: 600,
-      noCache: false,
       webTracking: false,
       depth: 1,
       onlyInternal: true,
@@ -515,7 +508,6 @@ export default {
           adobepdf: this.adobepdf,
           proxy: this.proxyScheme && this.proxy ? this.proxyScheme + this.proxy : null,
           dom_events: this.selectedDomEvents,
-          no_cache: this.noCache,
           web_tracking: this.webTracking,
           depth_limit: Math.abs(this.depth),
           download_delay: Math.abs(this.downloadDelay),
