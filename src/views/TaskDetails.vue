@@ -400,6 +400,12 @@
             <table class="table details-table">
               <tbody>
                 <tr class="entry">
+                  <td class="name">Snippet id:</td>
+                    <td v-if="item.snippet" class="value">
+                      <router-link :to="'/tasks/' + task._id.$oid + '/behaviors/' + item.snippet"><a>{{item.snippet}}</a></router-link>
+                    </td>
+                </tr>
+                <tr class="entry">
                   <td class="name">CVE:</td>
                   <td class="value">{{item.cve}}</td>
                 </tr>

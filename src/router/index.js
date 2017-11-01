@@ -9,6 +9,7 @@ import ScheduleList from 'views/ScheduleList'
 import JobDetails from 'views/JobDetails'
 import TaskDetails from 'views/TaskDetails'
 import ScheduleDetails from 'views/ScheduleDetails'
+import BehaviorDetails from 'views/BehaviorDetails'
 import CreateJob from 'views/CreateJob'
 import Stats from 'views/Stats'
 
@@ -42,6 +43,11 @@ export default new Router({
       path: '/tasks/:id',
       name: 'TaskDetails',
       component: TaskDetails
+    },
+    {
+      path: '/tasks/:task_id/behaviors/:behavior_id',
+      name: 'BehaviorDetails',
+      component: BehaviorDetails
     },
     {
       path: '/schedules',
