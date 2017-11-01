@@ -401,8 +401,8 @@
               <tbody>
                 <tr class="entry">
                   <td class="name">Snippet id:</td>
-                    <td v-if="item.snippet" class="value">
-                      <router-link :to="'/tasks/' + task._id.$oid + '/behaviors/' + item.snippet"><a>{{item.snippet}}</a></router-link>
+                    <td class="value">
+                      <router-link v-if="item.snippet" :to="'/tasks/' + task._id.$oid + '/behaviors/' + item._id.$oid"><a>{{item.snippet}}</a></router-link>
                     </td>
                 </tr>
                 <tr class="entry">

@@ -8,7 +8,7 @@
         <a class="btn btn-info" @click="$router.go(-1)">Back</a>
       </div>
       <a class="anchor main-anchor" id="behavior" title="behavior"></a>
-      <pagesection :renderImmediately="true">
+      <pagesection v-if="behavior" :renderImmediately="true">
         <span slot="title">Behavior</span>
         <div slot="body">
           <div class="col-md-12">
