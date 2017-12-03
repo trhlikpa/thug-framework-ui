@@ -143,6 +143,9 @@
             <p>No relevant data</p>
           </div>
           <div v-else v-for="(item, index) in subresources.exploits">
+            {{ item_data_url = (item.data && item.data.url) ? true:false }}
+            {{ item_data_method = (item.data && item.data.method) ? true:false }}
+            {{ item_data_async = (item.data && item.data.async) ? true:false }}
             <h3>{{'Exploit ' + (index + 1)}}</h3>
             <table class="table details-table">
               <tbody>
@@ -165,15 +168,17 @@
                 </tr>
                 <tr class="entry">
                   <td class="name">Data url:</td>
-                  <td class="value">{{item.data.url}}</td>
+                  <td class="value" v-if="item_data_url">{{item.data.url}}</td>
+                  <td class="glyphicon glyphicon-remove text-danger" v-else></td>
                 </tr>
                 <tr class="entry">
                   <td class="name">Data method:</td>
-                  <td>{{item.data.method}}</td>
+                  <td v-if="item_data_method">{{item.data.method}}</td>
+                  <td class="glyphicon glyphicon-remove text-danger" v-else></td>
                 </tr>
                 <tr class="entry">
                   <td class="name">Data async:</td>
-                  <td class="glyphicon glyphicon-ok text-success" v-if="item.data.async"></td>
+                  <td class="glyphicon glyphicon-ok text-success" v-if="item_data_async"></td>
                   <td class="glyphicon glyphicon-remove text-danger" v-else></td>
                 </tr>
               </tbody>
