@@ -42,17 +42,17 @@
               </tr>
               <tr class="entry" v-if="subresources.geolocation">
                 <td class="name">Country:</td>
-                <td class="value" v-if="subresources.geolocation.country.iso_code">{{subresources.geolocation.country.iso_code}}</td>
+                <td class="value" v-if="geo_country_iso_code">{{subresources.geolocation.country.iso_code}}</td>
                 <td class="glyphicon glyphicon-remove text-danger" v-else></td>
               </tr>
               <tr class="entry" v-if="subresources.geolocation">
                 <td class="name">IP address:</td>
-                <td class="value" v-if="subresources.geolocation.traits.ip_address">{{subresources.geolocation.traits.ip_address}}</td>
+                <td class="value" v-if="geo_traits_ip_address">{{subresources.geolocation.traits.ip_address}}</td>
                 <td class="glyphicon glyphicon-remove text-danger" v-else></td>
               </tr>
               <tr class="entry" v-if="subresources.geolocation">
                 <td class="name">Autonomous system number:</td>
-                <td class="value" v-if="subresources.geolocation.traits.autonomous_system_number">{{subresources.geolocation.traits.autonomous_system_number}}</td>
+                <td class="value" v-if="geo_traits_asn">{{subresources.geolocation.traits.autonomous_system_number}}</td>
                 <td class="glyphicon glyphicon-remove text-danger" v-else></td>
               </tr>
               <tr class="entry">
@@ -649,6 +649,9 @@ export default {
         this.task = response.body.task
         this.fetchSubresource('options')
         this.fetchSubresource('geolocation')
+        this.geo_country_iso_code = (this.subresources.geolocation && this.subresources.geolocation.country && this.subresources.geolocation.country.iso_code) ? true:false
+        this.geo_traits_ip_address = (this.subresources.geolocation && this.subresources.geolocation.traits && this.subresources.geolocation.traits.ip_address) ? true:false
+        this.geo_traits_asn = (this.subresources.geolocation && this.subresources.geolocation.traits && this.subresources.geolocation.traits.autonomous_system_number) ? true:false
         this.fetching = false
         this.parseAnchors()
       }, (response) => {
