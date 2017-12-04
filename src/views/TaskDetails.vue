@@ -40,6 +40,9 @@
                 <td class="name">URL:</td>
                 <td class="value">{{task.url}}</td>
               </tr>
+              {{ geo_country_iso_code = (subresources.geolocation && subresources.geolocation.country && subresources.geolocation.country.iso_code) ? true:false }}
+              {{ geo_traits_ip_address = (subresources.geolocation && subresources.geolocation.traits && subresources.geolocation.traits.ip_address) ? true:false }}
+              {{ geo_traits_asn = (subresources.geolocation && subresources.geolocation.traits && subresources.geolocation.traits.autonomous_system_number) ? true:false }}
               <tr class="entry" v-if="subresources.geolocation">
                 <td class="name">Country:</td>
                 <td class="value" v-if="geo_country_iso_code">{{subresources.geolocation.country.iso_code}}</td>
@@ -654,9 +657,6 @@ export default {
         this.task = response.body.task
         this.fetchSubresource('options')
         this.fetchSubresource('geolocation')
-        this.geo_country_iso_code = (this.subresources.geolocation && this.subresources.geolocation.country && this.subresources.geolocation.country.iso_code) ? true:false
-        this.geo_traits_ip_address = (this.subresources.geolocation && this.subresources.geolocation.traits && this.subresources.geolocation.traits.ip_address) ? true:false
-        this.geo_traits_asn = (this.subresources.geolocation && this.subresources.geolocation.traits && this.subresources.geolocation.traits.autonomous_system_number) ? true:false
         this.fetching = false
         this.parseAnchors()
       }, (response) => {
