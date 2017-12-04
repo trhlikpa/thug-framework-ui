@@ -40,22 +40,19 @@
                 <td class="name">URL:</td>
                 <td class="value">{{task.url}}</td>
               </tr>
-              {{ geo_country_iso_code = (subresources.geolocation && subresources.geolocation.country && subresources.geolocation.country.iso_code) ? true:false }}
-              {{ geo_traits_ip_address = (subresources.geolocation && subresources.geolocation.traits && subresources.geolocation.traits.ip_address) ? true:false }}
-              {{ geo_traits_asn = (subresources.geolocation && subresources.geolocation.traits && subresources.geolocation.traits.autonomous_system_number) ? true:false }}
               <tr class="entry" v-if="subresources.geolocation">
                 <td class="name">Country:</td>
-                <td class="value" v-if="geo_country_iso_code">{{subresources.geolocation.country.iso_code}}</td>
+                <td class="value" v-if="subresources.geolocation && subresources.geolocation.country && subresources.geolocation.country.iso_code">{{subresources.geolocation.country.iso_code}}</td>
                 <td class="glyphicon glyphicon-remove text-danger" v-else></td>
               </tr>
               <tr class="entry" v-if="subresources.geolocation">
                 <td class="name">IP address:</td>
-                <td class="value" v-if="geo_traits_ip_address">{{subresources.geolocation.traits.ip_address}}</td>
+                <td class="value" v-if="subresources.geolocation && subresources.geolocation.traits && subresources.geolocation.traits.ip_address">{{subresources.geolocation.traits.ip_address}}</td>
                 <td class="glyphicon glyphicon-remove text-danger" v-else></td>
               </tr>
               <tr class="entry" v-if="subresources.geolocation">
                 <td class="name">Autonomous system number:</td>
-                <td class="value" v-if="geo_traits_asn">{{subresources.geolocation.traits.autonomous_system_number}}</td>
+                <td class="value" v-if="subresources.geolocation && subresources.geolocation.traits && subresources.geolocation.traits.autonomous_system_number">{{subresources.geolocation.traits.autonomous_system_number}}</td>
                 <td class="glyphicon glyphicon-remove text-danger" v-else></td>
               </tr>
               <tr class="entry">
@@ -146,9 +143,6 @@
             <p>No relevant data</p>
           </div>
           <div v-else v-for="(item, index) in subresources.exploits">
-            {{ item_data_url = (item.data && item.data.url) ? true:false }}
-            {{ item_data_method = (item.data && item.data.method) ? true:false }}
-            {{ item_data_async = (item.data && item.data.async) ? true:false }}
             <h3>{{'Exploit ' + (index + 1)}}</h3>
             <table class="table details-table">
               <tbody>
@@ -171,17 +165,17 @@
                 </tr>
                 <tr class="entry">
                   <td class="name">Data url:</td>
-                  <td class="value" v-if="item_data_url">{{item.data.url}}</td>
+                  <td class="value" v-if="item.data && item.data.url">{{item.data.url}}</td>
                   <td class="glyphicon glyphicon-remove text-danger" v-else></td>
                 </tr>
                 <tr class="entry">
                   <td class="name">Data method:</td>
-                  <td v-if="item_data_method">{{item.data.method}}</td>
+                  <td v-if="item.data && item.data.method">{{item.data.method}}</td>
                   <td class="glyphicon glyphicon-remove text-danger" v-else></td>
                 </tr>
                 <tr class="entry">
                   <td class="name">Data async:</td>
-                  <td class="glyphicon glyphicon-ok text-success" v-if="item_data_async"></td>
+                  <td class="glyphicon glyphicon-ok text-success" v-if="item.data && item.data.async"></td>
                   <td class="glyphicon glyphicon-remove text-danger" v-else></td>
                 </tr>
               </tbody>
