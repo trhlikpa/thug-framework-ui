@@ -14,10 +14,10 @@ export default {
       var dict = {}
 
       for (var i = 0; i < this.value.length; i++) {
-        if (this.value.cve == null) {
+        if (this.value[i].cve == null) {
           var cve = 'Unidentified'
         } else {
-          var cve = this.value.cve
+          var cve = this.value[i].cve
         }
 
         if (!(cve in dict)) {
