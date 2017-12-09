@@ -259,7 +259,9 @@
                 </tr>
                 <tr class="entry">
                   <td class="name">Content ID:</td>
-                  <td class="value" v-if="item.content_id">{{item.content_id.$oid}}</td>
+                    <td class="value">
+                      <router-link v-if="item.content_id" :to="'/tasks/' + task._id.$oid + '/locations/' + item._id.$oid"><a>{{item.content_id.$oid}}</a></router-link>
+                    </td>
                 </tr>
               </tbody>
             </table>
