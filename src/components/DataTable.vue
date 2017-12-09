@@ -83,7 +83,7 @@
     </div>
     <div v-show="!fetching" class="vuetable-pagination">
       <vuetable-pagination-info ref="paginationInfo"></vuetable-pagination-info>
-      <vuetable-pagination ref="pagination" :css="cssPagination" :icons="icons" @vuetable-pagination:change-page="onChangePage"></vuetable-pagination>
+      <vuetable-pagination ref="pagination" :css="cssPagination" @vuetable-pagination:change-page="onChangePage"></vuetable-pagination>
     </div>
 </div>
 </template>
@@ -124,13 +124,13 @@ export default {
         activeClass: 'btn-primary',
         disabledClass: 'disabled',
         pageClass: 'btn btn-default',
-        linkClass: 'btn btn-default'
-      },
-      icons: {
-        first: '',
-        prev: '',
-        next: '',
-        last: ''
+        linkClass: 'btn btn-default',
+        icons: {
+          first: '',
+          prev: '',
+          next: '',
+          last: ''
+        }
       },
       httpData: {
         headers: {
