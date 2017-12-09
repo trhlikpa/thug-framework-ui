@@ -28,7 +28,7 @@ export default {
       if (date) {
         this.$emit('input', date.toISOString())
       } else {
-        this.$emit('input', '')
+        this.$emit('input', null)
       }
     }
   },
