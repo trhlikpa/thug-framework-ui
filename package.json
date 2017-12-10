@@ -60,7 +60,7 @@
     "webpack-dev-middleware": "^1.10.0",
     "webpack-hot-middleware": "^2.16.1",
     "webpack-merge": "^2.6.1",
-    "uglify-js": "git+https://github.com/mishoo/UglifyJS2.git#harmony"
+    "uglifyjs-webpack-plugin": "^1.1.2"
   },
   "engines": {
     "node": ">= 4.0.0",
