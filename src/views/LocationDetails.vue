@@ -49,7 +49,7 @@
                   </tr>
                   <tr class="entry">
                     <td class="name">Analysis Date:</td>
-                    <td class="value">{{location.file.uploadDate}}</td>
+                    <td class="value">{{dateFormat(location.file.uploadDate)}}</td>
                   </tr>
                   <tr class="entry">
                     <td colspan="2" v-html="codeFormat(location.code)"></td>
