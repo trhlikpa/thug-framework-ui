@@ -42,17 +42,17 @@
               </tr>
               <tr class="entry" v-if="subresources.geolocation">
                 <td class="name">Country:</td>
-                <td class="value" v-if="subresources.geolocation.country.iso_code">{{subresources.geolocation.country.iso_code}}</td>
+                <td class="value" v-if="subresources.geolocation && subresources.geolocation.country && subresources.geolocation.country.iso_code">{{subresources.geolocation.country.iso_code}}</td>
                 <td class="glyphicon glyphicon-remove text-danger" v-else></td>
               </tr>
               <tr class="entry" v-if="subresources.geolocation">
                 <td class="name">IP address:</td>
-                <td class="value" v-if="subresources.geolocation.traits.ip_address">{{subresources.geolocation.traits.ip_address}}</td>
+                <td class="value" v-if="subresources.geolocation && subresources.geolocation.traits && subresources.geolocation.traits.ip_address">{{subresources.geolocation.traits.ip_address}}</td>
                 <td class="glyphicon glyphicon-remove text-danger" v-else></td>
               </tr>
               <tr class="entry" v-if="subresources.geolocation">
                 <td class="name">Autonomous system number:</td>
-                <td class="value" v-if="subresources.geolocation.traits.autonomous_system_number">{{subresources.geolocation.traits.autonomous_system_number}}</td>
+                <td class="value" v-if="subresources.geolocation && subresources.geolocation.traits && subresources.geolocation.traits.autonomous_system_number">{{subresources.geolocation.traits.autonomous_system_number}}</td>
                 <td class="glyphicon glyphicon-remove text-danger" v-else></td>
               </tr>
               <tr class="entry">
@@ -165,15 +165,17 @@
                 </tr>
                 <tr class="entry">
                   <td class="name">Data url:</td>
-                  <td class="value">{{item.data.url}}</td>
+                  <td class="value" v-if="item.data && item.data.url">{{item.data.url}}</td>
+                  <td class="glyphicon glyphicon-remove text-danger" v-else></td>
                 </tr>
                 <tr class="entry">
                   <td class="name">Data method:</td>
-                  <td>{{item.data.method}}</td>
+                  <td v-if="item.data && item.data.method">{{item.data.method}}</td>
+                  <td class="glyphicon glyphicon-remove text-danger" v-else></td>
                 </tr>
                 <tr class="entry">
                   <td class="name">Data async:</td>
-                  <td class="glyphicon glyphicon-ok text-success" v-if="item.data.async"></td>
+                  <td class="glyphicon glyphicon-ok text-success" v-if="item.data && item.data.async"></td>
                   <td class="glyphicon glyphicon-remove text-danger" v-else></td>
                 </tr>
               </tbody>
@@ -257,7 +259,9 @@
                 </tr>
                 <tr class="entry">
                   <td class="name">Content ID:</td>
-                  <td class="value" v-if="item.content_id">{{item.content_id.$oid}}</td>
+                    <td class="value">
+                      <router-link v-if="item.content_id" :to="'/tasks/' + task._id.$oid + '/locations/' + item._id.$oid"><a>{{item.content_id.$oid}}</a></router-link>
+                    </td>
                 </tr>
               </tbody>
             </table>

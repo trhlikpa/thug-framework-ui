@@ -190,7 +190,9 @@ export default {
 
       var analysis_ids = []
       for (var i = 0; i < vm.selected.length; i++) {
-        analysis_ids.push(vm.selected[i].analysis_id.$oid)
+        if (vm.selected[i].analysis_id != null) {
+          analysis_ids.push(vm.selected[i].analysis_id.$oid)
+        }
       }
 
       vm.selectedExploits = vm.exploits.filter(function(exploit) {

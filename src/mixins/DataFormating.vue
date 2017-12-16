@@ -77,9 +77,7 @@ export default {
       })
     },
     codeFormat: function(value) {
-      return '<pre class="prettyprint">' + prettyPrintOne(this.escapeHtmlChars(beautify(value, {
-        indent_size: 2
-      }), true)) + '</pre>'
+      return '<pre class="prettyprint">' + this.escapeHtmlChars(value) + '</pre>'
     },
     boolFormat: function(value) {
       return !value ?

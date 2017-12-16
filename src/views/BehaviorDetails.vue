@@ -32,7 +32,7 @@
                     <td class="value">{{dateFormat(behavior.timestamp)}}</td>
                   </tr>
                   <tr class="entry">
-                    <td colspan="2" v-html="codeFormat(item.snippet)"></td>
+                    <td colspan="2" v-html="codeFormat(behavior.snippet)"></td>
                   </tr>
                 </tbody>
               </table>

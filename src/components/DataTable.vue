@@ -5,11 +5,11 @@
       <label class="control-label">Show</label>
       <select v-model.number="perPageTmp" class="form-control">
           <option value=5>5</option>
-					<option value=10>10</option>
-					<option value=25>25</option>
-					<option value=50>50</option>
-					<option value=100>100</option>
-				</select>
+          <option value=10>10</option>
+          <option value=25>25</option>
+          <option value=50>50</option>
+          <option value=100>100</option>
+        </select>
       <label class="control-label">Entries</label>
     </div>
     <div class="form-inline form-group pull-right">
@@ -83,7 +83,7 @@
     </div>
     <div v-show="!fetching" class="vuetable-pagination">
       <vuetable-pagination-info ref="paginationInfo"></vuetable-pagination-info>
-      <vuetable-pagination ref="pagination" :css="cssPagination" :icons="icons" @vuetable-pagination:change-page="onChangePage"></vuetable-pagination>
+      <vuetable-pagination ref="pagination" :css="cssPagination" @vuetable-pagination:change-page="onChangePage"></vuetable-pagination>
     </div>
 </div>
 </template>
@@ -124,13 +124,13 @@ export default {
         activeClass: 'btn-primary',
         disabledClass: 'disabled',
         pageClass: 'btn btn-default',
-        linkClass: 'btn btn-default'
-      },
-      icons: {
-        first: '',
-        prev: '',
-        next: '',
-        last: ''
+        linkClass: 'btn btn-default',
+        icons: {
+          first: '',
+          prev: '',
+          next: '',
+          last: ''
+        }
       },
       httpData: {
         headers: {
